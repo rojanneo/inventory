@@ -1,0 +1,21 @@
+<form method = "post" action = "<?php echo ADMIN_URL.'attributesets/newpost/'?>">
+	<label>Attribute Set Code</label>
+	<input type="text" name="attribute_set_code"/>
+
+	<label>Attribute Set Name</label>
+	<input type="text" name="attribute_set_name"/>
+
+	<label>Sort Order</label>
+	<input type="text" name="sort_order"/>
+
+	<?php if(isset($attributes) and $attributes):?>
+	<select name="attributes[]" multiple>
+		<?php foreach($attributes as $attribute):?>
+		<?php extract($attribute);?>
+			<option value="<?php echo $attribute_id?>"><?php echo $attribute_admin_label?></option>
+		<?php endforeach;?>
+	</select>
+	<?php endif;?>
+
+	<input type="submit" value="save"/>
+</form>

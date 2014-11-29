@@ -40,3 +40,13 @@ if(!function_exists('convertStoreStatusToText'))
 		else return 'Invalid Status';
 	}
 }
+
+if(!function_exists('convertToYesNo'))
+{
+	function convertToYesNo($id)
+	{
+		if($id == 0) return 'No';
+		else if($id == 1) return 'Yes';
+		else return 'Invalid Status';
+	}
+}

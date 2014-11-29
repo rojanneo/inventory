@@ -29,12 +29,12 @@
 	$url = isset($_GET['url']) ? $_GET['url'] : $default;
 	$url = rtrim($url, '/');
 	$url = explode('/', $url);
-	if($url[0] == 'admin')
+	if($url[0] == ADMIN_FOLDER_NAME)
 	{
 			require_once 'system/adminsession.php';
 			if(isset($url[3]))
 			{
-				$control = $url[1].'AdminController';
+				$control = $url[1].'Controller';
 				if(!class_exists($control))
 				{
 				include('views/default/404.phtml');
@@ -59,7 +59,7 @@
 
 				if(isset($url[2]))
 				{
-					$control = $url[1].'AdminController';
+					$control = $url[1].'Controller';
 					//echo $control;die;
 					if(!class_exists($control))
 					{
@@ -85,7 +85,7 @@
 				
 					if(isset($url[1]))
 					{
-						$control = $url[1].'AdminController';
+						$control = $url[1].'Controller';
 						if(!class_exists($control))
 						{
 							include('views/default/404.phtml');
@@ -108,7 +108,7 @@
 					else
 					{
 
-						$default_cont = DEFAULT_ADMIN_CONTROLLER.'AdminController';
+						$default_cont = DEFAULT_ADMIN_CONTROLLER.'Controller';
 						$controller = new $default_cont();
 						$default_act = DEFAULT_ADMIN_ACTION.'Action';
 						$controller->$default_act();

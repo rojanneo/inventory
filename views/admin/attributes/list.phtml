@@ -1,0 +1,36 @@
+<a href="<?php echo ADMIN_URL.'attributes/new'?>">Add New Attribute</a>
+<?php if(isset($attributes) and $attributes):?>
+	<table>
+		<thead>
+			<th>ID</th>
+			<th>Attribute Code</th>
+			<th>Default Value</th>
+			<th>Type</th>
+			<th>Admin Label</th>
+			<th>Unique</th>
+			<th>Required</th>
+			<th>Used For Variation</th>
+			<th>Actions</th>
+		</thead>
+		<tbody>
+			<?php foreach($attributes as $attribute):?>
+			<?php extract($attribute);?>
+				<tr>
+					<td><?php echo $attribute_id;?></td>
+					<td><?php echo $attribute_code;?></td>
+					<td><?php echo $attribute_default_value;?></td>
+					<td><?php echo $attribute_type;?></td>
+					<td><?php echo $attribute_admin_label;?></td>
+					<td><?php echo convertToYesNo($is_unique);?></td>
+					<td><?php echo convertToYesNo($is_required);?></td>
+					<td><?php echo convertToYesNo($is_used_for_variation);?></td>
+					<td><a href="<?php echo ADMIN_URL.'attributes/edit/'.$attribute_id?>">Edit</a>
+						<a href="<?php echo ADMIN_URL.'attributes/delete/'.$attribute_id?>">Delete</a>
+					</td>
+				</tr>
+			<?php endforeach;?>
+		</tbody>
+	</table>
+<?php else:?>
+	<h3>No Attributes Found</h3>
+<?php endif;?>

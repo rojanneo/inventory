@@ -1,6 +1,6 @@
 <?php
 if (!defined('URL')) {
-	define('URL', 'http://rojan/inventory/');
+	define('URL', 'http://192.168.0.107/inventory/');
 }
 
 if (!defined('ADMIN_URL')) {
@@ -9,6 +9,10 @@ if (!defined('ADMIN_URL')) {
 
 if (!defined('SERVER_NAME')) {
 	define('SERVER_NAME', $_SERVER['SERVER_NAME']);
+}
+
+if (!defined('ADMIN_FOLDER_NAME')) {
+	define('ADMIN_FOLDER_NAME', 'admin');
 }
 
 

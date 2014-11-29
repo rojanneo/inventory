@@ -1,0 +1,79 @@
+<h3>New product</h3>
+<form method="post" action="<?php echo ADMIN_URL.'products/addpost'?>">
+	<input type="hidden" name="product_type_id" value="<?php echo $product_type?>"/>
+	<input type="hidden" name="attribute_set_id" value="<?php echo $attribute_set?>"/>
+	<label>Product Name</label>
+	<input type="text" name="product_name"/>
+	<label>SKU</label>
+	<input type="text" name="product_sku"/>
+	<label>Quantity</label>
+	<input type="number" name="product_quantity"/>
+	<label>In Stock</label>
+	<select name="in_stock">
+		<option value="0">No</option>
+		<option value="1">Yes</option>
+	</select>
+
+	<label>Unit Price</label>
+	<input type="text" name="unit_price"/>
+	<label>Status</label>
+	<select name="status">
+		<option value="0">Disabled</option>
+		<option value="1">Enabled</option>
+	</select>
+
+	<!-- Only for simple products. TO CHANGE When you need configurable products-->
+	<input type="hidden" name="is_variation" value="0"/>
+	<input type="hidden" name="created_date" value="<?php echo date('Y-m-d')?>"/>	
+	<input type="hidden" name="updated_date" value="<?php echo date('Y-m-d')?>"/>
+	<label>Product Type</label>
+	<select name="product_type">
+		<option value="in">In</option>
+		<option value="out">Out</option>
+	</select>
+
+	<h3>Attributes</h3>
+	<?php if(isset($attributes) and $attributes):?>
+		<?php foreach($attributes as $attribute):?>
+			<?php $attr = getModel('attribute')->load(array('AND', 'attribute_id'=>$attribute));?>
+			<?php extract($attr);?>
+			<label><?php echo $attribute_admin_label?></label>
+			<?php switch($attribute_type):?><?php case 'select':?>
+					<select name="attributes[<?php echo $attribute_code?>]">
+						<?php $options = getModel('attribute')->getOptions($attribute_id);?>
+						<?php foreach($options as $option):?>
+							<option value="<?php echo $option['id']?>"><?php echo $option['value']?></option>
+						<?php endforeach;?>
+					</select>
+					<?php break;?>
+				<?php case 'multiselect':?>
+					<select name="attributes[<?php echo $attribute_code?>]" multiple>
+						<?php $options = getModel('attribute')->getOptions($attribute_id);?>
+						<?php foreach($options as $option):?>
+							<option value="<?php echo $option['id']?>"><?php echo $option['value']?></option>
+						<?php endforeach;?>
+					</select>
+					<?php break;?>
+				<?php case 'date':?>
+					<input type="date" name="attributes[<?php echo $attribute_code?>]"/>
+					<?php break;?>
+				<?php case 'default':?>
+					<input type="text" name="attributes[<?php echo $attribute_code?>]"/>
+					<?php break;?>
+			<?php endswitch;?>
+		<?php endforeach;?>
+	<?php endif;?>
+
+	<h3>Categories</h3>
+	<?php if(isset($categories) and $categories):?>
+		<?php $count = 0;?>
+		<?php foreach($categories as $category):?>
+			<?php extract($category);?>
+			<input type="checkbox" name="categories[<?php echo $count++?>]" value="<?php echo $category_id?>"/>
+			<label><?php echo $category_name?></label>
+		<?php endforeach;?>
+	<?php endif;?>
+
+
+	<input type="submit" value="Save"/>
+</form>

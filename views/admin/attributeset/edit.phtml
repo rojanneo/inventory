@@ -1,0 +1,27 @@
+<?php if(isset($attributeset) and $attributeset):?>
+<?php extract($attributeset);?>
+<form method = "post" action = "<?php echo ADMIN_URL.'attributesets/editpost/'?>">
+	<input type="hidden" name="attribute_set_id" value="<?php echo $attribute_set_id?>"/>
+	<label>Attribute Set Code</label>
+	<input type="text" name="attribute_set_code" value="<?php echo $attribute_set_code?>"/>
+
+	<label>Attribute Set Name</label>
+	<input type="text" name="attribute_set_name" value="<?php echo $attribute_set_name?>"/>
+
+	<label>Sort Order</label>
+	<input type="text" name="sort_order" value="<?php echo $sort_order?>"/>
+
+	<?php if(isset($attributes) and $attributes):?>
+	<select name="attributes[]" multiple>
+		<?php foreach($attributes as $attribute):?>
+		<?php extract($attribute);?>
+			<option value="<?php echo $attribute_id?>" <?php echo ($selected_attributes and in_array($attribute_id,$selected_attributes))?'selected':null;?>><?php echo $attribute_admin_label?></option>
+		<?php endforeach;?>
+	</select>
+	<?php endif;?>
+
+	<input type="submit" value="save"/>
+</form>
+<?php else:?>
+<h3>Invalid Attribute Set</h3>
+<?php endif;?>

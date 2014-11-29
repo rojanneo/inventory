@@ -22,8 +22,9 @@
 
 		public function renderAdmin($name, $data = false,$showHead = true, $showHeader = true, $showFooter = true)
 		{
+			loadHelper('view');
 			if($data)
-			extract($data, EXTR_PREFIX_ALL, "view");
+			extract($data);
 			if($showHead)
 			{
 				include 'views/admin/default/head.phtml';

@@ -1,0 +1,26 @@
+<a href="<?php echo ADMIN_URL.'attributesets/new'?>">Add New Attribute Set</a>
+<?php if(isset($sets) and $sets):?>
+	<table>
+		<thead>
+			<th>ID</th>
+			<th>Attribute Set Code</th>
+			<th>Attribute Set Name</th>
+			<th>Actions</th>
+		</thead>
+		<tbody>
+			<?php foreach($sets as $set):?>
+			<?php extract($set);?>
+				<tr>
+					<td><?php echo $attribute_set_id;?></td>
+					<td><?php echo $attribute_set_code;?></td>
+					<td><?php echo $attribute_set_name;?></td>
+					<td><a href="<?php echo ADMIN_URL.'attributesets/edit/'.$attribute_set_id?>">Edit</a>
+						<a href="<?php echo ADMIN_URL.'attributesets/delete/'.$attribute_set_id?>">Delete</a>
+					</td>
+				</tr>
+			<?php endforeach;?>
+		</tbody>
+	</table>
+<?php else:?>
+	<h3>No Attribute Sets Found</h3>
+<?php endif;?>
