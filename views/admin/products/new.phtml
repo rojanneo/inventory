@@ -57,7 +57,10 @@
 				<?php case 'date':?>
 					<input type="date" name="attributes[<?php echo $attribute_code?>]"/>
 					<?php break;?>
-				<?php case 'default':?>
+				<?php case 'text':?>
+					<input type="text" name="attributes[<?php echo $attribute_code?>]"/>
+					<?php break;?>
+				<?php case 'number':?>
 					<input type="text" name="attributes[<?php echo $attribute_code?>]"/>
 					<?php break;?>
 			<?php endswitch;?>
