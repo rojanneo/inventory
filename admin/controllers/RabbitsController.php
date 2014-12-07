@@ -16,7 +16,12 @@ class RabbitsController extends Controller
 			foreach($rabbits as $rabbit_id)
 			{
 				$rabbit = getModel('rabbit')->load($rabbit_id);
-				echo $rabbit['product_name'];
+				echo $rabbit['product_name'].' ';
+				$dob = new DateTime($rabbit['rabbit_dob']);
+				$today = new DateTime(date('Y-m-d'));
+				$diff = $today->diff($dob)->format("%a");
+				echo $diff.' days';
+				if($diff >= 4) echo 'Ready to Mate';
 			}
 		}
 	}
