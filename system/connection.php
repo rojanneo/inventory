@@ -118,7 +118,9 @@
 				
 				public function DeleteQuery($query)
 				{
+					mysql_query('SET foreign_key_checks = 0');
 					mysql_query($query, self::$db) or die(mysql_error(self::$db));
+					mysql_query('SET foreign_key_checks = 1');
 					return true;
 				}
 				

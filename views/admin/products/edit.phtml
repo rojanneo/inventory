@@ -1,0 +1,122 @@
+<h3>New product</h3>
+<?php if($product['daily_use_quantity']):?>
+	<?php $dq = $product['daily_use_quantity'];?>
+<?php else:?>
+	<?php $dq = null;?>
+<?php endif;?>
+<form method="post" action="<?php echo ADMIN_URL.'products/editpost'?>">
+	<input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
+	<label>Product Name</label>
+	<input type="text" name="product_name" value="<?php echo $product['product_name']?>"/>
+	<label>SKU</label>
+	<input type="text" name="product_sku" value="<?php echo $product['product_sku']?>"/>
+	<label>Quantity</label>
+	<input type="number" name="product_quantity" value="<?php echo $product['product_quantity']?>"/>
+	<label>In Stock</label>
+	<select name="in_stock">
+		<option value="0" <?php echo ($product['in_stock'] == 0)?'selected':null?>>No</option>
+		<option value="1" <?php echo ($product['in_stock'] == 1)?'selected':null?>>Yes</option>
+	</select>
+
+	<label>Unit Price</label>
+	<input type="text" name="unit_price" value="<?php echo $product['unit_price']?>"/>
+	<label>Status</label>
+	<select name="status">
+		<option value="0" <?php echo ($product['status'] == 0)?'selected':null?>>Disabled</option>
+		<option value="1" <?php echo ($product['status'] == 1)?'selected':null?>>Enabled</option>
+	</select>
+
+	<!-- Only for simple products. TO CHANGE When you need configurable products-->
+	<input type="hidden" name="is_variation" value="0"/>
+	<label>Created Date</label>
+	<input type="date" name="created_date" value="<?php echo date('Y-m-d')?>" value="<?php echo $product['created_date']?>"/>	
+	<label>Last Updated Date</label>
+	<input type="date" name="updated_date" value="<?php echo date('Y-m-d')?>" value="<?php echo $product['updated_date']?>" readonly/>
+	<label>Product Type</label>
+	<select name="product_type">
+		<option value="in" <?php echo ($product['product_type'] == 0)?'selected':null?>>In</option>
+		<option value="out" <?php echo ($product['product_type'] == 1)?'selected':null?>>Out</option>
+	</select>
+
+	<label>Enabled for Daily Use</label>
+	<select name="daily_use_status">
+		<option value="0" <?php echo ($product['daily_use_status'] == 0)?'selected':null?>>No</option>
+		<option value="1" <?php echo ($product['daily_use_status'] == 1)?'selected':null?>>Yes</option>
+	</select>
+
+	<div class="daily_quantity">
+		<label>Quantity for Daily Use</label>
+		<?php if($dq):?>
+			<input type="text" name="daily_use_quantity" value="<?php echo $dq?>"/>
+		<?php endif;?>
+	</div>
+
+	<h3>Attributes</h3>
+	<?php if(isset($attributes) and $attributes):?>
+		<?php foreach($attributes as $attribute):?>
+			<?php $attr = getModel('attribute')->load(array('AND', 'attribute_id'=>$attribute));?>
+			<?php extract($attr);?>
+			<label><?php echo $attribute_admin_label?></label>
+			<?php switch($attribute_type):?><?php case 'select':?>
+					<select name="attributes[<?php echo $attribute_code?>]">
+						<?php $options = getModel('attribute')->getOptions($attribute_id);?>
+						<?php foreach($options as $option):?>
+							<option value="<?php echo $option['id']?>" <?php echo (strtolower($product['attributes'][$attribute_code]) == strtolower($option['value']))?'selected':null?>><?php echo $option['value']?></option>
+						<?php endforeach;?>
+					</select>
+					<?php break;?>
+				<?php case 'multiselect':?>
+					<select name="attributes[<?php echo $attribute_code?>]" multiple <?php echo (strtolower($product['attributes'][$attribute_code]) == strtolower($option['value']))?'selected':null?>>
+						<?php $options = getModel('attribute')->getOptions($attribute_id);?>
+						<?php foreach($options as $option):?>
+							<option value="<?php echo $option['id']?>"><?php echo $option['value']?></option>
+						<?php endforeach;?>
+					</select>
+					<?php break;?>
+				<?php case 'date':?>
+					<input type="date" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>"/>
+					<?php break;?>
+				<?php case 'text':?>
+					<input type="text" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>"/>
+					<?php break;?>
+				<?php case 'number':?>
+					<input type="text" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>"/>
+					<?php break;?>
+				<?php case 'number':?>
+					<input type="number" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>"/>
+					<?php break;?>
+			<?php endswitch;?>
+		<?php endforeach;?>
+	<?php endif;?>
+
+	<h3>Categories</h3>
+	<?php if(isset($categories) and $categories):?>
+		<?php $count = 0;?>
+		<?php foreach($categories as $category):?>
+			<?php extract($category);?>
+			<input type="checkbox" name="categories[<?php echo $count++?>]" value="<?php echo $category_id?>" <?php echo (in_array($category_id, $product['categories']))?'checked':null?>/>
+			<label><?php echo $category_name?></label>
+		<?php endforeach;?>
+	<?php endif;?>
+
+	<input type="submit" value="Save"/>
+</form>
+
+<script type="text/javascript">
+$('select[name=daily_use_status]').change(function(){
+	var value = $(this).val();
+	if(value == 1)
+	{
+		$('.daily_quantity').append('<input type="text" name="daily_use_quantity" value="<?php echo $dq?>"></input>');
+		$('.daily_quantity').show();
+	}
+	else
+	{
+		$('.daily_quantity').hide();
+		$('.daily_quantity input[name=daily_use_quantity]').remove();
+	}
+});
+var dq = <?php echo json_encode($dq)?>;
+if(dq == null)
+	$('.daily_quantity').hide();
+</script>

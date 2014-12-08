@@ -29,11 +29,14 @@ class ProductModel extends Model
 		{
 			extract($data);
 			if(!isset($sort_order)) $sort_order = 0;
+			if(!isset($daily_use_quantity)) $daily_use_quantity = null;
 			$sql = "INSERT INTO `products_inventory`(
 				`product_type_id`, 
 				`attribute_set_id`, 
 				`product_name`, 
 				`product_sku`, 
+				`daily_use_status`,
+				`daily_use_quantity`,
 				`product_quantity`, 
 				`in_stock`, 
 				`unit_price`, 
@@ -48,6 +51,8 @@ class ProductModel extends Model
 				'".mysql_escape_string($attribute_set_id)."',
 				'".mysql_escape_string($product_name)."',
 				'".mysql_escape_string($product_sku)."',
+				'".mysql_escape_string($daily_use_status)."',
+				'".mysql_escape_string($daily_use_quantity)."',
 				'".mysql_escape_string($product_quantity)."',
 				'".mysql_escape_string($in_stock)."',
 				'".mysql_escape_string($unit_price)."',
@@ -115,6 +120,162 @@ class ProductModel extends Model
 				$this->connection->InsertQuery($sql);
 			}
 			return true;
+		}
+		else return false;
+	}
+
+	public function load($product_id)
+	{
+		$sql = "SELECT * FROM `products_inventory` WHERE product_id = ".$product_id.' LIMIT 1';
+		$product = $this->connection->Query($sql);
+		$pr = array();
+		foreach($product[0] as $attribute_code => $value)
+		{
+			$pr[$attribute_code] = $value;
+		}
+
+		$attributes = getModel('product')->getAttributes($product_id);
+		foreach($attributes as $attribute)
+		{
+			$pr['attributes'][$attribute['attribute_code']] = $attribute['value'];
+		}
+		$categories = $this->getCategories($product_id);
+		if($categories)
+		{
+			$pr['categories'] = array();
+			foreach($categories as $cat)
+			{
+				array_push($pr['categories'],$cat);
+			}
+		}
+
+		return $pr;
+	}
+
+	public function loadBySku($sku)
+	{
+		$sql = "SELECT * FROM `products_inventory` WHERE product_sku = ".$sku.' LIMIT 1';
+		$product = $this->connection->Query($sql);
+		$pr = array();
+		foreach($product[0] as $attribute_code => $value)
+		{
+			$pr[$attribute_code] = $value;
+		}
+
+		$attributes = getModel('product')->getAttributes($product_id);
+		foreach($attributes as $attribute)
+		{
+			$pr[$attribute['attribute_code']] = $attribute['value'];
+		}
+
+		return $pr;
+
+	}
+
+	public function update($data)
+	{
+		if($data != false)
+		{
+			extract($data);
+			if(!isset($sort_order)) $sort_order = 0;
+			if(!isset($daily_use_quantity)) $daily_use_quantity = null;
+			$sql = "UPDATE `products_inventory` SET 
+			`product_name`='".mysql_escape_string($product_name)."',
+			`product_sku`='".mysql_escape_string($product_sku)."',
+			`daily_use_status`='".mysql_escape_string($daily_use_status)."',
+			`daily_use_quantity`='".mysql_escape_string($daily_use_quantity)."',
+			`product_quantity`='".mysql_escape_string($product_quantity)."',
+			`in_stock`='".mysql_escape_string($in_stock)."',
+			`unit_price`='".mysql_escape_string($unit_price)."',
+			`status`='".mysql_escape_string($status)."',
+			`is_variation`='".mysql_escape_string($is_variation)."',
+			`sort_order`='".mysql_escape_string($sort_order)."',
+			`created_date`='".mysql_escape_string($created_date)."',
+			`updated_date`='".date('Y-m-d')."',
+			`product_type`='".mysql_escape_string($product_type)."' WHERE product_id = ".mysql_escape_string($product_id);
+
+			$this->connection->UpdateQuery($sql);
+			return true;
+
+		}
+		else return false;
+	}
+
+	public function updateAttributes($attributes, $product_id)
+	{
+		if(isset($attributes) and $attributes)
+		{
+			foreach($attributes as $attribute_code => $value)
+			{
+				$this->updateAttribute($product_id,$attribute_code,$value);
+			}
+		}
+		else return false;
+	}
+
+	public function updateDefaultAttribute($product_id, $attribute_code, $value)
+	{
+		$sql = "UPDATE `products_inventory` SET `".$attribute_code."`='".$value."' WHERE `product_id` = ".$product_id;
+		$this->connection->UpdateQuery($sql);
+		return true;
+	}
+
+	public function updateAttribute($product_id,$attribute_code, $value)
+	{
+		$attribute = getModel('attribute')->load(array('AND','attribute_code'=>$attribute_code));
+		if($attribute)
+		{
+			$id = $attribute['attribute_id'];
+			$attribute_type = $attribute['attribute_type'];
+			if($attribute_type == 'select' or $attribute_type == 'multiselect') $suffix = 'option';
+				else $suffix = $attribute_type;
+
+				$table_name = 'product_attribute_value_'.$suffix;
+				$updated_date = date('Y-m-d');
+				$sql = "UPDATE `".$table_name."` SET 
+				`value`='".$value."',
+				`updated_date`='".$updated_date."' 
+				WHERE `attribute_id` = ".$id." AND `product_id` = ".$product_id;
+
+				$this->connection->UpdateQuery($sql);
+		}
+		else return false;
+	}
+
+	public function updateCategories($categories,$product_id)
+	{
+		$sql = "DELETE FROM product_category WHERE product_id = ".$product_id;
+		$this->connection->DeleteQuery($sql);
+		$categories['product_id'] = $product_id;
+		return $this->insertCategories($categories);
+	}
+
+	public function delete($condition = false)
+	{
+		if($condition and is_array($condition))
+		{
+			$where = $this->generateWhereCondition($condition);
+
+			$sql = "DELETE FROM products_inventory WHERE ".$where;
+			$this->connection->DeleteQuery($sql);
+			return true;
+		}
+		else return false;
+
+	}
+
+	public function getCategories($product_id)
+	{
+		$sql = "SELECT category_id FROM `product_category` WHERE product_id = $product_id";
+		$categories = $this->connection->Query($sql);
+		if(($categories))
+		{
+			$cat = array();
+			foreach($categories as $category)
+			{
+				array_push($cat,$category['category_id']);
+			}
+			return $cat;
 		}
 		else return false;
 	}

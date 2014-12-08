@@ -32,6 +32,17 @@
 		<option value="out">Out</option>
 	</select>
 
+	<label>Enabled for Daily Use</label>
+	<select name="daily_use_status">
+		<option value="0">No</option>
+		<option value="1">Yes</option>
+	</select>
+
+	<div class="daily_quantity" style="display:none">
+		<label>Quantity for Daily Use</label>
+	</div>
+
+
 	<h3>Attributes</h3>
 	<?php if(isset($attributes) and $attributes):?>
 		<?php foreach($attributes as $attribute):?>
@@ -83,3 +94,19 @@
 
 	<input type="submit" value="Save"/>
 </form>
+
+<script type="text/javascript">
+$('select[name=daily_use_status]').change(function(){
+	var value = $(this).val();
+	if(value == 1)
+	{
+		$('.daily_quantity').append('<input type="text" name="daily_use_quantity"></input>');
+		$('.daily_quantity').show();
+	}
+	else
+	{
+		$('.daily_quantity').hide();
+		$('.daily_quantity input[name=daily_use_quantity]').remove();
+	}
+});
+</script>
