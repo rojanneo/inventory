@@ -14,7 +14,8 @@ class PurchaseordersController extends Controller
 
 	public function addAction()
 	{
-		$this->view->renderAdmin('purchase_orders/new.phtml');
+		$data['products'] = getModel('product')->getCollection(array('type'=>'AND','product_type'=>'in'));
+		$this->view->renderAdmin('purchase_orders/new.phtml',$data);
 	}
 
 	public function addPostAction()

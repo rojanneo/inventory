@@ -25,7 +25,4 @@ class RabbitsController extends Controller
 			}
 		}
 	}
-
-
-
 }
