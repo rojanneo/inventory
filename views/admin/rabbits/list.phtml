@@ -1,0 +1,23 @@
+<div class="rabbits">
+	<?php foreach($families as $family):?>
+		<h3>Family <?php echo $family;?></h3>
+		<?php $rabbits = getModel('rabbit')->getFamilyRabbits($family);?>
+		<ul>
+		<?php foreach($rabbits as $rabbit_id):?>
+			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
+			<?php $today = new DateTime(date('Y-m-d'));?>
+			<?php $diff = $today->diff($dob)->format("%a");?>
+			<li>
+			<div class="rabbit">
+			<p><?php echo $rabbit['product_name'];?></p>
+			<p><?php echo $diff.' days';?></p>
+			<?php if($diff >= 4):?>
+				<p><?php echo 'Ready To Mate';?></p>
+			<?php endif;?>
+			</div>
+			</li>
+		<?php endforeach;?>
+		</ul>
+	<?php endforeach;?>
+</div>
