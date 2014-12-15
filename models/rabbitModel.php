@@ -33,6 +33,7 @@ class RabbitModel extends Model
 		foreach($attributes as $attribute)
 		{
 			$ra[$attribute['attribute_code']] = $attribute['value'];
+			if($attribute['value'] == '0000-00-00') $ra[$attribute['attribute_code']] = null;
 		}
 
 		return $ra;

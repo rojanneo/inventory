@@ -3,21 +3,51 @@
 		<h3>Family <?php echo $family;?></h3>
 		<?php $rabbits = getModel('rabbit')->getFamilyRabbits($family);?>
 		<ul>
+		<form method="post" action="" class="form_<?php echo $family;?>">
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
 			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
+			<?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
 			<?php $today = new DateTime(date('Y-m-d'));?>
 			<?php $diff = $today->diff($dob)->format("%a");?>
+			<?php $mate_diff = $today->diff($mate_date)->format("%a");?>
 			<li>
 			<div class="rabbit">
 			<p><?php echo $rabbit['product_name'];?></p>
-			<p><?php echo $diff.' days';?></p>
-			<?php if($diff >= 4):?>
+			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			<?php if(is_null($rabbit['rabbit_latest_mate_date']) or $mate_diff > 45):?>
+				<!-- <label>Select for Mating</label> -->
+				<input style="display:none" type="radio" name="family_<?php echo $family?>_<?php echo $rabbit['rabbit_gender']?>"value="<?php echo $rabbit['product_id']?>" onchange="checkToMate(this,<?php echo $family?>)"/>
 				<p><?php echo 'Ready To Mate';?></p>
 			<?php endif;?>
+			<a href="javascript:void(0)" class="select" onclick="selectRabbit(this,<?php echo $family?>)">Select</a>
 			</div>
 			</li>
 		<?php endforeach;?>
+			<input type="submit" value="Mate" disabled class="submit"/>
+			</form>
+			<script type="text/javascript">
+			function checkToMate(radio, family_id)
+			{
+				var parent = $(radio).parent().parent().parent();
+				if($(parent).find('input[name=family_'+family_id+'_Male]').is(':checked') && $(parent).find('input[name=family_'+family_id+'_Female]').is(':checked'))	
+				{
+					$(parent).find('input.submit').removeAttr('disabled');
+				}
+			}
+
+			function selectRabbit(link,family_id)
+			{
+				var parent = $(link).parent().find('input[type=radio]');
+				if($(parent).attr('checked') == true)
+					$(parent).attr('checked',false);
+				else
+				{
+					$(parent).prop('checked',true);
+					checkToMate(parent, family_id);
+				}
+			}
+			</script>
 		</ul>
 	<?php endforeach;?>
 </div>
