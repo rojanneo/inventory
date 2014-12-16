@@ -3,7 +3,7 @@
 		<h3>Family <?php echo $family;?></h3>
 		<?php $rabbits = getModel('rabbit')->getFamilyRabbits($family);?>
 		<ul>
-		<form method="post" action="" class="form_<?php echo $family;?>">
+		<form method="post" action="<?php echo ADMIN_URL.'rabbits/performMating'?>" class="form_<?php echo $family;?>">
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
 			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
@@ -17,7 +17,7 @@
 			<p><?php echo $rabbit['rabbit_gender'];?></p>
 			<?php if(is_null($rabbit['rabbit_latest_mate_date']) or $mate_diff > 45):?>
 				<!-- <label>Select for Mating</label> -->
-				<input style="display:none" type="radio" name="family_<?php echo $family?>_<?php echo $rabbit['rabbit_gender']?>"value="<?php echo $rabbit['product_id']?>" onchange="checkToMate(this,<?php echo $family?>)"/>
+				<input style="display:none" type="radio" name="family_<?php echo $rabbit['rabbit_gender']?>"value="<?php echo $rabbit['product_id']?>" onchange="checkToMate(this,<?php echo $family?>)"/>
 				<p><?php echo 'Ready To Mate';?></p>
 			<?php endif;?>
 			<a href="javascript:void(0)" class="select" onclick="selectRabbit(this,<?php echo $family?>)">Select</a>
@@ -30,7 +30,7 @@
 			function checkToMate(radio, family_id)
 			{
 				var parent = $(radio).parent().parent().parent();
-				if($(parent).find('input[name=family_'+family_id+'_Male]').is(':checked') && $(parent).find('input[name=family_'+family_id+'_Female]').is(':checked'))	
+				if($(parent).find('input[name=family_Male]').is(':checked') && $(parent).find('input[name=family_Female]').is(':checked'))	
 				{
 					$(parent).find('input.submit').removeAttr('disabled');
 				}

@@ -38,4 +38,13 @@ class RabbitModel extends Model
 
 		return $ra;
 	}
+
+	public function performMating($male, $female)
+	{
+		$date = date('Y-m-d');
+		getModel('product')->updateAttribute($male, 'rabbit_latest_mate_date', $date);
+		getModel('product')->updateAttribute($female, 'rabbit_latest_mate_date', $date);
+
+		return true;
+	}
 }
