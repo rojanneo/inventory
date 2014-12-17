@@ -12,14 +12,24 @@
 			<?php $diff = $today->diff($dob)->format("%a");?>
 			<?php $mate_diff = $today->diff($mate_date)->format("%a");?>
 			<li>
-			<div class="rabbit">
-			<p><?php echo $rabbit['product_name'];?></p>
-			<p><?php echo $rabbit['rabbit_gender'];?></p>
 			<?php if(is_null($rabbit['rabbit_latest_mate_date']) or $mate_diff > 45):?>
 				<!-- <label>Select for Mating</label> -->
-				<input style="display:none" type="radio" name="family_<?php echo $rabbit['rabbit_gender']?>"value="<?php echo $rabbit['product_id']?>" onchange="checkToMate(this,<?php echo $family?>)"/>
-				<p><?php echo 'Ready To Mate';?></p>
+				<?php $status = 'Ready To Mate';?>
+				<?php $status_class="mate";?>
+			<?php elseif($mate_diff >= 12 and $mate_diff <= 15):?>
+				<?php $status = 'Check for Pregnancy';?>
+				<?php $status_class="check_pregnancy";?>
+			<?php else:?>
+				<?php $status = 'Recently Mated on '.$rabbit['rabbit_latest_mate_date'];?>
+				<?php $status_class="recently_mated";?>
 			<?php endif;?>
+			<div class="rabbit <?php echo $status_class?>">
+			<p><?php echo $rabbit['product_name'];?></p>
+			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			<?php if($status == 'Ready To Mate'):?>
+								<input style="display:none" type="radio" name="family_<?php echo $rabbit['rabbit_gender']?>"value="<?php echo $rabbit['product_id']?>" onchange="checkToMate(this,<?php echo $family?>)"/>
+			<?php endif;?>
+			<p><?php echo $status;?></p>
 			<a href="javascript:void(0)" class="select" onclick="selectRabbit(this,<?php echo $family?>)">Select</a>
 			</div>
 			</li>
