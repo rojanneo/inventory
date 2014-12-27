@@ -7,13 +7,13 @@
 <?php if(!$rabbit['rabbit_latest_mate_date']):?>
 	<p>No Option Available</p>
 	<p>Rabbit Needs to be Mated First</p>
-<?php elseif(!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date'] and $mate_diff >= 12 and $mate_diff <= 15):?>
+<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 15)):?>
 	<p>Is this rabbit pregnant?</p>
 	<a href="<?php echo ADMIN_URL.'rabbits/pregnant/'.$rabbit_id?>">Yes</a>
 	<a href="<?php echo ADMIN_URL.'rabbits/notpregnant/'.$rabbit_id?>">No</a>
 <?php elseif(!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date'] or $mate_diff < 12 or $mate_diff > 15):?>
 	<p>Rabbit Was Mated <?php echo $mate_diff?> days ago</p>
-<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']):?>
+<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'])):?>
 	<p>How many litters are born?</p>
 	<select name="litters_count">
 		<option value="1">1</option>

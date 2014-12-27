@@ -223,20 +223,31 @@ class ProductModel extends Model
 	public function updateAttribute($product_id,$attribute_code, $value)
 	{
 		$attribute = getModel('attribute')->load(array('AND','attribute_code'=>$attribute_code));
+		$product = $this->load($product_id);
 		if($attribute)
 		{
 			$id = $attribute['attribute_id'];
 			$attribute_type = $attribute['attribute_type'];
 			if($attribute_type == 'select' or $attribute_type == 'multiselect') $suffix = 'option';
 				else $suffix = $attribute_type;
-
-				$table_name = 'product_attribute_value_'.$suffix;
-				$updated_date = date('Y-m-d');
+			$table_name = 'product_attribute_value_'.$suffix;
+			$updated_date = date('Y-m-d');
+			if(!isset($product[$attribute_code]))
+			{
+				$sql = "INSERT INTO `".$table_name."` (`attribute_id`, `product_id`, `value`, `updated_date`)
+				VALUES ('".$id."', '".$product_id."', '".$value."','".$updated_date."')";
+				$this->connection->InsertQuery($sql);
+			}
+			else
+			{
 				$sql = "UPDATE `".$table_name."` SET 
 				`value`='".$value."',
 				`updated_date`='".$updated_date."' 
 				WHERE `attribute_id` = ".$id." AND `product_id` = ".$product_id;
 				$this->connection->UpdateQuery($sql);
+
+			}
+				
 		}
 		else return false;
 	}
