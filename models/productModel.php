@@ -236,7 +236,6 @@ class ProductModel extends Model
 				`value`='".$value."',
 				`updated_date`='".$updated_date."' 
 				WHERE `attribute_id` = ".$id." AND `product_id` = ".$product_id;
-
 				$this->connection->UpdateQuery($sql);
 		}
 		else return false;
