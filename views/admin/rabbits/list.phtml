@@ -7,14 +7,18 @@
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
 			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
+			<?php if(isset($rabbit['rabbit_latest_mate_date'])):?>
 			<?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
 			<?php $today = new DateTime(date('Y-m-d'));?>
 			<?php $diff = $today->diff($dob)->format("%a");?>
 			<?php $mate_diff = $today->diff($mate_date)->format("%a");?>
+			<?php endif;?>
 			<li>
 			<div class="rabbit <?php echo $status_class?>">
+			<div class="rabbit_click">
 			<p><?php echo $rabbit['product_name'];?></p>
 			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			</div>
 			<input type="radio" name="family_<?php echo $rabbit['rabbit_gender']?>"value="<?php echo $rabbit['product_id']?>" onchange="checkToMate(this,<?php echo $family?>)"/>
 			<a href="javascript:void(0)" class="select" onclick="selectRabbit(this,<?php echo $family?>)">Select</a>
 			
@@ -27,8 +31,8 @@
 			<script type="text/javascript">
 			$(document).ready(function(){
 				$('.ajax').colorbox({width:"50%"});
-				$('.rabbit').click(function(){
-					$(this).parent().find('a.ajax').trigger("click");
+				$('.rabbit_click').click(function(){
+					$(this).parent().parent().find('a.ajax').trigger("click");
 				});
 			});
 			function checkToMate(radio, family_id)

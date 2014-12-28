@@ -252,6 +252,25 @@ class ProductModel extends Model
 		else return false;
 	}
 
+	public function deleteAttribute($product_id, $attribute_code)
+	{
+		$attribute = getModel('attribute')->load(array('AND','attribute_code'=>$attribute_code));
+		$product = $this->load($product_id);
+		if($attribute)
+		{
+			$id = $attribute['attribute_id'];
+			$attribute_type = $attribute['attribute_type'];
+			if($attribute_type == 'select' or $attribute_type == 'multiselect') $suffix = 'option';
+				else $suffix = $attribute_type;
+			$table_name = 'product_attribute_value_'.$suffix;
+			$updated_date = date('Y-m-d');
+				$sql = "DELETE FROM `".$table_name."` WHERE `attribute_id` = ".$id." AND `product_id` = ".$product_id;
+				$this->connection->DeleteQuery($sql);
+				
+		}
+		else return false;
+	}
+
 	public function updateCategories($categories,$product_id)
 	{
 		$sql = "DELETE FROM product_category WHERE product_id = ".$product_id;

@@ -47,4 +47,37 @@ class RabbitModel extends Model
 
 		return true;
 	}
+
+	public function makePregnant($rabbit_id)
+	{
+		$date = date('Y-m-d');
+		getModel('product')->updateAttribute($rabbit_id, 'rabbit_latest_pregnant_date', $date);
+		getModel('product')->updateAttribute($rabbit_id, 'is_pregnant', '19');
+	}
+
+	public function notPregnant($rabbit_id)
+	{
+		getModel('product')->deleteAttribute($rabbit_id, 'is_pregnant');
+		getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_pregnant_date');
+		getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_mate_date');
+	}
+
+	public function giveBirth($rabbit_id)
+	{
+		getModel('product')->updateAttribute($rabbit_id,'rabbit_latest_birth_date',date('Y-m-d'));
+	}
+
+	public function wean($rabbit_id)
+	{
+		getModel('product')->updateAttribute($rabbit_id,'rabbit_latest_weaning_date',date('Y-m-d'));
+	}
+
+	public function resetDates($rabbit_id)
+	{
+		getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_mate_date');
+		getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_pregnant_date');
+		getModel('product')->deleteAttribute($rabbit_id, 'is_pregnant');
+		getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_birth_date');
+		getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_weaning_date');
+	}
 }

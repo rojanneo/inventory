@@ -1,24 +1,67 @@
 <?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
 <?php $dob = new DateTime($rabbit['rabbit_dob']);?>
-<?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
 <?php $today = new DateTime(date('Y-m-d'));?>
+<?php if(isset($rabbit['rabbit_latest_mate_date'])):?>
+<?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
 <?php $diff = $today->diff($dob)->format("%a");?>
 <?php $mate_diff = $today->diff($mate_date)->format("%a");?>
-<?php if(!$rabbit['rabbit_latest_mate_date']):?>
-	<p>No Option Available</p>
-	<p>Rabbit Needs to be Mated First</p>
+<?php endif;?>
+<?php if(isset($rabbit['rabbit_latest_pregnant_date'])):?>
+<?php $preg_date = new DateTime($rabbit['rabbit_latest_pregnant_date']);?>
+<?php $diff = $today->diff($dob)->format("%a");?>
+<?php $preg_diff = $today->diff($preg_date)->format("%a");?>
+<?php endif;?>
+<?php if(isset($rabbit['rabbit_latest_birth_date'])):?>
+<?php $wean_date = new DateTime($rabbit['rabbit_latest_birth_date']);?>
+<?php $diff = $today->diff($dob)->format("%a");?>
+<?php $wean_diff = $today->diff($wean_date)->format("%a");?>
+<?php endif;?>
+
+<?php if($rabbit['rabbit_gender'] == 'Female'):?>
+
+<?php if(!isset($rabbit['rabbit_latest_mate_date'])):?>
+	<p>Available For Mating</p>
 <?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 15)):?>
 	<p>Is this rabbit pregnant?</p>
 	<a href="<?php echo ADMIN_URL.'rabbits/pregnant/'.$rabbit_id?>">Yes</a>
 	<a href="<?php echo ADMIN_URL.'rabbits/notpregnant/'.$rabbit_id?>">No</a>
 <?php elseif(!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date'] or $mate_diff < 12 or $mate_diff > 15):?>
 	<p>Rabbit Was Mated <?php echo $mate_diff?> days ago</p>
-<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'])):?>
+<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 31)):?>
 	<p>How many litters are born?</p>
+	<form method="post" action="<?php echo ADMIN_URL.'rabbits/addLitters'?>">
+	<input type="hidden" name="parent_rabbit_id" value="<?php echo $rabbit['product_id']?>"/>
+	<input type="hidden" name="rabbit_family_id" value="<?php echo $rabbit['rabbit_family_id']?>"/>
 	<select name="litters_count">
 		<option value="1">1</option>
 		<option value="2">2</option>
 		<option value="3">3</option>
 		<option value="4">4</option>
+		<option value="5">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+		<option value="11">11</option>
+		<option value="12">12</option>
 	</select>
+	<input type="submit" value="Submit"/>
+	</form>
+<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 31):?>
+	<p>Rabbit was Pregnant <?php echo $preg_diff?> days ago</p>
+
+<?php elseif((!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'])and ($wean_diff >= 21 and $wean_diff <= 28)):?>
+	<p>Time For Weaning</p>
+	<p>Is the weaning done?</p>
+	<a href="<?php echo ADMIN_URL.'rabbits/wean/'.$rabbit['product_id']?>">Yes</a>
+	<a href="#">No</a>
+<?php elseif(!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21 or $wean_diff > 28):?>
+	<p>Rabbit gave Birth <?php echo $wean_diff?> days ago</p>
+<?php endif;?>
+
+<?php elseif($rabbit['rabbit_gender'] == 'Male'):?>
+	<p>Rabbit was Mated <?php echo $mate_diff?> days ago</p>
+<?php else:?>
+	<p>Litters were born on <?php echo $rabbit['rabbit_dob']?></p>
 <?php endif;?>
