@@ -87,6 +87,7 @@ class RabbitsController extends Controller
 		$product['litters_born'] ="";
 		$product['rabbit_latest_weaning_date'] ="";
 		$product['rabbit_latest_culling_date'] ="";
+		$product['parent_id'] = $rabbit_id;
 
 		getModel('product')->insertAttributes($product);
 
