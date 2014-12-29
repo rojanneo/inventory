@@ -232,10 +232,11 @@ class ProductModel extends Model
 				else $suffix = $attribute_type;
 			$table_name = 'product_attribute_value_'.$suffix;
 			$updated_date = date('Y-m-d');
-			if(!isset($product[$attribute_code]))
+			if(!isset($product['attributes'][$attribute_code]))
 			{
 				$sql = "INSERT INTO `".$table_name."` (`attribute_id`, `product_id`, `value`, `updated_date`)
 				VALUES ('".$id."', '".$product_id."', '".$value."','".$updated_date."')";
+
 				$this->connection->InsertQuery($sql);
 			}
 			else

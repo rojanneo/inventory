@@ -96,6 +96,7 @@ class RabbitsController extends Controller
 		getModel('product')->insertCategories($category);
 
 		getModel('rabbit')->wean($rabbit_id);
+		getModel('litter')->wean($rabbit_id);
 		getModel('rabbit')->resetDates($rabbit_id);
 		redirect('admin/rabbits');
 

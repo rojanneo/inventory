@@ -26,7 +26,7 @@
 	<a href="<?php echo ADMIN_URL.'rabbits/pregnant/'.$rabbit_id?>">Yes</a>
 	<a href="<?php echo ADMIN_URL.'rabbits/notpregnant/'.$rabbit_id?>">No</a>
 <?php elseif(!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date'] or $mate_diff < 12 or $mate_diff > 15):?>
-	<p>Rabbit Was Mated <?php echo $mate_diff?> days ago</p>
+	<p>We have to wait <?php echo (12 - $mate_diff);?> to <?php echo (15 - $mate_diff)?> days to confirm pregnancy</p>
 <?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 31)):?>
 	<p>How many litters are born?</p>
 	<form method="post" action="<?php echo ADMIN_URL.'rabbits/addLitters'?>">
@@ -49,7 +49,7 @@
 	<input type="submit" value="Submit"/>
 	</form>
 <?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 31):?>
-	<p>Rabbit was Pregnant <?php echo $preg_diff?> days ago</p>
+	<p>We have to wait for <?php echo (27 - $preg_diff)?> to <?php echo (31 - $preg_diff)?> days for birth</p>
 
 <?php elseif((!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'])and ($wean_diff >= 21 and $wean_diff <= 28)):?>
 	<p>Time For Weaning</p>
@@ -57,11 +57,27 @@
 	<a href="<?php echo ADMIN_URL.'rabbits/wean/'.$rabbit['product_id']?>">Yes</a>
 	<a href="#">No</a>
 <?php elseif(!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21 or $wean_diff > 28):?>
-	<p>Rabbit gave Birth <?php echo $wean_diff?> days ago</p>
+	<p>We have to wait for <?php echo (21 - $wean_diff)?> to <?php echo (28 - $wean_diff)?> days for weaning</p>
+	<?php $litters = getModel('litter')->getCollection($rabbit['product_id']);?>
+	<ul>
+	<?php foreach($litters as $litter):?>
+		<li><?php echo 'Litter '.$litter['litter_id'];?></li>
+	<?php endforeach;?>
+	</ul>
 <?php endif;?>
 
 <?php elseif($rabbit['rabbit_gender'] == 'Male'):?>
-	<p>Rabbit was Mated <?php echo $mate_diff?> days ago</p>
+	<?php if(!isset($rabbit['rabbit_latest_mate_date']) or !$rabbit['rabbit_latest_mate_date']):?>
+		<p>Available for Mating</p>
+	<?php else:?>
+		<p>Rabbit was Mated <?php echo $mate_diff?> days ago</p>
+	<?php endif;?>
 <?php else:?>
 	<p>Litters were born on <?php echo $rabbit['rabbit_dob']?></p>
+	<?php $litters = getModel('litter')->getCollection($rabbit['parent_id']);?>
+	<ul>
+	<?php foreach($litters as $litter):?>
+		<li><?php echo 'Litter '.$litter['litter_id'];?></li>
+	<?php endforeach;?>
+	</ul>
 <?php endif;?>

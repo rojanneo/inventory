@@ -32,4 +32,20 @@ class LitterModel extends Model
 			return false;
 		}
 	}
+
+	public function getCollection($parent_id)
+	{
+		$sql = "SELECT * FROM rabbit_litters WHERE parent_id = $parent_id";
+		
+		$litters = $this->connection->Query($sql);
+		return $litters;
+	}
+
+	public function wean($rabbit_id)
+	{
+		$today = date('Y-m-d');
+		$sql = "UPDATE rabbit_litters SET litters_weaning_date = '".$today."' WHERE parent_id = $rabbit_id";
+		$this->connection->UpdateQuery($sql);
+		return true;
+	}
 }
