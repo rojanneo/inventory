@@ -53,6 +53,7 @@ class RabbitModel extends Model
 		$date = date('Y-m-d');
 		getModel('product')->updateAttribute($rabbit_id, 'rabbit_latest_pregnant_date', $date);
 		getModel('product')->updateAttribute($rabbit_id, 'is_pregnant', '15');
+
 	}
 
 	public function notPregnant($rabbit_id)

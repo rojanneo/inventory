@@ -75,9 +75,37 @@
 <?php else:?>
 	<p>Litters were born on <?php echo $rabbit['rabbit_dob']?></p>
 	<?php $litters = getModel('litter')->getCollection($rabbit['parent_id']);?>
+	<?php echo $litters[0]['litters_weaning_date'];?>
+	<?php $wean_date = new DateTime($litters[0]['litters_weaning_date']);?>
+	<?php $cull_diff = $today->diff($wean_date)->format("%a");?>
+	<?php if($cull_diff <= 0):?>
+	<p>We have to wait for <?php echo (60 - $cull_diff)?> days to begin culling.</p>
 	<ul>
 	<?php foreach($litters as $litter):?>
 		<li><?php echo 'Litter '.$litter['litter_id'];?></li>
 	<?php endforeach;?>
 	</ul>
+	<?php else:?>
+	<p>Time for culling</p>
+	<ul>
+	<?php foreach($litters as $litter):?>
+		<li><?php echo 'Litter '.$litter['litter_id'];?><a href="#">Cull</a></li>
+		<div class="options">
+		<form method = "post" action="">
+		<select name="gender">
+		<option value="11">Male</option>
+		<option value="12">Female</option>
+		</select>
+
+		<select name="group">
+		<option value="19">Parent to be</option>
+		<option value="21">Product to be</option>
+		</select>
+
+		<input type="submit" value="Cull"/>
+		</form>
+		</div>
+	<?php endforeach;?>
+	</ul>
+	<?php endif;?>
 <?php endif;?>

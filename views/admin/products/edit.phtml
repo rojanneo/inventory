@@ -55,13 +55,14 @@
 	<?php if(isset($attributes) and $attributes):?>
 		<?php foreach($attributes as $attribute):?>
 			<?php $attr = getModel('attribute')->load(array('AND', 'attribute_id'=>$attribute));?>
+			<?php if($attr):?>
 			<?php extract($attr);?>
 			<label><?php echo $attribute_admin_label?></label>
 			<?php switch($attribute_type):?><?php case 'select':?>
 					<select name="attributes[<?php echo $attribute_code?>]">
 						<?php $options = getModel('attribute')->getOptions($attribute_id);?>
 						<?php foreach($options as $option):?>
-							<option value="<?php echo $option['id']?>" <?php echo (strtolower($product['attributes'][$attribute_code]) == strtolower($option['value']))?'selected':null?>><?php echo $option['value']?></option>
+							<option value="<?php echo $option['id']?>" <?php echo (isset($product['attributes'][$attribute_code]) and strtolower($product['attributes'][$attribute_code]) == strtolower($option['value']))?'selected':null?>><?php echo $option['value']?></option>
 						<?php endforeach;?>
 					</select>
 					<?php break;?>
@@ -86,6 +87,7 @@
 					<input type="number" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>"/>
 					<?php break;?>
 			<?php endswitch;?>
+		<?php endif;?>
 		<?php endforeach;?>
 	<?php endif;?>
 
@@ -94,7 +96,7 @@
 		<?php $count = 0;?>
 		<?php foreach($categories as $category):?>
 			<?php extract($category);?>
-			<input type="checkbox" name="categories[<?php echo $count++?>]" value="<?php echo $category_id?>" <?php echo (in_array($category_id, $product['categories']))?'checked':null?>/>
+			<input type="checkbox" name="categories[<?php echo $count++?>]" value="<?php echo $category_id?>" <?php echo (isset($product['categories']) and in_array($category_id, $product['categories']))?'checked':null?>/>
 			<label><?php echo $category_name?></label>
 		<?php endforeach;?>
 	<?php endif;?>
