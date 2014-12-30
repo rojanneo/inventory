@@ -30,6 +30,7 @@
 <?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 31)):?>
 	<p>How many litters are born?</p>
 	<form method="post" action="<?php echo ADMIN_URL.'rabbits/addLitters'?>">
+	<input type="hidden" name="parent_buck_id" value="<?php echo $rabbit['recently_mated_buck']?>"/>
 	<input type="hidden" name="parent_rabbit_id" value="<?php echo $rabbit['product_id']?>"/>
 	<input type="hidden" name="rabbit_family_id" value="<?php echo $rabbit['rabbit_family_id']?>"/>
 	<select name="litters_count">

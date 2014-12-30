@@ -32,6 +32,7 @@ class RabbitsController extends Controller
 	public function pregnantAction($rabbit_id)
 	{
 		getModel('rabbit')->makePregnant($rabbit_id);
+		getModel('genealogy')->changeStatus($rabbit_id,0);
 		redirect('admin/rabbits');
 	}
 
@@ -45,6 +46,7 @@ class RabbitsController extends Controller
 	{
 		loadHelper('inputs');
 		$post_data = getPost();
+		getModel('genealogy')->addLitterGroup($post_data);
 		$litters_count = $post_data['litters_count'];
 		unset($post_data['litters_count']);
 		for($i = 0; $i<$litters_count; $i++)

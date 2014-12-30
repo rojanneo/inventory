@@ -43,4 +43,24 @@ class GenealogyModel extends Model
 		}
 	}
 
+	public function changeStatus($rabbit_id, $status)
+	{
+		$sql = "UPDATE aa_rabbits SET status = '".$status."' WHERE r_id = ".$rabbit_id;
+		$this->connection->UpdateQuery($sql);
+		return true;
+	}
+
+	public function addLitterGroup($data)
+	{
+		$f_id = $data['rabbit_family_id'];
+		$dob = date('Y-m-d');
+		$does_no = 0;
+		$buck_no = 0;
+
+		$sql = "INSERT INTO `aa_litter`(`f_id`, `DOB`, `does_no`, `bucks_no`) 
+		VALUES ('".mysql_escape_string($f_id)."','".mysql_escape_string($dob)."','".$does_no."','".$buck_no."')";
+		$this->connection->InsertQuery($sql);
+		return $this->connection->GetInsertID();
+	}
+
 }

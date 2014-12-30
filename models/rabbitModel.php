@@ -44,6 +44,8 @@ class RabbitModel extends Model
 		$date = date('Y-m-d');
 		getModel('product')->updateAttribute($male, 'rabbit_latest_mate_date', $date);
 		getModel('product')->updateAttribute($female, 'rabbit_latest_mate_date', $date);
+		getModel('product')->updateAttribute($female, 'recently_mated_buck', $male);
+
 
 		return true;
 	}

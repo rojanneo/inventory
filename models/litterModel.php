@@ -14,12 +14,14 @@ class LitterModel extends Model
 			$updated_date = date('Y-m-d');
 			$sql = "INSERT INTO `rabbit_litters`
 			(`parent_id`,
+			`parent_buck_id`,
 			`family_id`,
 			`litters_dob`,
 			`updated_date`)
 			VALUES 
 			(
 			'".mysql_escape_string($parent_rabbit_id)."',
+			'".mysql_escape_string($parent_buck_id)."',
 			'".mysql_escape_string($rabbit_family_id)."',
 			'".date('Y-m-d')."',
 			'".$updated_date."'
