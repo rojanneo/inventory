@@ -6,6 +6,7 @@
 		<form method="post" action="<?php echo ADMIN_URL.'rabbits/performMating'?>" class="form_<?php echo $family;?>">
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
 			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
 			<?php if(isset($rabbit['rabbit_latest_mate_date'])):?>
 			<?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
@@ -25,6 +26,27 @@
 			</div>
 			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
 			</li>
+		<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products to be '):?>
+			<h4>Parents to Be</h4>
+			<li>
+			<div class="rabbit">
+			<div class="rabbit_click">
+			<p><?php echo $rabbit['product_name'];?></p>
+			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			</div>
+			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
+			</li>
+		<?php else:?>
+			<h4>Products to Be</h4>
+			<li>
+			<div class="rabbit">
+			<div class="rabbit_click">
+			<p><?php echo $rabbit['product_name'];?></p>
+			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			</div>
+			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
+			</li>
+		<?php endif;?>
 		<?php endforeach;?>
 			<input type="submit" value="Mate" disabled class="submit"/>
 			</form>

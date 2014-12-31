@@ -16,7 +16,13 @@
 <?php $diff = $today->diff($dob)->format("%a");?>
 <?php $wean_diff = $today->diff($wean_date)->format("%a");?>
 <?php endif;?>
+<?php if(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) == 'parents to be'):?>
 
+<p>Parents To Be</p>
+<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) == 'products to be '):?>
+<p>Products To Be</p>
+
+<?php else:?>
 <?php if($rabbit['rabbit_gender'] == 'Female'):?>
 
 <?php if(!isset($rabbit['rabbit_latest_mate_date'])):?>
@@ -92,7 +98,8 @@
 	<?php foreach($litters as $litter):?>
 		<li><?php echo 'Litter '.$litter['litter_id'];?><a href="#">Cull</a></li>
 		<div class="options">
-		<form method = "post" action="">
+		<form method = "post" action="<?php echo ADMIN_URL.'rabbits/cull/'.$litter['litter_id']?>">
+		<input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']?>"/>
 		<select name="gender">
 		<option value="11">Male</option>
 		<option value="12">Female</option>
@@ -109,4 +116,5 @@
 	<?php endforeach;?>
 	</ul>
 	<?php endif;?>
+<?php endif;?>
 <?php endif;?>

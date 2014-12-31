@@ -57,9 +57,9 @@
 			<?php $attr = getModel('attribute')->load(array('AND', 'attribute_id'=>$attribute));?>
 			<?php if($attr):?>
 			<?php extract($attr);?>
-			<label><?php echo $attribute_admin_label?></label>
+			<label  <?php echo ($is_hidden)?'style="display:none"':null?>><?php echo $attribute_admin_label?></label>
 			<?php switch($attribute_type):?><?php case 'select':?>
-					<select name="attributes[<?php echo $attribute_code?>]">
+					<select name="attributes[<?php echo $attribute_code?>]" <?php echo ($is_hidden)?'style="display:none"':null?>>
 						<?php $options = getModel('attribute')->getOptions($attribute_id);?>
 						<?php foreach($options as $option):?>
 							<option value="<?php echo $option['id']?>" <?php echo (isset($product['attributes'][$attribute_code]) and strtolower($product['attributes'][$attribute_code]) == strtolower($option['value']))?'selected':null?>><?php echo $option['value']?></option>
@@ -67,7 +67,7 @@
 					</select>
 					<?php break;?>
 				<?php case 'multiselect':?>
-					<select name="attributes[<?php echo $attribute_code?>]" multiple <?php echo (strtolower($product['attributes'][$attribute_code]) == strtolower($option['value']))?'selected':null?>>
+					<select name="attributes[<?php echo $attribute_code?>]" multiple <?php echo (strtolower($product['attributes'][$attribute_code]) == strtolower($option['value']))?'selected':null?> <?php echo ($is_hidden)?'style="display:none"':null?>>
 						<?php $options = getModel('attribute')->getOptions($attribute_id);?>
 						<?php foreach($options as $option):?>
 							<option value="<?php echo $option['id']?>"><?php echo $option['value']?></option>
@@ -75,16 +75,16 @@
 					</select>
 					<?php break;?>
 				<?php case 'date':?>
-					<input type="date" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>"/>
+					<input type="date" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>" <?php echo ($is_hidden)?'style="display:none"':null?>/>
 					<?php break;?>
 				<?php case 'text':?>
-					<input type="text" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>"/>
+					<input type="text" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>" <?php echo ($is_hidden)?'style="display:none"':null?>/>
 					<?php break;?>
 				<?php case 'number':?>
-					<input type="text" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>"/>
+					<input type="text" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>" <?php echo ($is_hidden)?'style="display:none"':null?>/>
 					<?php break;?>
 				<?php case 'number':?>
-					<input type="number" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>"/>
+					<input type="number" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>" <?php echo ($is_hidden)?'style="display:none"':null?>/>
 					<?php break;?>
 			<?php endswitch;?>
 		<?php endif;?>

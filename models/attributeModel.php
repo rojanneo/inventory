@@ -21,7 +21,8 @@ class AttributeModel extends Model
 					`attribute_frontend_label`, 
 					`is_unique`, 
 					`is_required`, 
-					`is_used_for_variation`)
+					`is_used_for_variation`,
+					`is_hidden`)
 					VALUES (
 					'".mysql_escape_string($attribute_code)."',
 					'".mysql_escape_string($attribute_default_value)."',
@@ -31,7 +32,8 @@ class AttributeModel extends Model
 					'".mysql_escape_string($attribute_frontend_label)."',
 					'".mysql_escape_string($is_unique)."',
 					'".mysql_escape_string($is_required)."',
-					'".mysql_escape_string($is_used_for_variation)."')";
+					'".mysql_escape_string($is_used_for_variation)."',
+					'".mysql_escape_string($is_hidden)."')";
 			$this->connection->InsertQuery($sql);
 			return $this->connection->GetInsertID();
 		}
@@ -55,9 +57,9 @@ class AttributeModel extends Model
 			`attribute_frontend_label`='".mysql_escape_string($attribute_frontend_label)."',
 			`is_unique`='".mysql_escape_string($is_unique)."',
 			`is_required`='".mysql_escape_string($is_required)."',
-			`is_used_for_variation`=".mysql_escape_string($is_used_for_variation)." 
+			`is_used_for_variation`=".mysql_escape_string($is_used_for_variation).",
+			`is_hidden`='".mysql_escape_string($is_hidden)."' 
 			WHERE `attribute_id` = ".$attribute_id;
-
 			$this->connection->UpdateQuery($sql);
 			return $attribute_id;
 		}

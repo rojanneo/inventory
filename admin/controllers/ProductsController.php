@@ -45,6 +45,8 @@ class ProductsController extends Controller
 		$parent_doe = $post_data['parent_doe_id'];
 		$gender = $post_data['attributes']['rabbit_gender'];
 		$attributes = $post_data['attributes'];
+		$attributes['parent_buck_id'] = $parent_buck;
+		$attributes['parent_doe_id'] = $parent_doe;
 		unset($post_data['attributes']);
 		$categories = $post_data['categories'];
 		unset($post_data['categories']);
@@ -57,7 +59,7 @@ class ProductsController extends Controller
 		{
 			$genealogy_rabbit_data = array();
 			$genealogy_rabbit_data['r_id'] = $product_id;
-			$genealogy_rabbit_data['type'] = ($gender == 'Male')?'B':'D';
+			$genealogy_rabbit_data['type'] = ($gender == '11')?'B':'D';
 			$genealogy_rabbit_data['l_id'] = 'NULL';
 			$genealogy_rabbit_data['f_id'] = $attributes['rabbit_family_id'];
 			$genealogy_rabbit_data['does_id'] = $parent_doe;
@@ -65,6 +67,7 @@ class ProductsController extends Controller
 			$genealogy_rabbit_data['last_given_birth'] = 'NULL';
 			$genealogy_rabbit_data['status'] = 1;
 			$genealogy_rabbit_data['rabbit_slug'] = $post_data['product_sku'];
+
 			getModel('genealogy')->insertRabbit($genealogy_rabbit_data);
 		}
 		redirect('admin/products/add');
@@ -97,6 +100,7 @@ class ProductsController extends Controller
 	public function deleteAction($product_id)
 	{
 		getModel('product')->delete(array('type'=>'AND','product_id'=>$product_id));
+		getModel('genealogy')->deleteRabbit($product_id);
 		redirect('admin/products');
 	}
 }

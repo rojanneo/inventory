@@ -32,6 +32,13 @@ class GenealogyModel extends Model
 			return false;
 	}
 
+	public function deleteRabbit($rabbit_id)
+	{
+		$sql = "DELETE FROM aa_rabbits WHERE r_id = ".$rabbit_id;
+		$this->connection->DeleteQuery($sql);
+		return true;
+	}
+
 	public function insertFamily($family_id)
 	{
 		$sql = "SELECT * FROM aa_family WHERE f_id = $family_id";

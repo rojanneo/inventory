@@ -6,6 +6,14 @@ class OptionModel extends Model
 		parent::__construct();
 	}
 
+	public function load($option_id)
+	{
+		$sql = "SELECT * FROM attribute_values WHERE id = ".$option_id." LIMIT 1";
+		$option = $this->connection->Query($sql);
+		if($option) return $option[0];
+		else return false;
+	}
+
 	public function insert($data = false)
 	{
 		if($data != false)

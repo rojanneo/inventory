@@ -6,7 +6,7 @@ class LitterModel extends Model
 		parent::__construct();
 	}
 
-	public function insert($data = false)
+	public function insert($data = false, $litter_group_id)
 	{
 		if($data != false)
 		{
@@ -16,6 +16,7 @@ class LitterModel extends Model
 			(`parent_id`,
 			`parent_buck_id`,
 			`family_id`,
+			`litter_group_id`,
 			`litters_dob`,
 			`updated_date`)
 			VALUES 
@@ -23,6 +24,7 @@ class LitterModel extends Model
 			'".mysql_escape_string($parent_rabbit_id)."',
 			'".mysql_escape_string($parent_buck_id)."',
 			'".mysql_escape_string($rabbit_family_id)."',
+			'".$litter_group_id."',
 			'".date('Y-m-d')."',
 			'".$updated_date."'
 			)";
@@ -48,6 +50,21 @@ class LitterModel extends Model
 		$today = date('Y-m-d');
 		$sql = "UPDATE rabbit_litters SET litters_weaning_date = '".$today."' WHERE parent_id = $rabbit_id";
 		$this->connection->UpdateQuery($sql);
+		return true;
+	}
+
+	public function load($litter_id)
+	{
+		$sql = "SELECT * FROM rabbit_litters WHERE litter_id = ".$litter_id." Limit 1";
+		$litter = $this->connection->Query($sql);
+		if($litter) return $litter[0];
+		else $litter;
+	}
+
+	public function delete($litter_id)
+	{
+		$sql = "DELETE FROM rabbit_litters WHERE litter_id = ".$litter_id;
+		$this->connection->DeleteQuery($sql);
 		return true;
 	}
 }

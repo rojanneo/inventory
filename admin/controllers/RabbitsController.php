@@ -26,6 +26,7 @@ class RabbitsController extends Controller
 	public function listActionsAction($rabbit_id)
 	{
 		$data['rabbit_id'] = $rabbit_id;
+		$rabbit = getModel('rabbit')->load($rabbit_id);
 		$this->view->renderAdmin('rabbits/actions.phtml',$data,false,false,false);
 	}
 
@@ -46,12 +47,12 @@ class RabbitsController extends Controller
 	{
 		loadHelper('inputs');
 		$post_data = getPost();
-		getModel('genealogy')->addLitterGroup($post_data);
+		$litter_group_id = getModel('genealogy')->addLitterGroup($post_data);
 		$litters_count = $post_data['litters_count'];
 		unset($post_data['litters_count']);
 		for($i = 0; $i<$litters_count; $i++)
 		{
-			getModel('litter')->insert($post_data);
+			getModel('litter')->insert($post_data,$litter_group_id);
 		}
 		getModel('rabbit')->giveBirth($post_data['parent_rabbit_id']);
 		redirect('admin/rabbits');
@@ -86,7 +87,6 @@ class RabbitsController extends Controller
 		$product['rabbit_latest_mate_date'] = "";
 		$product['rabbit_latest_pregnant_date'] = "";
 		$product['rabbit_latest_birth_date'] ="";
-		$product['litters_born'] ="";
 		$product['rabbit_latest_weaning_date'] ="";
 		$product['rabbit_latest_culling_date'] ="";
 		$product['parent_id'] = $rabbit_id;
@@ -100,6 +100,55 @@ class RabbitsController extends Controller
 		getModel('rabbit')->wean($rabbit_id);
 		getModel('litter')->wean($rabbit_id);
 		getModel('rabbit')->resetDates($rabbit_id);
+		redirect('admin/rabbits');
+
+	}
+
+	public function cullAction($litter_id)
+	{
+		loadHelper('inputs');
+		$post_data = getPost();
+		$option = getModel('option')->load($post_data['group']);
+		$group_name = $option['value'];
+		$litter = getModel('litter')->load($litter_id);
+		$data = array();	
+		$data['product_type_id'] = 1;
+		$data['attribute_set_id'] = 4;	
+		$data['product_name'] = $group_name.'_Litter_'.$litter_id;
+		$data['product_sku'] = strtolower($group_name).'_litter_'.$litter_id;
+		$data['product_quantity'] = 1;
+		$data['in_stock'] = 1;
+		$data['unit_price'] = 100;
+		$data['status'] = 1;
+		$data['is_variation'] = 0;
+		$data['created_date'] = date('Y-m-d');
+		$data['updated_date'] = date('Y-m-d');
+		$data['product_type'] = "out";
+		$data['daily_use_status'] = 0;
+		$attributes['parent_buck_id'] = $litter['parent_buck_id'];
+		$attributes['parent_doe_id'] = $litter['parent_id'];
+		$attributes['rabbit_gender'] = $post_data['gender'];
+		$attributes['rabbit_family_id'] = $litter['family_id'];
+		$attributes['rabbit_dob'] = $litter['litters_dob'];
+		$attributes['rabbit_latest_culling_date'] = date('Y-m-d');
+		$attributes['rabbit_group'] = $post_data['group'];
+		$attributes['litter_id'] = $litter['litter_group_id'];
+		getModel('litter')->delete($litter_id);
+		$litter_rabbit = getModel('rabbit')->load($post_data['rabbit_id']);
+		$remaining_litters = $litters = getModel('litter')->getCollection($litter_rabbit['parent_id']);
+		if(count($remaining_litters) <= 0)
+		{
+			getModel('product')->delete(array('AND','product_id'=>$post_data['rabbit_id']));
+		}
+
+		$categories = array();
+		array_push($categories,4);
+		$categories['product_id'] =getModel('product')->insert($data);
+
+		$attributes['product_id'] = $categories['product_id'];
+		getModel('product')->insertAttributes($attributes);
+		getModel('product')->insertCategories($categories);
+
 		redirect('admin/rabbits');
 
 	}
