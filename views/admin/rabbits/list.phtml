@@ -26,8 +26,14 @@
 			</div>
 			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
 			</li>
-		<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products to be '):?>
-			<h4>Parents to Be</h4>
+		<?php endif;?>
+		<?php endforeach;?>
+
+		<h4>Parents to be</h4>
+		<?php foreach($rabbits as $rabbit_id):?>
+			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
+			<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products to be '):?>
 			<li>
 			<div class="rabbit">
 			<div class="rabbit_click">
@@ -36,8 +42,14 @@
 			</div>
 			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
 			</li>
-		<?php else:?>
-			<h4>Products to Be</h4>
+		<?php endif;?>
+		<?php endforeach;?>
+
+		<h4>Products to be</h4>
+		<?php foreach($rabbits as $rabbit_id):?>
+			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
+			<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be'):?>
 			<li>
 			<div class="rabbit">
 			<div class="rabbit_click">
