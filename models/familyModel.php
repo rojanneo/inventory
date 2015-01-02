@@ -19,4 +19,43 @@ class FamilyModel extends Model
 		}
 		return $family_array;
 	}
+
+	public function getAvailableFamilies($gender)
+	{
+		$families = $this->getCollection();
+		$available_families = array();
+		foreach($families as $family)
+		{
+			$rabbits = getModel('rabbit')->getFamilyRabbits($family);
+			$male_count = 0;
+			$female_count = 0;
+			foreach($rabbits as $rabbit)
+			{
+				$r = getModel('rabbit')->load($rabbit);
+				if($r['rabbit_gender'] == 'Male' and isset($r['rabbit_group']) and $r['rabbit_group'] == 'Parents')
+				{
+					$male_count++;
+				}
+				elseif($r['rabbit_gender'] = 'Female' and isset($r['rabbit_group']) and  $r['rabbit_group'] == 'Parents')
+				{
+					$female_count++;
+				}
+			}
+			if($gender == 'Male')
+			{
+				if($male_count >=0 and $male_count < 1)
+				{
+					array_push($available_families, $family);
+				}
+			}
+			elseif($gender == 'Female')
+			{
+				if($female_count >=0 and $female_count < 3)
+				{	
+					array_push($available_families, $family);
+				}
+			}
+		}
+		return $available_families;
+	}
 }

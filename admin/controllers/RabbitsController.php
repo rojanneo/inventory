@@ -148,6 +148,21 @@ class RabbitsController extends Controller
 		$attributes['product_id'] = $categories['product_id'];
 		getModel('product')->insertAttributes($attributes);
 		getModel('product')->insertCategories($categories);
+		if($post_data['group'] == 19)
+		{
+			$genealogy_rabbit_data = array();
+			$genealogy_rabbit_data['r_id'] = $categories['product_id'];
+			$genealogy_rabbit_data['type'] = ($post_data['gender'] == '11')?'B':'D';
+			$genealogy_rabbit_data['l_id'] = $litter['litter_group_id'];
+			$genealogy_rabbit_data['f_id'] = 'NULL';
+			$genealogy_rabbit_data['does_id'] = $litter['parent_id'];
+			$genealogy_rabbit_data['buck_id'] = $litter['parent_buck_id'];
+			$genealogy_rabbit_data['last_given_birth'] = 'NULL';
+			$genealogy_rabbit_data['status'] = 0;
+			$genealogy_rabbit_data['rabbit_slug'] = $data['product_sku'];
+
+			getModel('genealogy')->insertRabbit($genealogy_rabbit_data);
+		}
 
 		redirect('admin/rabbits');
 
