@@ -127,7 +127,10 @@ public function rabbitmate($x,$y)
   $xdobsql=$this->connection->Query($xdobsql); 
   $ydobsql='SELECT `DOB` FROM `aa_litter` WHERE `l_id`="'.$yinformation["l_id"].'"';
   $ydobsql=$this->connection->Query($ydobsql);   // var_dump($ydobsql[0]); var_dump($xdobsql[0]); die();
-  if($ydobsql[0]['DOB']!=$xdobsql[0]['DOB']){ return 'Sorry Rabbit arenot Borned at same Date. Its againsts our policy to mate rabbit with different age';  }
+  if(isset($ydobsql[0]) and $xdobsql[0])
+  {
+    if($ydobsql[0]['DOB']!=$xdobsql[0]['DOB']){ return 'Sorry Rabbit arenot Borned at same Date. Its againsts our policy to mate rabbit with different age';  }
+  }
   if(($xDetail['buck_id']==0) && ($xDetail['does_id']==0) || ($yDetail['buck_id']==null) && ($yDetail['does_id']==null)) // If the parent is null then they can mate with anyone
   {
     return 'Yes They Can Mate';

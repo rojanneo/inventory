@@ -23,8 +23,8 @@
 <?php $gender = $rabbit['rabbit_gender'];?>
 <?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
 <?php if($group_diff > 60 and $group_diff < 90):?>
-<?php $available_families = getModel('family')->getAvailableFamilies($gender);?>
-<?php if($gender == 'Male'):?>
+<?php getModel('genealogy')->changeStatus($rabbit_id, 1);?>
+<?php $available_families = getModel('family')->getAvailableFamilies($gender,$rabbit['product_id']);?>
 	<?php if($available_families):?>
 	<form method="post" action="">
 		<select name="family_id">
@@ -32,15 +32,14 @@
 			<option value="<?php echo $av_family?>"><?php echo $av_family;?></option>
 		<?php endforeach;?>
 		</select>
-	<input type="submit" value="Add to Parents"/>
+	<input type="submit" value="Add to Family"/>
 	</form>
 		<a href="#">Add this rabbit to a new family</a>
 	<?php else:?>
 		<a href="#">Add this rabbit to a new family</a>
 	<?php endif;?>
 
-<?php else:?>
-<?php endif;?>
+
 
 <?php endif;?>
 <?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) == 'products to be '):?>
