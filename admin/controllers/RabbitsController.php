@@ -181,5 +181,30 @@ class RabbitsController extends Controller
 		redirect('admin/rabbits');
 	}
 
+	public function addToFamilyAction()
+	{
+		loadHelper('inputs');
+		$post_data = getPost();
+		$newFamily = $post_data['family_id'];
+		$rabbit_id = $post_data['rabbit_id'];
+		$rabbit = getModel('product')->load($rabbit_id);
+		getModel('product')->updateAttribute($rabbit_id,'rabbit_family_id',$newFamily);
+		getModel('product')->updateAttribute($rabbit_id, 'rabbit_group',18);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','F'.$newFamily.'R'.$rabbit_id);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','f'.$newFamily.'_r'.$rabbit_id);
+		redirect('admin/rabbits');
+
+	}
+
+	public function moveToProductsAction($rabbit_id)
+	{
+		$rabbit = getModel('product')->load($rabbit_id);
+		getModel('product')->updateAttribute($rabbit_id,'rabbit_family_id',$newFamily);
+		getModel('product')->updateAttribute($rabbit_id, 'rabbit_group',20);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','Product Rabbit '.$rabbit_id);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','product_r_'.$rabbit_id);
+		redirect('admin/rabbits');		
+	}
+
 
 }

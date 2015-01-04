@@ -1,4 +1,6 @@
 <?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+
+
 <?php $dob = new DateTime($rabbit['rabbit_dob']);?>
 <?php $today = new DateTime(date('Y-m-d'));?>
 <?php if(isset($rabbit['rabbit_latest_mate_date'])):?>
@@ -22,7 +24,7 @@
 <p><?php echo $rabbit['rabbit_latest_culling_date'];?></p>
 <?php $gender = $rabbit['rabbit_gender'];?>
 <?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
-<?php if($group_diff > 60 and $group_diff < 90):?>
+<?php if($group_diff > 90 and $group_diff < 120):?>
 <?php getModel('genealogy')->changeStatus($rabbit_id, 1);?>
 <?php $available_families = getModel('family')->getAvailableFamilies($gender,$rabbit['product_id']);?>
 	<?php if($available_families):?>
@@ -45,7 +47,10 @@
 <?php endif;?>
 <?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) == 'products to be '):?>
 <p>Products To Be</p>
-
+<?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
+<?php if($group_diff > 60 and $group_diff < 90):?>
+<a href="<?php echo ADMIN_URL.'rabbits/moveToProducts/'.$rabbit['product_id']?>">Move this rabbits to product</a>
+<?php endif;?>
 <?php else:?>
 <?php if($rabbit['rabbit_gender'] == 'Female'):?>
 

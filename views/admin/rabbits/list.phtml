@@ -1,11 +1,14 @@
 <div class="rabbits">
 	<?php foreach($families as $family):?>
+		<?php if($family != 0):?>
 		<h3>Family <?php echo $family;?></h3>
+		<?php endif;?>
 		<?php $rabbits = getModel('rabbit')->getFamilyRabbits($family);?>
 		<ul>
 		<form method="post" action="<?php echo ADMIN_URL.'rabbits/performMating'?>" class="form_<?php echo $family;?>">
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php if(strtolower($rabbit['rabbit_group']) != 'products' ):?>
 			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
 			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
 			<?php if(isset($rabbit['rabbit_latest_mate_date'])):?>
@@ -27,11 +30,15 @@
 			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
 			</li>
 		<?php endif;?>
+		<?php endif;?>
 		<?php endforeach;?>
 
+		<?php if($family != 0):?>
 		<h4>Parents to be</h4>
+		<?php endif;?>
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+		<?php if(strtolower($rabbit['rabbit_group']) != 'products' ):?>
 			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
 			<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products to be '):?>
 			<li>
@@ -43,11 +50,15 @@
 			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
 			</li>
 		<?php endif;?>
+		<?php endif;?>
 		<?php endforeach;?>
 
+		<?php if($family != 0):?>
 		<h4>Products to be</h4>
+		<?php endif;?>
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php if(strtolower($rabbit['rabbit_group']) != 'products' ):?>
 			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
 			<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be'):?>
 			<li>
@@ -59,8 +70,11 @@
 			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
 			</li>
 		<?php endif;?>
+		<?php endif;?>
 		<?php endforeach;?>
+		<?php if($family != 0):?>
 			<input type="submit" value="Mate" disabled class="submit"/>
+		<?php endif;?>
 			</form>
 			<script type="text/javascript">
 			$(document).ready(function(){
