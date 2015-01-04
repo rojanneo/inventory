@@ -167,6 +167,19 @@ class RabbitsController extends Controller
 		redirect('admin/rabbits');
 
 	}
+	public function addToNewFamilyAction($rabbit_id)
+	{
+		$max_family = getModel('family')->getCollection();
+		arsort($max_family);
+		$max_family = (array_values($max_family)[0]);
+		$newFamily = $max_family + 1;
+		$rabbit = getModel('product')->load($rabbit_id);
+		getModel('product')->updateAttribute($rabbit_id,'rabbit_family_id',$newFamily);
+		getModel('product')->updateAttribute($rabbit_id, 'rabbit_group',18);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','F'.$newFamily.'R'.$rabbit_id);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','f'.$newFamily.'_r'.$rabbit_id);
+		redirect('admin/rabbits');
+	}
 
 
 }

@@ -26,7 +26,8 @@
 <?php getModel('genealogy')->changeStatus($rabbit_id, 1);?>
 <?php $available_families = getModel('family')->getAvailableFamilies($gender,$rabbit['product_id']);?>
 	<?php if($available_families):?>
-	<form method="post" action="">
+	<form method="post" action="<?php echo ADMIN_URL.'rabbits/addToFamily'?>">
+	<input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']?>"/>
 		<select name="family_id">
 		<?php foreach($available_families as $av_family):?>
 			<option value="<?php echo $av_family?>"><?php echo $av_family;?></option>
@@ -34,9 +35,9 @@
 		</select>
 	<input type="submit" value="Add to Family"/>
 	</form>
-		<a href="#">Add this rabbit to a new family</a>
+		<a href="<?php echo ADMIN_URL.'rabbits/addToNewFamily/'.$rabbit['product_id']?>">Add this rabbit to a new family</a>
 	<?php else:?>
-		<a href="#">Add this rabbit to a new family</a>
+		<a href="<?php echo ADMIN_URL.'rabbits/addToNewFamily/'.$rabbit['product_id']?>">Add this rabbit to a new family</a>
 	<?php endif;?>
 
 
