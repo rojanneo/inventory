@@ -9,7 +9,6 @@ class DailyfeedModel extends Model
 	public function deductDailyFeeds()
 	{
 		$dailyFeeds = getModel('product')->getCollection(array('AND', 'daily_use_status'=>'1'));
-		echo '<pre>';
 		foreach($dailyFeeds as $dailyFeed)
 		{
 			$product_id = $dailyFeed['product_id'];

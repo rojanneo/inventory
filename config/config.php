@@ -1,6 +1,6 @@
 <?php
 if (!defined('URL')) {
-	define('URL', 'http://localhost/inventory/');
+	define('URL', 'http://rojan/inventory/');
 }
 
 if (!defined('ADMIN_URL')) {

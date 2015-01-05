@@ -8,6 +8,45 @@
 		<form method="post" action="<?php echo ADMIN_URL.'rabbits/performMating'?>" class="form_<?php echo $family;?>">
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
+			<!--Parents-->
+				<?php $today = new DateTime(date('Y-m-d'));?>
+				<?php if(isset($rabbit['rabbit_latest_mate_date'])):?>
+				<?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
+				<?php $diff = $today->diff($dob)->format("%a");?>
+				<?php $mate_diff = $today->diff($mate_date)->format("%a");?>
+				<?php endif;?>
+				<?php if(isset($rabbit['rabbit_latest_pregnant_date'])):?>
+				<?php $preg_date = new DateTime($rabbit['rabbit_latest_pregnant_date']);?>
+				<?php $diff = $today->diff($dob)->format("%a");?>
+				<?php $preg_diff = $today->diff($preg_date)->format("%a");?>
+				<?php endif;?>
+				<?php if(isset($rabbit['rabbit_latest_birth_date'])):?>
+				<?php $wean_date = new DateTime($rabbit['rabbit_latest_birth_date']);?>
+				<?php $diff = $today->diff($dob)->format("%a");?>
+				<?php $wean_diff = $today->diff($wean_date)->format("%a");?>
+				<?php endif;?>
+				<?php $status = null;?>
+				
+				<?php if($rabbit['rabbit_gender'] == 'Male'):?>
+					<?php $status = "available_to_mate";?>
+				<?php elseif(!isset($rabbit['rabbit_latest_mate_date'])):?>
+					<?php $status = "available_to_mate";?>
+				<?php elseif(!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date'] or $mate_diff < 12 or $mate_diff > 15):?>
+					<?php $status = "wait_for_pregnancy"?>
+				<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 15)):?>
+					<?php $status = "check_for_pregnancy";?>
+				<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 31)):?>
+					<?php $status = "add_litters";?>
+				<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 31):?>		
+					<?php $status = "wait_for_birth"?>
+				<?php elseif((!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'])and ($wean_diff >= 21 and $wean_diff <= 28)):?>
+					<?php $status = "time_for_weaning"?>
+				<?php elseif(!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21 or $wean_diff > 28):?>
+					<?php $status = "wait_for_weaning"?>
+				<?php endif;?>
+
+
 			<?php if(strtolower($rabbit['rabbit_group']) != 'products' ):?>
 			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
 			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
@@ -18,7 +57,7 @@
 			<?php $mate_diff = $today->diff($mate_date)->format("%a");?>
 			<?php endif;?>
 			<li>
-			<div class="rabbit">
+			<div class="rabbit <?php echo $status?>">
 			<div class="rabbit_click">
 			<p><?php echo $rabbit['product_name'];?></p>
 			<p><?php echo $rabbit['rabbit_gender'];?></p>
