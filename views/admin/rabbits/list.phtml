@@ -30,24 +30,50 @@
 				
 				<?php if($rabbit['rabbit_gender'] == 'Male'):?>
 					<?php $status = "available_to_mate";?>
-				<?php elseif(!isset($rabbit['rabbit_latest_mate_date'])):?>
-					<?php $status = "available_to_mate";?>
-				<?php elseif(!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date'] or $mate_diff < 12 or $mate_diff > 15):?>
-					<?php $status = "wait_for_pregnancy"?>
-				<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 15)):?>
-					<?php $status = "check_for_pregnancy";?>
-				<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 31)):?>
-					<?php $status = "add_litters";?>
-				<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 31):?>		
-					<?php $status = "wait_for_birth"?>
-				<?php elseif((!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'])and ($wean_diff >= 21 and $wean_diff <= 28)):?>
-					<?php $status = "time_for_weaning"?>
-				<?php elseif(!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21 or $wean_diff > 28):?>
-					<?php $status = "wait_for_weaning"?>
+
+				<?php elseif($rabbit['rabbit_gender'] == 'Female'):?>
+					<?php if(!isset($rabbit['rabbit_latest_mate_date'])):?>
+						<?php $status = "available_to_mate";?>
+					<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and $mate_diff < 12 or $mate_diff > 15):?>
+						<?php $status = "wait_for_pregnancy"?>
+					<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 15)):?>
+						<?php $status = "check_for_pregnancy";?>
+					<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 31)):?>
+						<?php $status = "add_litters";?>
+					<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 31):?>		
+						<?php $status = "wait_for_birth"?>
+					<?php elseif((!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'])and ($wean_diff >= 21 and $wean_diff <= 28)):?>
+						<?php $status = "time_for_weaning"?>
+					<?php elseif(!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21 or $wean_diff > 28):?>
+						<?php $status = "wait_for_weaning"?>
+					<?php endif;?>
+
+				<?php else:?>
+					<?php $litters = getModel('litter')->getCollection($rabbit['parent_id']);?>
+					<?php $wean_date = new DateTime($litters[0]['litters_weaning_date']);?>
+					<?php $cull_diff = $today->diff($wean_date)->format("%a");?>
+					<?php if($cull_diff <= 0):?>
+						<?php $status = "wait_for_culling"?>
+					<?php else:?>
+						<?php $status = "time_for_culling"?>
+					<?php endif;?>
 				<?php endif;?>
 
 
-			<?php if(strtolower($rabbit['rabbit_group']) != 'products' ):?>
+			<?php if(!isset($rabbit['rabbit_group'])):?>
+				<li>
+			<div class="rabbit <?php echo $status?>">
+			<div class="rabbit_click">
+			<p><?php echo $rabbit['product_name'];?></p>
+			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			</div>
+			<input type="radio" name="family_<?php echo $rabbit['rabbit_gender']?>"value="<?php echo $rabbit['product_id']?>" onchange="checkToMate(this,<?php echo $family?>)"/>
+			<a href="javascript:void(0)" class="select" onclick="selectRabbit(this,<?php echo $family?>)">Select</a>
+			
+			</div>
+			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
+			</li>
+			<?php elseif(strtolower($rabbit['rabbit_group']) != 'products' ):?>
 			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
 			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
 			<?php if(isset($rabbit['rabbit_latest_mate_date'])):?>
@@ -77,11 +103,17 @@
 		<?php endif;?>
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
-		<?php if(strtolower($rabbit['rabbit_group']) != 'products' ):?>
+		<?php if(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products' ):?>
 			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
 			<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products to be '):?>
+			<?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
+			<?php if($group_diff >= 90 and $group_diff <= 120):?>
+					<?php $status = "time_to_group";?>
+			<?php else:?>
+					<?php $status = "wait_to_group";?>
+			<?php endif;?>	
 			<li>
-			<div class="rabbit">
+			<div class="rabbit <?php echo $status?>">
 			<div class="rabbit_click">
 			<p><?php echo $rabbit['product_name'];?></p>
 			<p><?php echo $rabbit['rabbit_gender'];?></p>
@@ -97,11 +129,17 @@
 		<?php endif;?>
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
-			<?php if(strtolower($rabbit['rabbit_group']) != 'products' ):?>
+			<?php if(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products' ):?>
 			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
 			<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be'):?>
+			<?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
+			<?php if($group_diff >= 60 and $group_diff <= 90):?>
+					<?php $status = "time_to_group";?>
+			<?php else:?>
+					<?php $status = "wait_to_group";?>
+			<?php endif;?>	
 			<li>
-			<div class="rabbit">
+			<div class="rabbit <?php echo $status?>">
 			<div class="rabbit_click">
 			<p><?php echo $rabbit['product_name'];?></p>
 			<p><?php echo $rabbit['rabbit_gender'];?></p>
