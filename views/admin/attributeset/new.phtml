@@ -1,21 +1,29 @@
+<div id="attributeset-edit" class="main-body">
 <form method = "post" action = "<?php echo ADMIN_URL.'attributesets/newpost/'?>">
-	<label>Attribute Set Code</label>
-	<input type="text" name="attribute_set_code"/>
+	<div class="input-box">
+		<label>Attribute Set Code</label>
+		<input type="text" name="attribute_set_code"/>
+	</div>
+	<div class="input-box">
+		<label>Attribute Set Name</label>
+		<input type="text" name="attribute_set_name"/>
+	</div>
+	<div class="input-box">
+		<label>Sort Order</label>
+		<input type="text" name="sort_order"/>
+	</div>
 
-	<label>Attribute Set Name</label>
-	<input type="text" name="attribute_set_name"/>
+	<div class="input-box">
+		<?php if(isset($attributes) and $attributes):?>
+		<select name="attributes[]" multiple>
+			<?php foreach($attributes as $attribute):?>
+			<?php extract($attribute);?>
+				<option value="<?php echo $attribute_id?>"><?php echo $attribute_admin_label?></option>
+			<?php endforeach;?>
+		</select>
+		<?php endif;?>
+	</div>
 
-	<label>Sort Order</label>
-	<input type="text" name="sort_order"/>
-
-	<?php if(isset($attributes) and $attributes):?>
-	<select name="attributes[]" multiple>
-		<?php foreach($attributes as $attribute):?>
-		<?php extract($attribute);?>
-			<option value="<?php echo $attribute_id?>"><?php echo $attribute_admin_label?></option>
-		<?php endforeach;?>
-	</select>
-	<?php endif;?>
-
-	<input type="submit" value="save"/>
+	<input class="save" type="submit" value="save"/>
 </form>
+</div>

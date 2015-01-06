@@ -1,0 +1,128 @@
+/*pre-defined tag*/
+body{
+	color:#555;
+/*	background:#ddd;
+*/}
+ h1{
+	color: #fff ! important;
+	margin: 10px 0 ! important;
+	background: #007d58;
+	padding: 5px 0 5px 20px;
+  clear: both;
+}
+
+header, footer{
+	height:80px;
+	padding:5px 0;
+	background: #007d58;
+	color:#fff;
+}
+
+select{
+  margin-bottom:10px ! important;
+}
+
+label {
+  float: left;
+  margin-right: 35px;
+  min-width: 140px;
+}
+
+form{
+  margin-bottom:10px;
+}
+
+input{
+  margin: 0 50px 10px 0! important;
+}
+
+/*div and classes*/
+
+#logo{
+	padding:20px 0;
+}
+
+#form3 input {
+  margin: 0 0 10px 0 ! important;
+}
+
+.f-nav{  /* To fix main menu container */
+    z-index: 9999;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+#navigation-sticky-wrapper nav#navigation{
+    z-index: 9999;
+    width: 100%;
+}
+
+#main-menu-container {text-align: center;}
+#main-menu-container ul {list-style:none; width: 100%;}
+#main-menu-container ul li{position:relative;}
+#main-menu-container ul ul{display:none;}
+#main-menu-container ul li ul {margin-left: 0; padding: 5px 10px; float: left;}
+#main-menu-container ul li ul li{ padding: 5px 10px}
+#main-menu-container ul li ul li a{color:#000; padding:10px 5px;}
+#main-menu-container ul li:hover ul{display:block; margin:5px 0 0 0;}
+/*#main-menu-container ul li:hover ul li{ float:none; display:inline;}*/
+
+/*Css for tabs*/
+#tabs {
+  margin: 10px 0;
+  border: 1px solid #a24032;
+  padding: 0 10px;
+  border-top: none;
+}
+#tabs ul {
+  clear: both;
+  min-height: 30px;
+}
+
+  #tabs ul li {
+  list-style-type: none;
+  float: left;
+  margin-right: 10px;
+  padding: 5px 10px;
+  background: #007d58;
+}
+
+#tabs ul li a{
+  color:#fff;
+}
+
+#tabs ul li a:active{
+  text-decoration:none;
+  background:#ff0000;
+}
+
+/*css for popup*/
+
+ .black_overlay{
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index:1001;
+        -moz-opacity: 0.8;
+        opacity:.80;
+        filter: alpha(opacity=80);
+    }
+    .white_content {
+        display: none;
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 50%;
+        height: 50%;
+        padding: 16px;
+        border: 10px solid #a24032;
+        background-color: white;
+        z-index:1002;
+        overflow: auto;
+    }

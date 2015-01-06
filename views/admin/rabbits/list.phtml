@@ -8,6 +8,7 @@
 		<form method="post" action="<?php echo ADMIN_URL.'rabbits/performMating'?>" class="form_<?php echo $family;?>">
 		<?php foreach($rabbits as $rabbit_id):?>
 			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php if(!isset($rabbit['is_litter']) or $rabbit['is_litter'] == 'no'):?>
 			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
 			<!--Parents-->
 				<?php $today = new DateTime(date('Y-m-d'));?>
@@ -96,7 +97,10 @@
 			</li>
 		<?php endif;?>
 		<?php endif;?>
+	<?php endif;?>
 		<?php endforeach;?>
+
+
 
 		<?php if($family != 0):?>
 		<h4>Parents to be</h4>
@@ -144,7 +148,7 @@
 			<p><?php echo $rabbit['product_name'];?></p>
 			<p><?php echo $rabbit['rabbit_gender'];?></p>
 			</div>
-			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
+			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit['parent_id']?>" style="display:none">Actions</a>
 			</li>
 		<?php endif;?>
 		<?php endif;?>
@@ -152,7 +156,22 @@
 		<?php if($family != 0):?>
 			<input type="submit" value="Mate" disabled class="submit"/>
 		<?php endif;?>
+<?php foreach($rabbits as $rabbit_id):?>
+				<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+				<?php if(isset($rabbit['is_litter']) and $rabbit['is_litter'] == 'yes'):?>
+					<li>
+					<div class="rabbit">
+					<div class="rabbit_click">
+					<p>Litters</p>
+					</div>
+								<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
+
+					</li>
+					<?php break;?>
+				<?php endif;?>
+			<?php endforeach;?>
 			</form>
+
 			<script type="text/javascript">
 			$(document).ready(function(){
 				$('.ajax').colorbox({width:"50%"});
@@ -181,6 +200,11 @@
 				}
 			}
 			</script>
+
+			
+
+
+
 		</ul>
 	<?php endforeach;?>
 </div>

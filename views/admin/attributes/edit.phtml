@@ -1,57 +1,78 @@
 <?php if(isset($attribute)):?>
 	<?php extract($attribute);?>
+<div id="attributes-edit" class="main-body">
 	<form method="post" action="<?php echo ADMIN_URL.'attributes/editpost'?>">
+	<div class="input-box">
 		<input type="hidden" name="attribute_id" value="<?php echo $attribute_id?>"/>
 		<label>Attribute Code: </label>
 	<input type="text" name="attribute_code" value="<?php echo $attribute_code;?>"/>
+	</div>
 
-	<label>Attribute Default Value: </label>
-	<input type="text" name="attribute_default_value" value="<?php echo $attribute_default_value;?>"/>
+	<div class="input-box">
+		<label>Attribute Default Value: </label>
+		<input type="text" name="attribute_default_value" value="<?php echo $attribute_default_value;?>"/>
+	</div>
 
-	<label>Attribute Type: </label>
-	<select name="attribute_type">
-		<option value="number" <?php echo ($attribute_type == 'number')?'selected':null;?>>Number</option>
-		<option value="text" <?php echo ($attribute_type == 'text')?'selected':null;?>>Text</option>
-		<option value="date" <?php echo ($attribute_type == 'date')?'selected':null;?>>Date</option>
-		<option value="select" <?php echo ($attribute_type == 'select')?'selected':null;?>>Select</option>
-		<option value="multiselect" <?php echo ($attribute_type == 'multiselect')?'selected':null;?>>Multiple Select</option>
-	</select>
+	<div class="input-box">
+		<label>Attribute Type: </label>
+		<select name="attribute_type">
+			<option value="number" <?php echo ($attribute_type == 'number')?'selected':null;?>>Number</option>
+			<option value="text" <?php echo ($attribute_type == 'text')?'selected':null;?>>Text</option>
+			<option value="date" <?php echo ($attribute_type == 'date')?'selected':null;?>>Date</option>
+			<option value="select" <?php echo ($attribute_type == 'select')?'selected':null;?>>Select</option>
+			<option value="multiselect" <?php echo ($attribute_type == 'multiselect')?'selected':null;?>>Multiple Select</option>
+		</select>
+	</div>
 
-	<label>Attribute Requires Editor: </label>
-	<select name="attribute_requires_editor">
-		<option value="0" <?php echo ($attribute_requires_editor == 0)?'selected':null;?>>No</option>
-		<option value="1" <?php echo ($attribute_requires_editor == 1)?'selected':null;?>>Yes</option>
-	</select>
+	<div class="input-box">
+		<label>Attribute Requires Editor: </label>
+		<select name="attribute_requires_editor">
+			<option value="0" <?php echo ($attribute_requires_editor == 0)?'selected':null;?>>No</option>
+			<option value="1" <?php echo ($attribute_requires_editor == 1)?'selected':null;?>>Yes</option>
+		</select>
+	</div>
 
-	<label>Is Hidden: </label>
-	<select name="is_hidden">
-		<option value="0" <?php echo ($is_hidden == 0)?'selected':null;?>>No</option>
-		<option value="1" <?php echo ($is_hidden == 1)?'selected':null;?>>Yes</option>
-	</select>
+	<div class="input-box">
+		<label>Is Hidden: </label>
+		<select name="is_hidden">
+			<option value="0" <?php echo ($is_hidden == 0)?'selected':null;?>>No</option>
+			<option value="1" <?php echo ($is_hidden == 1)?'selected':null;?>>Yes</option>
+		</select>
+	</div>
 
-	<label>Attribute Admin Label: </label>
-	<input type="text" name="attribute_admin_label" value = "<?php echo $attribute_admin_label?>"/>
+	<div class="input-box">
+		<label>Attribute Admin Label: </label>
+		<input type="text" name="attribute_admin_label" value = "<?php echo $attribute_admin_label?>"/>
+	</div>
 
-	<label>Attribute Frontend Label: </label>
-	<input type="text" name="attribute_frontend_label" value="<?php echo $attribute_frontend_label?>"/>
+	<div class="input-box">
+		<label>Attribute Frontend Label: </label>
+		<input type="text" name="attribute_frontend_label" value="<?php echo $attribute_frontend_label?>"/>
+	</div>
 
-	<label>Attribute Unique: </label>
-	<select name="is_unique">
-		<option value="0" <?php echo ($is_unique == 0)?'selected':null;?>>No</option>
-		<option value="1" <?php echo ($is_unique == 1)?'selected':null;?>>Yes</option>
-	</select>
+	<div class="input-box">
+		<label>Attribute Unique: </label>
+		<select name="is_unique">
+			<option value="0" <?php echo ($is_unique == 0)?'selected':null;?>>No</option>
+			<option value="1" <?php echo ($is_unique == 1)?'selected':null;?>>Yes</option>
+		</select>
+	</div>
 
-	<label>Attribute Is Required: </label>
-	<select name="is_required">
-		<option value="0" <?php echo ($is_required == 0)?'selected':null;?>>No</option>
-		<option value="1" <?php echo ($is_required == 1)?'selected':null;?>>Yes</option>
-	</select>
+	<div class="input-box">
+		<label>Attribute Is Required: </label>
+		<select name="is_required">
+			<option value="0" <?php echo ($is_required == 0)?'selected':null;?>>No</option>
+			<option value="1" <?php echo ($is_required == 1)?'selected':null;?>>Yes</option>
+		</select>
+	</div>
 
-	<label>Attribute Is Used For Variation: </label>
-	<select name="is_used_for_variation">
-		<option value="0" <?php echo ($is_used_for_variation == 0)?'selected':null;?>>No</option>
-		<option value="1" <?php echo ($is_used_for_variation == 1)?'selected':null;?>>Yes</option>
-	</select>
+	<div class="input-box">
+		<label>Attribute Is Used For Variation: </label>
+		<select name="is_used_for_variation">
+			<option value="0" <?php echo ($is_used_for_variation == 0)?'selected':null;?>>No</option>
+			<option value="1" <?php echo ($is_used_for_variation == 1)?'selected':null;?>>Yes</option>
+		</select>
+	</div>
 	<?php if($attribute_type == 'select' or $attribute_type == 'multiselect'):?>
 		<?php $options = getModel('attribute')->getOptions($attribute_id);?>
 		<?php if($options):?>
@@ -70,8 +91,9 @@
 		<?php endif;?>
 	<?php endif;?>
 
-	<input type="submit" value="save"/>
+	<input class="save" type="submit" value="save"/>
 	</form>
+</div>
 <?php else:?>
 	<h3>Invalid Attribute</h3>
 <?php endif;?>

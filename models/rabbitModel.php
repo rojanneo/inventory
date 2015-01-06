@@ -83,4 +83,12 @@ class RabbitModel extends Model
 		getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_birth_date');
 		getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_weaning_date');
 	}
+
+	public function getMaxID()
+	{
+		$sql = "select MAX(product_id) from products_inventory";
+		$max = $this->connection->Query($sql);
+		if($max)return $max[0]["MAX(product_id)"];
+		else return false;
+	}
 }

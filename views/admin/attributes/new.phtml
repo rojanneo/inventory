@@ -1,56 +1,77 @@
+
+<div id="attributes-add" class="main-body">
 <h1>Add New Attribute</h1>
-
 <form method="post" action="<?php echo ADMIN_URL.'attributes/newpost/'?>">
-	<label>Attribute Code: </label>
-	<input type="text" name="attribute_code"/>
+	<div class="input-box">
+		<label>Attribute Code: </label>
+		<input type="text" name="attribute_code"/>
+	</div>
 
-	<label>Attribute Default Value: </label>
-	<input type="text" name="attribute_default_value"/>
+	<div class="input-box">
+		<label>Attribute Default Value: </label>
+		<input type="text" name="attribute_default_value"/>
+	</div>
 
-	<label>Attribute Type: </label>
-	<select name="attribute_type">
-		<option value="number">Number</option>
-		<option value="text">Text</option>
-		<option value="date">Date</option>
-		<option value="select">Select</option>
-		<option value="multiselect">Multiple Select</option>
-	</select>
+	<div class="input-box">
+		<label>Attribute Type: </label>
+		<select name="attribute_type">
+			<option value="number">Number</option>
+			<option value="text">Text</option>
+			<option value="date">Date</option>
+			<option value="select">Select</option>
+			<option value="multiselect">Multiple Select</option>
+		</select>
+	</div>
+	<div class="input-box">
+		<label>Attribute Requires Editor: </label>
+		<select name="attribute_requires_editor">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</select>
+	</div>
 
-	<label>Attribute Requires Editor: </label>
-	<select name="attribute_requires_editor">
-		<option value="0">No</option>
-		<option value="1">Yes</option>
-	</select>
+	<div class="input-box">
+		<label>Is Hidden: </label>
+		<select name="is_hidden">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</select>
+	</div>
 
-	<label>Is Hidden: </label>
-	<select name="is_hidden">
-		<option value="0">No</option>
-		<option value="1">Yes</option>
-	</select>
+	<div class="input-box">
+		<label>Attribute Admin Label: </label>
+		<input type="text" name="attribute_admin_label"/>
+	</div>
 
-	<label>Attribute Admin Label: </label>
-	<input type="text" name="attribute_admin_label"/>
+	<div class="input-box">
+		<label>Attribute Frontend Label: </label>
+		<input type="text" name="attribute_frontend_label"/>
+	</div>
 
-	<label>Attribute Frontend Label: </label>
-	<input type="text" name="attribute_frontend_label"/>
+	<div class="input-box">
+		<label>Attribute Unique: </label>
+		<select name="is_unique">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</select>
+	</div>
 
-	<label>Attribute Unique: </label>
-	<select name="is_unique">
-		<option value="0">No</option>
-		<option value="1">Yes</option>
-	</select>
+	<div class="input-box">
+		<label>Attribute Is Required: </label>
+		<select name="is_required">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</select>
+	</div>
 
-	<label>Attribute Is Required: </label>
-	<select name="is_required">
-		<option value="0">No</option>
-		<option value="1">Yes</option>
-	</select>
 
-	<label>Attribute Is Used For Variation: </label>
-	<select name="is_used_for_variation">
-		<option value="0">No</option>
-		<option value="1">Yes</option>
-	</select>
+	<div class="input-box">
+		<label>Attribute Is Used For Variation: </label>
+		<select name="is_used_for_variation">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</select>
+	</div>
 
 	<div class="value_form" style="display:none">
 		<h2>Add values</h2>
@@ -61,11 +82,9 @@
 		</div>
 		<input type="button" value="Add Value" onclick="addValue(this)"/>
 	</div>
-
 	<input type="submit" value="Save"/>
-
 </form>
-
+</div>
 <script type="text/javascript">
 $(document).ready(function(){
 	$('select[name=attribute_type]').change(function(){

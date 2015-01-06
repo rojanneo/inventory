@@ -45,10 +45,10 @@ class LitterModel extends Model
 		return $litters;
 	}
 
-	public function wean($rabbit_id)
+	public function wean($rabbit_id,$product_id)
 	{
 		$today = date('Y-m-d');
-		$sql = "UPDATE rabbit_litters SET litters_weaning_date = '".$today."' WHERE parent_id = $rabbit_id";
+		$sql = "UPDATE rabbit_litters SET litters_weaning_date = '".$today."', rabbit_id = '".$product_id."' WHERE litter_id = $rabbit_id";
 		$this->connection->UpdateQuery($sql);
 		return true;
 	}
@@ -61,10 +61,26 @@ class LitterModel extends Model
 		else $litter;
 	}
 
+	public function loadByRabbitId($rabbit_id)
+	{
+		$sql = "SELECT * FROM rabbit_litters WHERE rabbit_id = ".$rabbit_id." Limit 1";
+		$litter = $this->connection->Query($sql);
+		if($litter) return $litter[0];
+		else $litter;
+	}
+
 	public function delete($litter_id)
 	{
 		$sql = "DELETE FROM rabbit_litters WHERE litter_id = ".$litter_id;
 		$this->connection->DeleteQuery($sql);
 		return true;
+	}
+
+	public function getSameParentRabbits($doe,$buck)
+	{
+		$sql = "SELECT rabbit_id FROM rabbit_litters WHERE parent_id IN( SELECT parent_id FROM rabbit_litters WHERE parent_id = '".$doe."' HAVING COUNT(litter_id)>0) AND parent_buck_id IN
+		( SELECT parent_buck_id FROM rabbit_litters WHERE parent_buck_id = '".$buck."' HAVING COUNT(litter_id) > 0)";
+		$rabbits = $this->connection->Query($sql);
+		if($rabbits) return $rabbits; else return false;
 	}
 }
