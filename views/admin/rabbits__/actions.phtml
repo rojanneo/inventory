@@ -18,14 +18,15 @@
 <?php $wean_diff = $today->diff($wean_date)->format("%a");?>
 <?php endif;?>
 
-<?php if((isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) == 'parents to be') and (!isset($rabbit['is_litter']) or strtolower($rabbit['is_litter']) == 'no')):?>
+
+<?php if((isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) == 'parents to be') and (!isset($rabbit['is_litter']) or $rabbit['is_litter'] == 'no')):?>
+
 <p>Parents To Be</p>
 <p><?php echo $rabbit['rabbit_latest_culling_date'];?></p>
 <?php $gender = $rabbit['rabbit_gender'];?>
 <?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
 <?php if($group_diff >= 90 and $group_diff <= 120):?>
 <?php getModel('genealogy')->changeStatus($rabbit_id, 1);?>
-
 <?php $available_families = getModel('family')->getAvailableFamilies($gender,$rabbit['product_id']);?>
 	<?php if($available_families):?>
 	<form method="post" action="<?php echo ADMIN_URL.'rabbits/addToFamily'?>">
@@ -45,7 +46,7 @@
 
 
 <?php endif;?>
-<?php elseif((isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) == 'products to be ') and (!isset($rabbit['is_litter']) or strtolower($rabbit['is_litter']) == 'no')):?>
+<?php elseif((isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) == 'products to be ') and (!isset($rabbit['is_litter']) or $rabbit['is_litter'] == 'no')):?>
 <p>Products To Be</p>
 <?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
 <?php if($group_diff >= 60 and $group_diff <=90):?>
@@ -53,7 +54,7 @@
 <?php endif;?>
 <?php else:?>
 <?php if($rabbit['rabbit_gender'] == 'Female'):?>
-<?php if(!isset($rabbit['is_litter']) or strtolower($rabbit['is_litter']) == 'no'):?>
+<?php if(!isset($rabbit['is_litter']) or $rabbit['is_litter'] == 'no'):?>
 <?php if(!isset($rabbit['rabbit_latest_mate_date'])):?>
 	<p>Available For Mating</p>
 <?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 15)):?>
@@ -152,7 +153,7 @@
 	<?php endif;?>
 <?php endif;?>
 <?php elseif($rabbit['rabbit_gender'] == 'Male'):?>
-	<?php if(!isset($rabbit['is_litter']) or strtolower($rabbit['is_litter']) == 'no'):?>
+	<?php if(!isset($rabbit['is_litter']) or $rabbit['is_litter'] == 'no'):?>
 	<?php if(!isset($rabbit['rabbit_latest_mate_date']) or !$rabbit['rabbit_latest_mate_date']):?>
 		<p>Available for Mating</p>
 	<?php else:?>

@@ -91,12 +91,4 @@ class RabbitModel extends Model
 		if($max)return $max[0]["MAX(product_id)"];
 		else return false;
 	}
-
-	public function getCollection()
-	{
-		$sql = "SELECT * FROM products_inventory WHERE attribute_set_id = 4";
-		$rabbits = $this->connection->Query($sql);
-		if($rabbits) return $rabbits;
-		else return false;	
-	}
 }

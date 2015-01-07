@@ -1,0 +1,210 @@
+<div class="rabbits">
+	<?php foreach($families as $family):?>
+		<?php if($family != 0):?>
+		<h3>Family <?php echo $family;?></h3>
+		<?php endif;?>
+		<?php $rabbits = getModel('rabbit')->getFamilyRabbits($family);?>
+		<ul>
+		<form method="post" action="<?php echo ADMIN_URL.'rabbits/performMating'?>" class="form_<?php echo $family;?>">
+		<?php foreach($rabbits as $rabbit_id):?>
+			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php if(!isset($rabbit['is_litter']) or $rabbit['is_litter'] == 'no'):?>
+			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
+			<!--Parents-->
+				<?php $today = new DateTime(date('Y-m-d'));?>
+				<?php if(isset($rabbit['rabbit_latest_mate_date'])):?>
+				<?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
+				<?php $diff = $today->diff($dob)->format("%a");?>
+				<?php $mate_diff = $today->diff($mate_date)->format("%a");?>
+				<?php endif;?>
+				<?php if(isset($rabbit['rabbit_latest_pregnant_date'])):?>
+				<?php $preg_date = new DateTime($rabbit['rabbit_latest_pregnant_date']);?>
+				<?php $diff = $today->diff($dob)->format("%a");?>
+				<?php $preg_diff = $today->diff($preg_date)->format("%a");?>
+				<?php endif;?>
+				<?php if(isset($rabbit['rabbit_latest_birth_date'])):?>
+				<?php $wean_date = new DateTime($rabbit['rabbit_latest_birth_date']);?>
+				<?php $diff = $today->diff($dob)->format("%a");?>
+				<?php $wean_diff = $today->diff($wean_date)->format("%a");?>
+				<?php endif;?>
+				<?php $status = null;?>
+				
+				<?php if($rabbit['rabbit_gender'] == 'Male'):?>
+					<?php $status = "available_to_mate";?>
+
+				<?php elseif($rabbit['rabbit_gender'] == 'Female'):?>
+					<?php if(!isset($rabbit['rabbit_latest_mate_date'])):?>
+						<?php $status = "available_to_mate";?>
+					<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and $mate_diff < 12 or $mate_diff > 15):?>
+						<?php $status = "wait_for_pregnancy"?>
+					<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 15)):?>
+						<?php $status = "check_for_pregnancy";?>
+					<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 31)):?>
+						<?php $status = "add_litters";?>
+					<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 31):?>		
+						<?php $status = "wait_for_birth"?>
+					<?php elseif((!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'])and ($wean_diff >= 21 and $wean_diff <= 28)):?>
+						<?php $status = "time_for_weaning"?>
+					<?php elseif(!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21 or $wean_diff > 28):?>
+						<?php $status = "wait_for_weaning"?>
+					<?php endif;?>
+
+				<?php else:?>
+					<?php $litters = getModel('litter')->getCollection($rabbit['parent_id']);?>
+					<?php $wean_date = new DateTime($litters[0]['litters_weaning_date']);?>
+					<?php $cull_diff = $today->diff($wean_date)->format("%a");?>
+					<?php if($cull_diff <= 0):?>
+						<?php $status = "wait_for_culling"?>
+					<?php else:?>
+						<?php $status = "time_for_culling"?>
+					<?php endif;?>
+				<?php endif;?>
+
+
+			<?php if(!isset($rabbit['rabbit_group'])):?>
+				<li>
+			<div class="rabbit <?php echo $status?>">
+			<div class="rabbit_click">
+			<p><?php echo $rabbit['product_name'];?></p>
+			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			</div>
+			<input type="radio" name="family_<?php echo $rabbit['rabbit_gender']?>"value="<?php echo $rabbit['product_id']?>" onchange="checkToMate(this,<?php echo $family?>)"/>
+			<a href="javascript:void(0)" class="select" onclick="selectRabbit(this,<?php echo $family?>)">Select</a>
+			
+			</div>
+			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
+			</li>
+			<?php elseif(strtolower($rabbit['rabbit_group']) != 'products' ):?>
+			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
+			<?php $dob = new DateTime($rabbit['rabbit_dob']);?>
+			<?php if(isset($rabbit['rabbit_latest_mate_date'])):?>
+			<?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
+			<?php $today = new DateTime(date('Y-m-d'));?>
+			<?php $diff = $today->diff($dob)->format("%a");?>
+			<?php $mate_diff = $today->diff($mate_date)->format("%a");?>
+			<?php endif;?>
+			<li>
+			<div class="rabbit <?php echo $status?>">
+			<div class="rabbit_click">
+			<p><?php echo $rabbit['product_name'];?></p>
+			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			</div>
+			<input type="radio" name="family_<?php echo $rabbit['rabbit_gender']?>"value="<?php echo $rabbit['product_id']?>" onchange="checkToMate(this,<?php echo $family?>)"/>
+			<a href="javascript:void(0)" class="select" onclick="selectRabbit(this,<?php echo $family?>)">Select</a>
+			
+			</div>
+			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
+			</li>
+		<?php endif;?>
+		<?php endif;?>
+	<?php endif;?>
+		<?php endforeach;?>
+
+
+
+		<?php if($family != 0):?>
+		<h4>Parents to be</h4>
+		<?php endif;?>
+		<?php foreach($rabbits as $rabbit_id):?>
+			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+		<?php if(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products' ):?>
+			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
+			<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products to be '):?>
+			<?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
+			<?php if($group_diff >= 90 and $group_diff <= 120):?>
+					<?php $status = "time_to_group";?>
+			<?php else:?>
+					<?php $status = "wait_to_group";?>
+			<?php endif;?>	
+			<li>
+			<div class="rabbit <?php echo $status?>">
+			<div class="rabbit_click">
+			<p><?php echo $rabbit['product_name'];?></p>
+			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			</div>
+			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
+			</li>
+		<?php endif;?>
+		<?php endif;?>
+		<?php endforeach;?>
+
+		<?php if($family != 0):?>
+		<h4>Products to be</h4>
+		<?php endif;?>
+		<?php foreach($rabbits as $rabbit_id):?>
+			<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+			<?php if(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'products' ):?>
+			<?php if(($rabbit['rabbit_gender'] == 'Litter') or (isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be' and strtolower($rabbit['rabbit_group']) != 'products to be ')):?>
+			<?php elseif(isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) != 'parents to be'):?>
+			<?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
+			<?php if($group_diff >= 60 and $group_diff <= 90):?>
+					<?php $status = "time_to_group";?>
+			<?php else:?>
+					<?php $status = "wait_to_group";?>
+			<?php endif;?>	
+			<li>
+			<div class="rabbit <?php echo $status?>">
+			<div class="rabbit_click">
+			<p><?php echo $rabbit['product_name'];?></p>
+			<p><?php echo $rabbit['rabbit_gender'];?></p>
+			</div>
+			<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit['parent_id']?>" style="display:none">Actions</a>
+			</li>
+		<?php endif;?>
+		<?php endif;?>
+		<?php endforeach;?>
+		<?php if($family != 0):?>
+			<input type="submit" value="Mate" disabled class="submit"/>
+		<?php endif;?>
+<?php foreach($rabbits as $rabbit_id):?>
+				<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
+				<?php if(isset($rabbit['is_litter']) and $rabbit['is_litter'] == 'yes'):?>
+					<li>
+					<div class="rabbit">
+					<div class="rabbit_click">
+					<p>Litters</p>
+					</div>
+								<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
+
+					</li>
+					<?php break;?>
+				<?php endif;?>
+			<?php endforeach;?>
+			</form>
+
+			<script type="text/javascript">
+			$(document).ready(function(){
+				$('.ajax').colorbox({width:"50%"});
+				$('.rabbit_click').click(function(){
+					$(this).parent().parent().find('a.ajax').trigger("click");
+				});
+			});
+			function checkToMate(radio, family_id)
+			{
+				var parent = $(radio).parent().parent().parent();
+				if($(parent).find('input[name=family_Male]').is(':checked') && $(parent).find('input[name=family_Female]').is(':checked'))	
+				{
+					$(parent).find('input.submit').removeAttr('disabled');
+				}
+			}
+
+			function selectRabbit(link,family_id)
+			{
+				var parent = $(link).parent().find('input[type=radio]');
+				if($(parent).attr('checked') == true)
+					$(parent).attr('checked',false);
+				else
+				{
+					$(parent).prop('checked',true);
+					checkToMate(parent, family_id);
+				}
+			}
+			</script>
+
+			
+
+
+
+		</ul>
+	<?php endforeach;?>
+</div>

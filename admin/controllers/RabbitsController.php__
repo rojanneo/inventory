@@ -178,7 +178,7 @@ class RabbitsController extends Controller
 
 			$genealogy_rabbit_data = array();
 			$genealogy_rabbit_data['r_id'] = $post_data['rabbit_id'];
-			$genealogy_rabbit_data['type'] = ($rabbit['rabbit_gender'] == 'Male')?'B':'D';
+			$genealogy_rabbit_data['type'] = ($rabbit['gender'] == 'Male')?'B':'D';
 			$genealogy_rabbit_data['l_id'] = $litter['litter_group_id'];
 			$genealogy_rabbit_data['f_id'] = 'NULL';
 			$genealogy_rabbit_data['does_id'] = $litter['parent_id'];
@@ -201,8 +201,8 @@ class RabbitsController extends Controller
 		$rabbit = getModel('product')->load($rabbit_id);
 		getModel('product')->updateAttribute($rabbit_id,'rabbit_family_id',$newFamily);
 		getModel('product')->updateAttribute($rabbit_id, 'rabbit_group',18);
-		// getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','F'.$newFamily.'R'.$rabbit_id);
-		// getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','f'.$newFamily.'_r'.$rabbit_id);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','F'.$newFamily.'R'.$rabbit_id);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','f'.$newFamily.'_r'.$rabbit_id);
 		redirect('admin/rabbits');
 	}
 
@@ -215,8 +215,8 @@ class RabbitsController extends Controller
 		$rabbit = getModel('product')->load($rabbit_id);
 		getModel('product')->updateAttribute($rabbit_id,'rabbit_family_id',$newFamily);
 		getModel('product')->updateAttribute($rabbit_id, 'rabbit_group',18);
-		// getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','F'.$newFamily.'R'.$rabbit_id);
-		// getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','f'.$newFamily.'_r'.$rabbit_id);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','F'.$newFamily.'R'.$rabbit_id);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','f'.$newFamily.'_r'.$rabbit_id);
 		redirect('admin/rabbits');
 
 	}
@@ -226,8 +226,8 @@ class RabbitsController extends Controller
 		$rabbit = getModel('product')->load($rabbit_id);
 		getModel('product')->updateAttribute($rabbit_id,'rabbit_family_id',$newFamily);
 		getModel('product')->updateAttribute($rabbit_id, 'rabbit_group',20);
-		// getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','Product Rabbit '.$rabbit_id);
-		// getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','product_r_'.$rabbit_id);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','Product Rabbit '.$rabbit_id);
+		getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','product_r_'.$rabbit_id);
 		redirect('admin/rabbits');		
 	}
 
