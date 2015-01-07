@@ -1,0 +1,10 @@
+<?php loadHelper('url'); ?><form action="<?php echo ADMIN_URL; ?>rabbits/deathprocess" method="post">
+<fieldset>
+<?php if(isset($litter_id)) { ?>
+<input type="hidden" name="litter_id" value="<?php echo $litter_id; ?>"/>
+<?php } else {?>
+<input type="hidden" name="rabbit_id" value="<?php echo $rabbit_id; ?>"/> <?php } ?>
+<textarea name="death_reason"cols="30" rows="4"></textarea>Reason for Death:
+</fieldset>
+<input type="submit" value="Submit">
+</form>

@@ -58,6 +58,64 @@ class RabbitsController extends Controller
 		redirect('admin/rabbits');
 	}
 
+	public function individualweanAction($rabbit_id)
+	{
+		loadHelper('inputs');
+		$litter_id = getPost('litter_id');
+		$litter = getModel('litter')->load($litter_id);
+		$gender = getPost('gender');
+		$parent = getModel('rabbit')->load($rabbit_id);
+
+		$litters = getModel('litter')->getCollection($rabbit_id);
+		$litter_count = getPost('litters_count');
+		$max = (getModel('rabbit')->getMaxID()) + 1;
+		$product_id = null;
+		$data['product_type_id'] = 1;
+		$data['attribute_set_id'] = 4;
+		$data['product_name'] = 'RB_'.$max;
+		$data['product_sku'] = 'rb_'.$max;
+
+		$data['daily_use_status'] = 0;
+		$data['daily_use_quantity'] = 0;
+		$data['product_quantity'] = 1;
+		$data['in_stock'] = 1;
+		$data['unit_price'] = 100;
+		$data['status'] = 1;
+		$data['is_variation'] = 0;
+		$data['sort_order'] = 0;
+		$data['created_date'] = date('Y-m-d');
+		$data['updated_date'] = date('Y-m-d');
+		$data['product_type'] = 'out';
+		$product_id = getModel('product')->insert($data);
+		$product['product_id']= $product_id;
+		$product['rabbit_family_id'] = $parent['rabbit_family_id'];
+		$product['rabbit_gender'] = $gender;
+
+		$product['is_litter'] = 23;
+		$product['rabbit_dob'] = $litter['litters_dob'];
+		$product['rabbit_latest_mate_date'] = "";
+		$product['rabbit_latest_pregnant_date'] = "";
+		$product['rabbit_latest_birth_date'] ="";
+		$product['rabbit_latest_weaning_date'] =date('Y-m-d');
+		$product['rabbit_latest_culling_date'] ="";
+		$product['litter_id'] = $litter['litter_group_id'];
+		$product['parent_doe_id'] = $rabbit_id;
+		$product['parent_buck_id'] = $litter['parent_buck_id'];
+
+		getModel('product')->insertAttributes($product);
+		$category['product_id'] = $product_id;
+		$category['category_id'] = '4';
+		getModel('product')->insertCategories($category);
+		getModel('litter')->wean($litter_id,$product_id);		if($litter_count <= 1)
+		{
+			getModel('rabbit')->wean($rabbit_id);
+			getModel('rabbit')->resetDates($rabbit_id);
+		}
+		redirect('admin/rabbits');
+
+
+	}
+
 	public function weanAction($rabbit_id)
 	{
 		loadHelper('inputs');
@@ -229,6 +287,31 @@ class RabbitsController extends Controller
 		// getModel('product')->updateDefaultAttribute($rabbit_id, 'product_name','Product Rabbit '.$rabbit_id);
 		// getModel('product')->updateDefaultAttribute($rabbit_id, 'product_sku','product_r_'.$rabbit_id);
 		redirect('admin/rabbits');		
+	}
+
+	public function deathActionsAction($rabbit_id) // Ajax request to a page
+	{
+		$data['rabbit_id'] = $rabbit_id;
+		$this->view->renderAdmin('rabbits/death.phtml',$data,false,false,false);
+	}
+	public function deathlitterActionsAction($litter_id) // Ajax request to a page
+	{
+		$data['litter_id'] = $litter_id;
+		$this->view->renderAdmin('rabbits/death.phtml',$data,false,false,false);
+	}
+
+	public function deathprocessAction() // Death process
+	{
+		loadHelper('inputs');
+		$post_data = getPost(); 
+		if($post_data)
+		{
+			$do=getModel('rabbit')->deathentry($post_data);
+			if($do)
+			{
+				redirect('admin/rabbits');
+			}
+		}
 	}
 
 

@@ -39,7 +39,10 @@ class LitterModel extends Model
 
 	public function getCollection($parent_id)
 	{
-		$sql = "SELECT * FROM rabbit_litters WHERE parent_id = $parent_id";
+		$sql = "SELECT * FROM rabbit_litters r1 WHERE parent_id = $parent_id AND NOT EXISTS(SELECT * 
+                  FROM   aa_death r2
+                  WHERE  r1.litter_id = r2.lid 
+                 )";
 		
 		$litters = $this->connection->Query($sql);
 		return $litters;
@@ -81,6 +84,14 @@ class LitterModel extends Model
 		$sql = "SELECT rabbit_id FROM rabbit_litters WHERE parent_id IN( SELECT parent_id FROM rabbit_litters WHERE parent_id = '".$doe."' HAVING COUNT(litter_id)>0) AND parent_buck_id IN
 		( SELECT parent_buck_id FROM rabbit_litters WHERE parent_buck_id = '".$buck."' HAVING COUNT(litter_id) > 0)";
 		$rabbits = $this->connection->Query($sql);
-		if($rabbits) return $rabbits; else return false;
+		$rs = array();
+		foreach($rabbits as $rabbit)
+		{
+			if(!is_null($rabbit['rabbit_id']))
+			{
+				array_push($rs, $rabbit);
+			}
+		}
+		if($rs) return $rs; else return false;
 	}
 }

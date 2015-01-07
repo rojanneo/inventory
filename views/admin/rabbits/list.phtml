@@ -19,9 +19,9 @@
 <?php endforeach;?>
 
 
-<ul>
 <form method="post" action="<?php echo ADMIN_URL.'rabbits/performMating'?>">
 <?php foreach($parents_array as $family => $rabbits):?>
+<ul>
 	<h3><?php echo 'Family '.$family;?></h3>
 	<?php foreach($rabbits as $rabbit_id):?>
 	<?php $rabbit = getModel('rabbit')->load($rabbit_id);?>
@@ -139,10 +139,10 @@
 	</li>
 	<?php endforeach;?>
 	<?php endif;?>
-
+</ul>
 <?php endforeach;?>
 </form>
-</ul>
+
 
 
 
@@ -150,7 +150,7 @@
 
 <script type="text/javascript">
 			$(document).ready(function(){
-				$('.ajax').colorbox({width:"50%"});
+				$('.ajax').colorbox({width:"50%", top:"35%",height:"auto"});
 				$('.rabbit_click').click(function(){
 					$(this).parent().parent().find('a.ajax').trigger("click");
 				});

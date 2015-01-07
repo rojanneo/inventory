@@ -94,9 +94,33 @@ class RabbitModel extends Model
 
 	public function getCollection()
 	{
-		$sql = "SELECT * FROM products_inventory WHERE attribute_set_id = 4";
+		$sql = "SELECT * FROM products_inventory r1 WHERE attribute_set_id = 4 AND NOT EXISTS(SELECT * 
+                  FROM   aa_death r2
+                  WHERE  r1.product_id = r2.rid 
+                 )";
 		$rabbits = $this->connection->Query($sql);
 		if($rabbits) return $rabbits;
 		else return false;	
+	}
+
+	public function deathentry($post_data) // For Death entry with update in rabbit genology
+	{
+		extract($post_data);
+		if(isset($rabbit_id)){
+		$sql='INSERT INTO `aa_death`(`rid`, `death_reason`) VALUES ('.$rabbit_id.',"'.$death_reason.'")'; 		
+		}
+		if(isset($litter_id))
+		{
+			$sql='INSERT INTO `aa_death`(`lid`, `death_reason`) VALUES ('.$litter_id.',"'.$death_reason.'")'; 		
+		}
+		$insertsql=$this->connection->InsertQuery($sql);
+		if($insertsql && isset($rabbit_id))
+		{
+			$delete="DELETE FROM `aa_rabbits` WHERE `r_id`=$rabbit_id";
+			$this->connection->DeleteQuery($delete);
+			return true;
+		}
+		if($insertsql && isset($litter_id)){ return true;}
+		else return false;		
 	}
 }

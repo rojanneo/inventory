@@ -1,3 +1,3 @@
 		 $(window).load(function(){
-      $("#navigation").sticky();
+      $("#top-wrap").sticky();
     });
