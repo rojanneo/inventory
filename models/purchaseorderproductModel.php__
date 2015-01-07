@@ -14,17 +14,13 @@ class PurchaseorderproductModel extends Model
 			extract($data);
 			$sql = "INSERT INTO `".$this->tableName."`(
 				`purchase_order_id`, 
-				`product_id`,
-				`product_name`,
-				`product_sku`, 
+				`product_id`, 
 				`unit_price`, 
 				`quantity`, 
 				`total_price`) 
 				VALUES (
 				'".mysql_escape_string($purchase_order_id)."',
 				'".mysql_escape_string($product_id)."',
-				'".mysql_escape_string($product_name)."',
-				'".mysql_escape_string($product_sku)."',
 				'".mysql_escape_string($unit_price)."',
 				'".mysql_escape_string($quantity)."',
 				'".mysql_escape_string($total_price)."')";

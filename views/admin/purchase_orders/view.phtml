@@ -1,0 +1,30 @@
+<?php if(isset($purchase_order)):?>
+	<div class="purchase_order">
+		<p>Purchase Order ID: <?php echo $purchase_order[0]['purchase_order_id'];?></p>
+		<p>Purchase Order Date: <?php echo $purchase_order[0]['purchase_order_date'];?></p>
+		<h3>Products</h3>
+		<table border="1" style="margin:10px 0;">
+			<thead style="background: #ddd; font-color: #fff;">
+				<th>Product Name</th>
+				<th>Product SKU</th>
+				<th>Quantity Bought</th>
+				<th>Unit Price</th>
+				<th>Total Price</th> 			
+			</thead>
+			<tbody>
+			<?php $price = 0;?>
+			<?php foreach($purchase_order as $po):?>
+				<?php $price += $po['total_price'];?>
+				<tr>
+					<td><?php echo $po['product_name'];?></td>
+					<td><?php echo $po['product_sku'];?></td>
+					<td><?php echo $po['quantity'];?></td>
+					<td><?php echo $po['unit_price'];?></td>
+					<td><?php echo $po['total_price'];?></td>
+				</tr>
+			<?php endforeach;?>
+			</tbody>
+		</table>
+		<h3>Total Price: <?php echo $price;?></h3>
+	</div>
+<?php endif;?>
