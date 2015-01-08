@@ -1,0 +1,29 @@
+<?php //addJS('jquery.ui.js');?>
+
+<div id="add-product" class="main-body">
+<div id="tabs">
+	<ul>
+		<li>Today Stock Detail</li>
+	</ul>	
+<?php if(isset($error)){ echo $error; } ?>
+	<form class="tabContainer" id="general" method="post" action="<?php echo ADMIN_URL.'stock/addpost'?>">
+	<div id="General">
+		<?php foreach($products as $product):?>
+			<div class="input-box">
+			<label><?php echo $product['product_name']?></label> <?php //var_dump($stockfrtoday[$product['product_id']]); ?>
+			<?php  $val=getModel('stock')->searchforstock($product['product_id'],'product_id','quantity',date("Y-m-d"));  ?>
+			 <input type="text" name="<?php echo $product['product_id']?>" <?php if($val){?> value="<?php echo $val['quantity']; ?>"
+			 <?php } ?>/>
+		    </div>
+		<?php endforeach;?>		
+		
+		<div class="input-box">
+			<label>date</label>
+			<input type="date" name="date" value="<?php echo date("Y-m-d"); ?>" readonly/>
+		</div>
+			
+	</div>	
+	<input class="save" type="submit" value="Save"/>
+	</form>
+</div>
+</div><!--End edit-->

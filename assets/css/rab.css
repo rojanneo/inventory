@@ -133,11 +133,16 @@ min-width: 295px;
 }
 
 #edit h3, .main-body h3 {
-  color: #a24032;
+  color: #fff;
   text-shadow: 1px 1px 3px #000;
   font-weight: 700;
   margin: 0 10px 15px 0;
-  padding-left: 10px;
+  padding: 5px 20px;
+  background: linear-gradient(to top, #007d58, #a24032);
+  width: 16%;
+  line-height: 25px;
+  box-shadow: 2px 1px 1px 1px #333;
+  font-size: 20px;
 }
 
 
@@ -182,6 +187,16 @@ min-width: 295px;
 
 /*css for popup*/
 
+#cboxOverlay{
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+  position: absolute;
+  top: 0px;
+  display: none;
+  background-color: black;
+}
+
  .black_overlay{
         display: none;
         position: absolute;
@@ -213,23 +228,50 @@ min-width: 295px;
   margin: 0 0 10px 89px !important;
 }
 
+.rabbits{
+  margin: 10px 0 15px 0;
+  overflow:hidden;
+}
+
+.rabbits p{
+  color:#111;
+  font-weight:600;
+}
+
+.rabbits a{
+  color:#fff;
+  font-weight:600;
+}
+
+
+.rabbits input{
+  padding:6px 10px;
+  margin-top:5px;
+  margin-bottom:5px;
+  background:#aaa;
+  color:#111;
+  font-weight:900;
+}
+
+
+.rabbits form{
+  margin:0;
+}
+
 
 .rabbits form ul {
   float:left;
   width: 24%;
   overflow: hidden;
   background:#ddd;
-  margin-right: 1%;
-  border:1px solid #007d58;
-  padding: 0 3px 10px 3px;
+  margin: 0 1% 0 0;
 }
 
 .rabbits form ul li{
   float:left;
-  border:1px solid #a24032;
-  margin: 5px 5px 3px 0;
-  padding: 5px;
-  width: 127px;
+  /*border:1px solid #a24032;*/
+  margin: 3px 2px;
+  width: 132px;
   list-style-type: none;
   height: 80px;
 }
@@ -240,6 +282,7 @@ min-width: 295px;
     background: linear-gradient(to left, #a24032,#007d58);
     color: #fff;
     font-weight:600;
+    margin: 0;
 }
 
 .rabbits form h4{
@@ -253,7 +296,6 @@ min-width: 295px;
   margin: 10px 0;
 }
 
-
 .status h3 {
   margin: 0;
   color: #007d58;
@@ -262,32 +304,83 @@ min-width: 295px;
 }
 
 
-#cboxWrapper{
-  width: auto;
-  overflow: hidden;
-  padding: 10px;
-  border: 10px solid #a24032;
-  background: #ccc;
+#cboxLoadedContent{
+  overflow:visible !important;
   height:auto !important;
 }
 
-
-#cboxWrapper button{
-  margin-bottom:20px;
-  padding: 0 10px;
-}
+#cboxContent{
+  height:auto !important;
+  border: 10px solid #a24032;  
+  background: #ccc;
+} 
 
 .rabbit_popup{
   overflow: hidden;
   height: auto;
   border-top: none;
   font-weight: 600;
+  -webkit-tranzition: all 0.3s;
+     -moz-tranzition: all 0.3s;
+          transition: all 0.3s;
+}
+
+#cboxWrapper, #colorbox{
+  width:auto !important;
+}
+
+#cboxLoadedContent{
+  width:auto !important;
+  padding:10px;
+}
+
+.status{
+  margin-bottom:15px;
+}
+
+.rabbit_popup ul li{
+  float:left;
+  display: inline-block;
+  width: 98%;
+  margin: 10px 0;
+  line-height: 27px;
+} 
+
+.rabbit_popup ul li p{
+  float:left;
+  margin: 0 15px 0 0;
 }
 
 .rabbit_popup p{
   font-weight: 600;
-  font-size: 18px;
-  line-height: 25px;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.rabbit_popup ul li .input-box {
+  float: left;
+  margin: 0;
+  overflow: hidden;
+  width: 60%;
+}
+
+.options {
+  line-height: 15px;
+}
+
+.rabbit, .rabbit_click{
+  min-height: 45px;
+}
+
+.wean {
+  float: right;
+  margin: -15px 0 0 0;
+  padding: 5px 10px;
+}
+
+.rabbit_popup select{
+  float:left;
+  margin: 0 15px 0 0;
 }
 
 .death {
@@ -299,3 +392,82 @@ min-width: 295px;
 margin: 10px 0;
 }
 
+.available_to_mate,
+.wait_for_pregnancy,
+.check_for_pregnancy,
+.wait_for_birth,
+.add_litters,
+.wait_for_weaning,
+.time_for_weaning,
+.time_for_grouping,
+.wait_for_grouping,
+.wait_for_culling,
+.time_for_culling{
+  padding:5px;
+}
+
+
+.available_to_mate{
+  background:#37560d;
+}
+
+.wait_for_pregnancy{
+  background:#33525c;
+}
+.check_for_pregnancy{
+  background:#233c44;
+}
+
+.wait_for_birth{
+  background:#53837e;
+}
+.add_litters{
+  background:#3f5056;
+}
+
+.wait_for_weaning{
+  background:#ae5495;
+}
+.time_for_weaning{
+  background:#9b4b85;
+}
+
+.time_for_grouping{
+  background:#438478;
+}
+.wait_for_grouping{
+  background:#3b766b;
+}
+
+.wait_for_culling{
+  background:#966902;
+}
+.time_for_culling{
+  background: #865d01;
+}
+
+/*Navigation menu*/
+.navbar {
+background-color: #a24032;
+margin: 0;
+}
+
+.navbar .nav-container{
+  margin-left:90px;
+}
+.navbar-default .navbar-brand {
+color: #fff;
+}
+.navbar ul.navbar-nav li a {
+height: 50px;
+line-height: 32px;
+}
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, 
+.navbar-default .navbar-nav>.open>a:focus,.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus{
+  background-color:#903b2e;
+  color:#fff;
+}
+body .container{
+  margin-top:50px;
+}
+body footer .container{margin-top:0;}

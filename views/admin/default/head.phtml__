@@ -21,13 +21,12 @@
 
         <!--CSS Calls-->
         <?php addCSS('bootstrap.min.css');?>
-<!--         <?php addCSS('colorbox.css');?>
- -->        <?php addCSS('rab.css');?>
+        <?php addCSS('rab.css');?>
         <!-- JS CALLS -->
         <?php addJS('jquery-1.11.1.js');?>
         <?php addJS('jquery.sticky.js');?>
         <?php addJS('jquery.colorbox.js');?>
-        <?php addJS('bootstrap.min.js');?>
+        <?php addJS('sticky_navbar.js');?>
 
 </script>
 

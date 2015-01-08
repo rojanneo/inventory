@@ -129,7 +129,14 @@
 	<?php foreach($products_to_be_array[$family] as $rabbits):?>
 	<li>
 	<?php $rabbit = getModel('rabbit')->load($rabbits);?>
-	<div class="rabbit">
+	<?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
+	<?php $status = null;?>	
+	<?php if($group_diff >= 90 and $group_diff <=120):?>
+		<?php $status = 'time_for_grouping';?>
+	<?php else:?>
+		<?php $status = 'wait_for_grouping';?>
+	<?php endif;?>
+	<div class="rabbit <?php echo $status?>">
 		<div class="rabbit_click">
 			
 			<p><?php echo $rabbit['product_name'];?></p>
@@ -147,10 +154,9 @@
 
 
 </div>
-
 <script type="text/javascript">
 			$(document).ready(function(){
-				$('.ajax').colorbox({width:"50%", top:"35%",height:"auto"});
+				$('.ajax').colorbox({top:"25%",height:"auto", innerHeight:"auto"});
 				$('.rabbit_click').click(function(){
 					$(this).parent().parent().find('a.ajax').trigger("click");
 				});

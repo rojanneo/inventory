@@ -104,8 +104,8 @@
 				<ul>
 					<?php foreach($litters as $litter):?>
 						<?php if($litter['litters_weaning_date'] == '0000-00-00'):?>
-							<li><?php echo 'Litter '.$litter['litter_id'];?></li>
-							<form method="post" action = "<?php echo ADMIN_URL.'rabbits/individualwean/'.$rabbit['product_id']?>">
+							<li><p><?php echo 'Litter '.$litter['litter_id'];?></p>
+														<form method="post" action = "<?php echo ADMIN_URL.'rabbits/individualwean/'.$rabbit['product_id']?>">
 								<div class="input-box">
 									<input type="hidden" name="litter_id" value="<?php echo $litter['litter_id']?>"/>
 									<input type="hidden" name="litters_count" value="<?php echo $litters_count?>"/>
@@ -117,9 +117,11 @@
 										Is Litter Dead:<input type="checkbox" class="littercheck"> 	 <?php $litter_id=	$litter['litter_id']; ?>
 										<a class='litterajax' href="<?php echo ADMIN_URL.'rabbits/deathlitterActions/'.$litter_id?>" style="display:none">Actions</a>
 									</div>
-									<input type="submit" value="Wean"/>
+									<input class="wean" type="submit" value="Wean"/>
 								</div>
 							</form>
+
+							</li>
 						<?php endif;?>
 					<?php endforeach;?>
 				</ul>
@@ -138,11 +140,13 @@
 	<?php $litters = getModel('litter')->getCollection($rabbit['product_id']);?>
 	<ul>
 		<?php foreach($litters as $litter):?>
-			<li><?php echo 'Litter '.$litter['litter_id'];?></li>
+			<li><p><?php echo 'Litter '.$litter['litter_id'];?></p>
 			<div class="litterdeath">
 				Is Litter Dead:<input type="checkbox" class="littercheck"> 	 <?php $litter_id=	$litter['litter_id']; ?>
 				<a class='litterajax' href="<?php echo ADMIN_URL.'rabbits/deathlitterActions/'.$litter_id?>" style="display:none">Actions</a>
 			</div>
+
+			</li>
 
 		<?php endforeach;?>
 	</ul>
@@ -299,7 +303,7 @@
 			$('.litterajax').colorbox({width:"50%"});
 			$(this).parent().find('a.litterajax').trigger("click");
 		}
-	}) 	
+	});
 </script>
 </div><!--End rabbit-popup-->
 <!--End popup cover-->

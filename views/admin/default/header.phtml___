@@ -30,7 +30,6 @@
               </ul>
             </li>
             <li><a href="<?php echo ADMIN_URL.'stock'?>">Stock</a></li>
-            <li><a href="<?php echo ADMIN_URL.'dailyfeeds'?>">Daily Feeds</a></li>
           </ul>
           
         </div><!--/.nav-collapse -->
