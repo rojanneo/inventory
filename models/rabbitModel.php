@@ -73,6 +73,7 @@ class RabbitModel extends Model
 	public function wean($rabbit_id)
 	{
 		getModel('product')->updateAttribute($rabbit_id,'rabbit_latest_weaning_date',date('Y-m-d'));
+		getModel('product')->updateAttribute($rabbit_id,'rabbit_feeding_group', '25');
 	}
 
 	public function resetDates($rabbit_id)

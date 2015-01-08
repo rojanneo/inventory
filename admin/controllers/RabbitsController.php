@@ -34,6 +34,7 @@ class RabbitsController extends Controller
 	{
 		getModel('rabbit')->makePregnant($rabbit_id);
 		getModel('genealogy')->changeStatus($rabbit_id,0);
+		getModel('product')->updateAttribute($rabbit_id,'rabbit_feeding_group', '26');
 		redirect('admin/rabbits');
 	}
 
