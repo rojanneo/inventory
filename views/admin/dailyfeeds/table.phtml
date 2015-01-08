@@ -1,65 +1,72 @@
 <style>
 td input{margin:0;}
 </style>
-<form method="post" action="<?php echo ADMIN_URL.'dailyfeeds/updateDailyFeed'?>">
 
 
-<?php if(isset($dailyfeeds) and $dailyfeeds):?>
-	<table>
-	<thead>
-	<th>Feeding Group</th>
-	<th>0.6 kg - 0.7 kg</th>
-	<th>1 kg - 2 kg</th>
-	<th>2 kg - 3 kg</th>
-	<th>3 kg - 4 kg</th>
-	<th>5 kg - 5 kg</th>
-	<th>5 kg +</th>
-	</thead>
-	<tbody>
-	<?php foreach($dailyfeeds as $dailyfeed):?>
-		<?php $option = getModel('option')->load($dailyfeed['feeding_group_id']);?>
-		<input type="hidden" name="update" value="update"/>
-		<input type="hidden" name="feeding_group[]" value="<?php echo $dailyfeed['feeding_group_id']?>"/>
-		<input type="hidden" name="daily_feed_id[]" value="<?php echo $dailyfeed['daily_feed_id']?>"/>
-		<tr>
-		<td><?php echo $option['value'];?></td>
-		<td><input type="text" name="weight_1[]" value="<?php echo $dailyfeed['06_07kg']?>"/></td>
-		<td><input type="text" name="weight_2[]" value="<?php echo $dailyfeed['1_2kg']?>"/></td>
-		<td><input type="text" name="weight_3[]" value="<?php echo $dailyfeed['2_3kg']?>"/></td>
-		<td><input type="text" name="weight_4[]" value="<?php echo $dailyfeed['3_4kg']?>"/></td>
-		<td><input type="text" name="weight_5[]" value="<?php echo $dailyfeed['4_5kg']?>"/></td>
-		<td><input type="text" name="weight_6[]" value="<?php echo $dailyfeed['5_kg']?>"/></td>
-		</tr>		
+	<?php $products = getModel('product')->getCollection(array('daily_use_status'=>'1'));?>
+	<?php $count = 0;?>
+	<?php foreach($products as $product):?>
+		<h3><?php echo $product['product_name'];?></h3>
+		<?php $weight_groups = getModel('weightgroup')->getCollection();?>
+		<?php $count = 0;?>
+		<?php if(isset($dailyfeeds[$product['product_id']])):?>
+			<?php  //echo'<pre>';var_dump($dailyfeeds[$product['product_id']][1]);die;?>
+			<form method="post" action="<?php echo ADMIN_URL.'dailyfeeds/updateDailyFeed'?>">
+			<input type="hidden" name="update" value="update"/>
+			<input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
+			<table>
+			<thead>
+			<th></th>
+			<?php foreach($weight_groups as $wg):?>
+				<th><?php echo $wg['name'];?></th>
+			<?php endforeach;?>
+			</thead>
+			<tbody>
+			<?php foreach($feeding_groups as $fg):?>
+			<tr>
+			<input type="hidden" name="feeding_group[]" value="<?php echo $fg['id']?>"/>
+			<th>
+			<?php echo $fg['value'];?>
+			</th>
+			<?php foreach($weight_groups as $wg):?>
+				<td>
+				<input type="hidden" name="daily_feed_id[<?php echo $fg['id']?>][<?php echo $wg['id']?>]" value="<?php echo $dailyfeeds[$product['product_id']][$count]['daily_feed_id']?>"/>
+				<input type="text" name="weight_group[<?php echo $fg['id']?>][<?php echo$wg['id']?>]" value="<?php echo $dailyfeeds[$product['product_id']][$count++]['quantity']?>"/>
+				</td>
+			<?php endforeach;?>
+			</tr>
+			<?php endforeach;?>
+			</tbody>
+			</table>
+			<input type="submit" value="Save"/>
+			</form>
+		<?php else:?>
+			<form method="post" action="<?php echo ADMIN_URL.'dailyfeeds/updateDailyFeed'?>">
+			<input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
+			<table>
+			<thead>
+			<th></th>
+			<?php foreach($weight_groups as $wg):?>
+				<th><?php echo $wg['name'];?></th>
+			<?php endforeach;?>
+			</thead>
+			<tbody>
+			<?php foreach($feeding_groups as $fg):?>
+			<tr>
+			<input type="hidden" name="feeding_group[]" value="<?php echo $fg['id']?>"/>
+			<th>
+			<?php echo $fg['value'];?>
+			</th>
+			<?php foreach($weight_groups as $wg):?>
+				<td>
+				<input type="text" name="weight_group[<?php echo $fg['id']?>][<?php echo$wg['id']?>]"/>
+				</td>
+			<?php endforeach;?>
+			</tr>
+			<?php endforeach;?>
+			</tbody>
+			</table>
+			<input type="submit" value="Save"/>
+			</form>
+		<?php endif;?>
 	<?php endforeach;?>
-	</tbody>
-	</table>
-	<input type="submit" value="Save"/>	
-<?php else:?>
-	<table>
-	<thead>
-	<th>Feeding Group</th>
-	<th>0.6 kg - 0.7 kg</th>
-	<th>1 kg - 2 kg</th>
-	<th>2 kg - 3 kg</th>
-	<th>3 kg - 4 kg</th>
-	<th>5 kg - 5 kg</th>
-	<th>5 kg +</th>
-	</thead>
-	<tbody>
-	<?php foreach($feeding_groups as $group):?>
-		<input type="hidden" name="feeding_group[]" value="<?php echo $group['id']?>"/>
-		<tr>
-		<td><?php echo $group['value'];?></td>
-		<td><input type="text" name="weight_1[]"/></td>
-		<td><input type="text" name="weight_2[]"/></td>
-		<td><input type="text" name="weight_3[]"/></td>
-		<td><input type="text" name="weight_4[]"/></td>
-		<td><input type="text" name="weight_5[]"/></td>
-		<td><input type="text" name="weight_6[]"/></td>
-		</tr>
-	<?php endforeach;?>
-	</tbody>
-	</table>
-	<input type="submit" value="Save"/>
-<?php endif;?>
-</form>

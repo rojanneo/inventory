@@ -30,14 +30,11 @@ class DailyfeedModel extends Model
 	{
 		if($data != false)
 		{
-			$sql = "INSERT INTO `rabbit_daily_feeds`(`feeding_group_id`, `06_07kg`, `1_2kg`, `2_3kg`, `3_4kg`, `4_5kg`, `5_kg`) 
+			$sql = "INSERT INTO `rabbit_daily_feeds`(`feeding_group_id`, `product_id`, `weight_group_id`,`quantity`) 
 			VALUES (".$data['feeding_group_id'].",
-			'".mysql_escape_string($data['06_07kg'])."',
-			'".mysql_escape_string($data['1_2kg'])."',
-			'".mysql_escape_string($data['2_3kg'])."',
-			'".mysql_escape_string($data['3_4kg'])."',
-			'".mysql_escape_string($data['4_5kg'])."',
-			'".mysql_escape_string($data['5_kg'])."'
+			'".$data['product_id']."',
+			'".$data['weight_group_id']."',
+			'".mysql_escape_string($data['quantity'])."'
 			)";
 			
 			$this->connection->InsertQuery($sql);
@@ -52,12 +49,10 @@ class DailyfeedModel extends Model
 		{
 			$sql = "UPDATE `rabbit_daily_feeds` SET 
 			`feeding_group_id`=".$data['feeding_group_id'].",
-			`06_07kg`='".mysql_escape_string($data['06_07kg'])."',
-			`1_2kg`='".mysql_escape_string($data['1_2kg'])."',
-			`2_3kg`='".mysql_escape_string($data['2_3kg'])."',
-			`3_4kg`='".mysql_escape_string($data['3_4kg'])."',
-			`4_5kg`='".mysql_escape_string($data['4_5kg'])."',
-			`5_kg`='".mysql_escape_string($data['5_kg'])."' WHERE daily_feed_id = '".mysql_escape_string($data['daily_feed_id'])."'";
+			`product_id` = ".$data['product_id'].",
+			`weight_group_id` = ".$data['weight_group_id'].",
+			`quantity` = ".mysql_escape_string($data['quantity'])."
+			WHERE daily_feed_id = '".mysql_escape_string($data['daily_feed_id'])."'";
 			$this->connection->UpdateQuery($sql);
 		}
 		else
@@ -68,8 +63,13 @@ class DailyfeedModel extends Model
 	{
 		$sql = "SELECT * FROM rabbit_daily_feeds";
 		$dailyfeeds = $this->connection->Query($sql);
-		if($dailyfeeds)
-			return $dailyfeeds;
+		$arr = array();
+		foreach($dailyfeeds as $df)
+		{
+			$arr[$df['product_id']][] = $df;
+		}
+		if($arr)
+			return $arr;
 		else return false;
 	}
 }

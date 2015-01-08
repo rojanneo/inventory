@@ -40,21 +40,26 @@ class DailyfeedsController extends Controller
 		if(isset($post_data['update']) and $post_data['update'] == 'update')
 		{
 			extract($post_data);
-			foreach($feeding_group as $key => $feeding_group)
+			echo '<pre>';
+			foreach($feeding_group as $fg)
 			{
-				$group = array('daily_feed_id'=>$daily_feed_id[$key],'feeding_group_id'=>$feeding_group, '06_07kg'=>$weight_1[$key], '1_2kg'=>$weight_2[$key], '2_3kg'=>$weight_3[$key], '3_4kg'=>$weight_4[$key], '4_5kg'=>$weight_5[$key], '5_kg'=>$weight_6[$key]);
-				$feed_id = getModel('dailyfeed')->update($group);
-				var_dump($group);
-				
+				foreach($weight_group[$fg] as $wg_id => $quantity)
+				{
+					$data = array('daily_feed_id'=>$daily_feed_id[$fg][$wg_id],'product_id'=>$product_id, 'feeding_group_id'=>$fg,'weight_group_id'=>$wg_id,'quantity'=>$quantity);
+					getModel('dailyfeed')->update($data);
+				}
 			}
 		}
 		else
 		{
 			extract($post_data);
-			foreach($feeding_group as $key => $feeding_group)
+			foreach($feeding_group as $fg)
 			{
-				$group = array('feeding_group_id'=>$feeding_group, '06_07kg'=>$weight_1[$key], '1_2kg'=>$weight_2[$key], '2_3kg'=>$weight_3[$key], '3_4kg'=>$weight_4[$key], '4_5kg'=>$weight_5[$key], '5_kg'=>$weight_6[$key]);
-				$feed_id = getModel('dailyfeed')->insert($group);
+				foreach($weight_group[$fg] as $wg_id => $quantity)
+				{
+					$data = array('product_id'=>$product_id, 'feeding_group_id'=>$fg,'weight_group_id'=>$wg_id,'quantity'=>$quantity);					
+					$feed_id = getModel('dailyfeed')->insert($data);
+				}
 			}
 		}
 
