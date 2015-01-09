@@ -20,6 +20,10 @@ class WeightgroupModel extends Model
 		{
 			$sql = "SELECT * FROM rabbit_weight_group WHERE id = 6 LIMIT 1";
 		}
+		else if($weight <1)
+		{
+			$sql = "SELECT * FROM rabbit_weight_group WHERE min_weight <= $weight AND max_weight >= $weight LIMIT 1";
+		}
 		else
 		{
 			$sql = "SELECT * FROM rabbit_weight_group WHERE min_weight <= $weight AND max_weight > $weight";

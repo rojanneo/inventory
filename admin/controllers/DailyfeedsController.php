@@ -70,6 +70,7 @@ class DailyfeedsController extends Controller
 	{
 		$products = getModel('product')->getCollection(array('product_type' => 'in'));
 		$rabbits = getModel('rabbit')->getCollection();
+		$litters = getModel('litter')->getCollection();
 		foreach($products as $product)
 		{
 			$p = getModel('product')->load($product['product_id']);
@@ -115,6 +116,18 @@ class DailyfeedsController extends Controller
 						$p = getModel('product')->load($product_id);
 					}
 				}
+			}
+
+			foreach($litters as $litter)
+			{
+				$feeding_group_id = 27;
+				$weight_group = getModel('weightgroup')->getWeightGroupFromWeight($litter['litter_weight']);
+				$weight_group_id = $weight_group['id'];
+				$product_id = $p['product_id'];
+				$quantity = getModel('dailyfeed')->getQuantity($feeding_group_id, $weight_group_id, $product_id);
+				$new_quantity = $p['product_quantity'] - $quantity;
+				getModel('product')->updateDefaultAttribute($product['product_id'], 'product_quantity', $new_quantity);
+				$p = getModel('product')->load($product_id);
 			}
 		}
 	}

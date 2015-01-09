@@ -37,9 +37,15 @@ class LitterModel extends Model
 		}
 	}
 
-	public function getCollection($parent_id)
+	public function getCollection($parent_id = false)
 	{
+		if($parent_id)
 		$sql = "SELECT * FROM rabbit_litters r1 WHERE parent_id = $parent_id AND NOT EXISTS(SELECT * 
+                  FROM   aa_death r2
+                  WHERE  r1.litter_id = r2.lid 
+                 )";
+		else
+			$sql = "SELECT * FROM rabbit_litters r1 WHERE NOT EXISTS(SELECT * 
                   FROM   aa_death r2
                   WHERE  r1.litter_id = r2.lid 
                  )";
