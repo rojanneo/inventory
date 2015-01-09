@@ -6,7 +6,6 @@
 	<?php else:?>
 	<?php $dq = null;?>
 	<?php endif;?>
-
 <div id="tabs">
 	<ul>
 		<li><a href="#General">General</a></li>
@@ -68,8 +67,8 @@
 		<div class="input-box">
 		<label>Product Type</label>
 		<select name="product_type">
-			<option value="in" <?php echo ($product['product_type'] == 0)?'selected':null?>>In</option>
-			<option value="out" <?php echo ($product['product_type'] == 1)?'selected':null?>>Out</option>
+			<option value="in" <?php echo ($product['product_type'] == 'in')?'selected':null?>>In</option>
+			<option value="out" <?php echo ($product['product_type'] == 'out')?'selected':null?>>Out</option>
 		</select>
 		</div>
 
