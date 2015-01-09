@@ -1,0 +1,69 @@
+<?php
+class DailyfeedsController extends Controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+		loadHelper('url');
+	}
+
+	public function indexAction()
+	{
+		//getModel('dailyfeed')->deductDailyFeeds();
+
+		$feeding_groups = getModel('attribute')->load(array('attribute_code'=>'rabbit_feeding_group'));
+		$feeding_groups = getModel('attribute')->getOptions($feeding_groups['attribute_id']);
+		//echo '<pre>';
+		//var_dump($feeding_groups);
+
+		$dailyfeeds = getModel('dailyfeed')->getCollection();
+
+		if($dailyfeeds)
+		{
+			$data['dailyfeeds'] = $dailyfeeds;
+			$data['feeding_groups'] = $feeding_groups;
+			$this->view->renderAdmin('dailyfeeds/table.phtml',$data);
+		}
+		else
+		{
+
+			$data['feeding_groups'] = $feeding_groups;
+
+			$this->view->renderAdmin('dailyfeeds/table.phtml',$data);
+		}
+	}
+
+	public function updateDailyFeedAction()
+	{
+		loadHelper('inputs');
+		$post_data = getPost();
+		if(isset($post_data['update']) and $post_data['update'] == 'update')
+		{
+			extract($post_data);
+			echo '<pre>';
+			foreach($feeding_group as $fg)
+			{
+				foreach($weight_group[$fg] as $wg_id => $quantity)
+				{
+					$data = array('daily_feed_id'=>$daily_feed_id[$fg][$wg_id],'product_id'=>$product_id, 'feeding_group_id'=>$fg,'weight_group_id'=>$wg_id,'quantity'=>$quantity);
+					getModel('dailyfeed')->update($data);
+				}
+			}
+		}
+		else
+		{
+			extract($post_data);
+			foreach($feeding_group as $fg)
+			{
+				foreach($weight_group[$fg] as $wg_id => $quantity)
+				{
+					$data = array('product_id'=>$product_id, 'feeding_group_id'=>$fg,'weight_group_id'=>$wg_id,'quantity'=>$quantity);					
+					$feed_id = getModel('dailyfeed')->insert($data);
+				}
+			}
+		}
+
+		redirect('admin/dailyfeeds');
+	}
+
+}

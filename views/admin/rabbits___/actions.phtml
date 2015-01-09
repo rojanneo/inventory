@@ -141,14 +141,6 @@
 	<ul>
 		<?php foreach($litters as $litter):?>
 			<li><p><?php echo 'Litter '.$litter['litter_id'];?></p>
-			<form method="post" action ="<?php echo ADMIN_URL.'rabbits/updateLitterWeight'?>">
-			<input type="hidden" name="litter_id" value="<?php echo $litter['litter_id']?>"/>
-			<div class="input-box">
-				<label>Weight of Litter</label>
-				<input type="text" name="weight" value="<?php echo ($litter['litter_weight'] == 'NULL')?null:$litter['litter_weight']?>"/>
-				<input type="submit" value="Save"/>
-			</div>
-			</form>
 			<div class="litterdeath">
 				Is Litter Dead:<input type="checkbox" class="littercheck"> 	 <?php $litter_id=	$litter['litter_id']; ?>
 				<a class='litterajax' href="<?php echo ADMIN_URL.'rabbits/deathlitterActions/'.$litter_id?>" style="display:none">Actions</a>

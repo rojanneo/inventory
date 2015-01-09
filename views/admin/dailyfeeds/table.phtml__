@@ -4,7 +4,6 @@ td input{margin:0;}
 
 
 	<?php $products = getModel('product')->getCollection(array('daily_use_status'=>'1'));?>
-	<?php if($products):?>
 	<?php $count = 0;?>
 	<?php foreach($products as $product):?>
 		<h3><?php echo $product['product_name'];?></h3>
@@ -71,6 +70,3 @@ td input{margin:0;}
 			</form>
 		<?php endif;?>
 	<?php endforeach;?>
-	<?php else:?>
-		<h3> NO Daily Usable Products Found</h3>
-<?php endif;?>

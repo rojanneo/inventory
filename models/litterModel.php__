@@ -94,15 +94,4 @@ class LitterModel extends Model
 		}
 		if($rs) return $rs; else return false;
 	}
-
-	public function updateWeights($data = false)
-	{
-		if($data != false)
-		{
-			$sql = "UPDATE `rabbit_litters` SET `litter_weight`= '".mysql_escape_string($data['weight'])."' WHERE `litter_id` = ".mysql_escape_string($data['litter_id']);
-			$this->connection->UpdateQuery($sql);
-			return true;
-		}
-		return false;
-	}
 }

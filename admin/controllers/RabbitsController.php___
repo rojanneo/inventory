@@ -91,11 +91,8 @@ class RabbitsController extends Controller
 		$product['product_id']= $product_id;
 		$product['rabbit_family_id'] = $parent['rabbit_family_id'];
 		$product['rabbit_gender'] = $gender;
-		if($gender == '11') $product['rabbit_feeding_group'] = '24';
-		else $product['rabbit_feeding_group'] = '25';
 
 		$product['is_litter'] = 23;
-		$product['weight'] = ($litter['litter_weight'] == 'NULL')?0:$litter['litter_weight'];
 		$product['rabbit_dob'] = $litter['litters_dob'];
 		$product['rabbit_latest_mate_date'] = "";
 		$product['rabbit_latest_pregnant_date'] = "";
@@ -318,13 +315,5 @@ class RabbitsController extends Controller
 		}
 	}
 
-	public function updateLitterWeightAction()
-	{
-		loadHelper('inputs');
-		$post_data = getPost();
-
-		getModel('litter')->updateWeights($post_data);
-		redirect('admin/rabbits');
-	}
 
 }

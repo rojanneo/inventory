@@ -72,12 +72,4 @@ class DailyfeedModel extends Model
 			return $arr;
 		else return false;
 	}
-
-	public function getQuantity($feeding_group_id, $weight_group_id, $product_id)
-	{
-		$sql = "SELECT quantity FROM `rabbit_daily_feeds` WHERE feeding_group_id = $feeding_group_id AND product_id = $product_id AND weight_group_id = $weight_group_id";
-		$quantity = $this->connection->Query($sql);
-		if($quantity) return $quantity[0]['quantity'];
-		else return 0;
-	}
 }

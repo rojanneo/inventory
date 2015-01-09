@@ -66,4 +66,57 @@ class DailyfeedsController extends Controller
 		redirect('admin/dailyfeeds');
 	}
 
+	public function useDailyFeedAction()
+	{
+		$products = getModel('product')->getCollection(array('product_type' => 'in'));
+		$rabbits = getModel('rabbit')->getCollection();
+		foreach($products as $product)
+		{
+			$p = getModel('product')->load($product['product_id']);
+			foreach($rabbits as $rabbit)
+			{
+				$r = getModel('rabbit')->load($rabbit['product_id']);
+				$weight = $r['weight'];
+				$weight_group = getModel('weightgroup')->getWeightGroupFromWeight($weight);
+				if($r['rabbit_gender'] == 'Male')
+				{
+					if(strtolower($r['rabbit_feeding_group']) == 'adult male')
+					{
+						$feeding_group_id = 24;
+						$weight_group_id = $weight_group['id'];
+						$product_id = $p['product_id'];
+						$quantity = getModel('dailyfeed')->getQuantity($feeding_group_id, $weight_group_id, $product_id);
+						$new_quantity = $p['product_quantity'] - $quantity;
+						getModel('product')->updateDefaultAttribute($product['product_id'], 'product_quantity', $new_quantity);
+						$p = getModel('product')->load($product_id);
+					}
+				}
+				elseif($r['rabbit_gender'] == 'Female')
+				{
+					if(strtolower($r['rabbit_feeding_group']) == 'adult female')
+					{
+						$feeding_group_id = 25;
+						$weight_group_id = $weight_group['id'];
+						$product_id = $p['product_id'];
+						$quantity = getModel('dailyfeed')->getQuantity($feeding_group_id, $weight_group_id, $product_id);
+						$new_quantity = $p['product_quantity'] - $quantity;
+						getModel('product')->updateDefaultAttribute($product['product_id'], 'product_quantity', $new_quantity);
+						$p = getModel('product')->load($product_id);
+					}
+
+					elseif(strtolower($r['rabbit_feeding_group']) == 'pregnant/lactating')
+					{
+						$feeding_group_id = 26;
+						$weight_group_id = $weight_group['id'];
+						$product_id = $p['product_id'];
+						$quantity = getModel('dailyfeed')->getQuantity($feeding_group_id, $weight_group_id, $product_id);
+						$new_quantity = $p['product_quantity'] - $quantity;
+						getModel('product')->updateDefaultAttribute($product['product_id'], 'product_quantity', $new_quantity);
+						$p = getModel('product')->load($product_id);
+					}
+				}
+			}
+		}
+	}
+
 }
