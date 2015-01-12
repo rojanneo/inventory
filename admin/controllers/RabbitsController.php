@@ -327,4 +327,122 @@ class RabbitsController extends Controller
 		redirect('admin/rabbits');
 	}
 
+	public function listAction($status = false)
+	{
+		if($status != false)
+		{
+			$available_to_mate_array = array();
+			$mated_array = array();
+			$pregnant_array = array();
+			$not_available_to_wean_array = array();
+			$available_to_wean_array = array();
+			$not_available_to_cull_array = array();			
+			$available_to_cull_array = array();		
+			$parents_to_be_array = array();
+			$products_to_be_array = array();	
+
+			$rabbits = getModel('rabbit')->getcollection();
+			foreach($rabbits as $r)
+			{
+				$rabbit = getModel('rabbit')->load($r['product_id']);
+				$is_not_litter = $rabbit['is_litter'] != 'yes';
+				$is_not_parents_to_be = (isset($rabbit['rabbit_group']))?$rabbit['rabbit_group'] != 'Parents to be':false;
+				$is_not_products_to_be = (isset($rabbit['rabbit_group']))?$rabbit['rabbit_group'] != 'Products to be ':false; 
+				if($rabbit['rabbit_gender'] == 'Male' and $is_not_litter == true and $is_not_parents_to_be == true and $is_not_products_to_be == true)
+				{
+					array_push($available_to_mate_array, $rabbit['product_id']);
+				}
+				else if($is_not_litter == false)
+				{
+					if(!isset($rabbit['rabbit_latest_culing_date']) or $rabbit['rabbit_latest_culing_date'])
+					{
+						if(isset($rabbit['rabbit_latest_weaning_date']))
+						{
+							$today = new DateTime(date('Y-m-d'));
+							$wean_date = new DateTime($rabbit['rabbit_latest_weaning_date']);
+							$cull_diff = $today->diff($wean_date)->format("%a");
+							if($cull_diff <= 0)
+								array_push($not_available_to_cull_array, $rabbit['product_id']);
+							else
+								array_push($available_to_cull_array, $rabbit['product_id']);
+						}
+					}
+				}
+				else if($is_not_parents_to_be == false)
+				{
+					array_push($parents_to_be_array,$rabbit['product_id']);
+				}
+				else if($is_not_products_to_be == false)
+				{
+					array_push($products_to_be_array,$rabbit['product_id']);
+				}
+				else if($rabbit['rabbit_gender'] == 'Female' and $is_not_litter == true and $is_not_parents_to_be == true and $is_not_products_to_be == true)
+				{
+					if(!isset($rabbit['rabbit_latest_mate_date']) or !$rabbit['rabbit_latest_mate_date'])
+						array_push($available_to_mate_array, $rabbit['product_id']);
+					else if(!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date'])
+					{
+						$today = new DateTime(date('Y-m-d'));
+						$mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);
+						$mate_diff = $today->diff($mate_date)->format("%a");
+						if(isset($rabbit['rabbit_latest_mate_date']))
+						{
+							array_push($mated_array, $rabbit['product_id']);
+						}
+					}
+					else if(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'])
+					{
+						if(isset($rabbit['rabbit_latest_pregnant_date']))
+						{
+							array_push($pregnant_array, $rabbit['product_id']);
+						}
+					}
+					else if(isset($rabbit['rabbit_latest_birth_date']))
+					{
+						$today = new DateTime(date('Y-m-d'));
+						$wean_date = new DateTime($rabbit['rabbit_latest_birth_date']);
+						$wean_diff = $today->diff($wean_date)->format("%a");
+						if($wean_diff < 21)
+							array_push($not_available_to_wean_array, $rabbit['product_id']);
+						if($wean_diff >= 21 and $wean_diff <= 28)
+							array_push($available_to_wean_array, $rabbit['product_id']);
+					}
+				}
+			}
+
+			if($status == 'available_to_mate')
+			{
+				$data['rabbits'] = $available_to_mate_array;
+			}
+			else if($status == 'mated')
+				$data['rabbits'] = $mated_array;
+			else if($status == 'pregnant')
+				$data['rabbits'] = $pregnant_array;
+			else if($status == 'wait_to_wean')
+				$data['rabbits'] = $not_available_to_wean_array;
+			else if($status == 'weaning')
+				$data['rabbits'] = $available_to_wean_array;
+			else if($status == 'wait_to_cull')
+				$data['rabbits'] = $not_available_to_cull_array;
+			else if($status == 'culling')
+				$data['rabbits'] = $available_to_cull_array;
+			else if($status == 'parents_to_be')
+				$data['rabbits'] = $parents_to_be_array;
+			else if($status == 'products_to_be')
+				$data['rabbits'] = $products_to_be_array;
+
+			$data['status'] = $status;
+			$this->view->renderAdmin('rabbits/data.phtml',$data);
+
+				// var_dump($available_to_mate_array);
+				// var_dump($mated_array);
+				// var_dump($pregnant_array);
+				// var_dump($not_available_to_wean_array);
+				// var_dump($available_to_wean_array);
+				// var_dump($not_available_to_cull_array);
+				// var_dump($available_to_cull_array);
+		}
+		else redirect('admin/rabbits');
+	}
+
 }

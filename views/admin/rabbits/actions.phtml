@@ -183,9 +183,12 @@
 		<p>Time for culling</p>
 		<ul>
 			<?php foreach($rabbits as $r_id):?>
-				<?php $ra = getModel('rabbit')->load($r_id['rabbit_id']);?>			
+				<?php $ra = getModel('rabbit')->load($r_id['rabbit_id']);?>		
+				<?php $wean_date1 = new DateTime($ra['rabbit_latest_weaning_date']);?>
+				<?php $cull_diff1= $today->diff($wean_date1)->format('%a');?>	
 				<li>
 					<p><?php echo $ra['product_name'];?>
+					<?php if($cull_diff1 >= 60):?>
 						<div class="options">
 							<form method = "post" action="<?php echo ADMIN_URL.'rabbits/cull/'.$ra['product_id']?>">
 								<input type="hidden" name="rabbit_id" value="<?php echo $ra['product_id']?>"/>
@@ -197,6 +200,7 @@
 								<input type="submit" value="Cull"/>
 							</form>
 						</div>
+					<?php endif;?>
 					</li>
 				<?php endforeach;?>
 			</ul>
@@ -234,8 +238,12 @@
 				<?php if($rabbits):?>
 					<?php foreach($rabbits as $r_id):?>
 						<?php $ra = getModel('rabbit')->load($r_id['rabbit_id']);?>			
+						<?php $wean_date1 = new DateTime($ra['rabbit_latest_weaning_date']);?>
+						<?php $cull_diff1= $today->diff($wean_date1)->format('%a');?>	
+				
 						<li>
 							<p><?php echo $ra['product_name'];?>
+							<?php if($cull_diff1 >= 60):?>
 								<div class="options">
 									<form method = "post" action="<?php echo ADMIN_URL.'rabbits/cull/'.$ra['product_id']?>">
 										<input type="hidden" name="rabbit_id" value="<?php echo $ra['product_id']?>"/>
@@ -247,6 +255,7 @@
 										<input type="submit" value="Cull"/>
 									</form>
 								</div>
+							<?php endif;?>
 							</li>
 						<?php endforeach;?>
 					<?php endif;?>
@@ -272,6 +281,7 @@
 			<p>Time for culling</p>
 			<ul>
 				<?php foreach($litters as $litter):?>
+
 					<li><?php echo 'Litter '.$litter['litter_id'];?><a href="#">Cull</a></li>
 					<div class="options">
 						<form method = "post" action="<?php echo ADMIN_URL.'rabbits/cull/'.$litter['litter_id']?>">
