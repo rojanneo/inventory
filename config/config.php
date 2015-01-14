@@ -53,7 +53,7 @@ if (!defined('DEFAULT_ACTION')) {
 }
 
 if (!defined('DEFAULT_ADMIN_CONTROLLER')) {
-	define('DEFAULT_ADMIN_CONTROLLER', 'dashboard');
+	define('DEFAULT_ADMIN_CONTROLLER', 'rabbits');
 }
 
 if (!defined('DEFAULT_ADMIN_ACTION')) {
