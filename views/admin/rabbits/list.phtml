@@ -159,7 +159,9 @@ $available_to_mateCount = 0; $matedCount = 0; $pregnantCount = 0; $available_to_
 		<a class='ajax' href="<?php echo ADMIN_URL.'rabbits/listActions/'.$rabbit_id?>" style="display:none">Actions</a>
 		</li>
 	<?php endforeach;?>
+	<div class="input-box">
 	<input type="submit" value="Mate" disabled class="submit"/>
+	</div>
 	<?php if(isset($litter_array[$family])):?>
 	<?php foreach($litter_array[$family] as $litters):?>
 		<?php $litter = getModel('rabbit')->load($litters[0]);?>
