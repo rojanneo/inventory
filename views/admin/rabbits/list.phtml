@@ -26,7 +26,10 @@ $available_to_mateCount = 0; $matedCount = 0; $pregnantCount = 0; $available_to_
 		<?php $parents_array[$r['attributes']['rabbit_family_id']][] = $r['product_id'];?>
 	<?php endif;?>
 <?php endforeach;?>
-<table border="1" style="margin:10px 0;">
+<div class="row no-gutter">
+<div class="col-md-2 col-lg-2">
+<div class="sidebar-nav-fixed affix">
+<table border="1" style="margin:10px 0;" class="table table-hover table-condensed table-responsive">
 <thead style="background: #ddd; font-color: #fff;">
 <th>Title</th>
 <th>Rabbit Count</th>
@@ -85,6 +88,9 @@ $available_to_mateCount = 0; $matedCount = 0; $pregnantCount = 0; $available_to_
 
 </tbody>
 </table>
+</div>
+</div>
+<div class="col-md-10 col-lg-10">
 <form method="post" action="<?php echo ADMIN_URL.'rabbits/performMating'?>">
 <?php foreach($parents_array as $family => $rabbits):?>
 <ul>
@@ -225,10 +231,10 @@ $available_to_mateCount = 0; $matedCount = 0; $pregnantCount = 0; $available_to_
 </ul>
 <?php endforeach;?>
 </form>
+</div>
 
 
-
-
+</div>
 </div>
 <script type="text/javascript">
 			$(document).ready(function(){

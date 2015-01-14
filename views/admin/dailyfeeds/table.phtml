@@ -15,7 +15,7 @@ td input{margin:0;}
 			<form method="post" action="<?php echo ADMIN_URL.'dailyfeeds/updateDailyFeed'?>">
 			<input type="hidden" name="update" value="update"/>
 			<input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
-			<table>
+			<table class="table table-hover table-condensed">
 			<thead>
 			<th></th>
 			<?php foreach($weight_groups as $wg):?>
