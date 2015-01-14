@@ -11,7 +11,7 @@
 		console.log(products);
 	</script>
 <form method="post" action="<?php echo ADMIN_URL.'purchaseorders/addpost'?>">
-	<table>
+	<table class="table table-hover table-condensed">
 		<thead>
 			<th>Product Name</th>
 			<th>Product Unit Price</th>
@@ -21,27 +21,39 @@
 		<tbody>
 			<tr>
 				<td>
-					<select name="product[product_id][]" onchange="changeUnitPrice(this)">
+				<div class="input-box">
+					<select name="product[product_id][]" onchange="changeUnitPrice(this)" style="margin:0">
 					<?php foreach($products as $product):?>
 						<option value="<?php echo $product['product_id']?>"><?php echo $product['product_name']?></option>
 					<?php endforeach;?>
 					</select>
+				</div>
 				</td>
 				<td>
-					<input type="number" name="product[unit_price][]" value="<?php echo $product['unit_price']?>" readonly class="unit_price"/>
+				<div class="input-box">
+					<input type="number" name="product[unit_price][]" value="<?php echo $product['unit_price']?>" readonly class="unit_price"style="margin:0"/>
+				</div>
 				</td>
 				<td>
-					<input type="number" name="product[quantity][]" onkeyup = "calculateTotalPrice(this)" class="quantity"/>
+				<div class="input-box">
+					<input type="number" name="product[quantity][]" onkeyup = "calculateTotalPrice(this)" class="quantity"style="margin:0"/>
+				</div>
 				</td>
 				<td>
-					<input type="number" name = "product[total_price][]" class="total_price" onchange="updateUnitPrice(this)"/>
+				<div class="input-box">
+					<input type="number" name = "product[total_price][]" class="total_price" onchange="updateUnitPrice(this)"style="margin:0"/>
+				</div>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-			<input type="button" value="+" class="add-new-row" onclick="addNewRow()"/>
+		<div class="input-box">
+			<input type="button" value="Add New Product" class="add-new-row" onclick="addNewRow()"/>
+		</div>
 
+	<div class="input-box">
 	<input type="submit" value="Save"/>
+	</div>
 </form>
 <?php endif;?>
 <script type="text/javascript">
