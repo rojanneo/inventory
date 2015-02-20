@@ -111,7 +111,8 @@ class LitterModel extends Model
 	public function getSameParentRabbits($doe,$buck)
 	{
 		$sql = "SELECT rabbit_id FROM rabbit_litters WHERE parent_id IN( SELECT parent_id FROM rabbit_litters WHERE parent_id = '".$doe."' HAVING COUNT(litter_id)>0) AND parent_buck_id IN
-		( SELECT parent_buck_id FROM rabbit_litters WHERE parent_buck_id = '".$buck."' HAVING COUNT(litter_id) > 0)";
+		( SELECT parent_buck_id FROM rabbit_litters WHERE parent_buck_id = '".$buck."' HAVING COUNT(litter_id) > 0 AND rabbit_id != 0)";
+
 		$rabbits = $this->connection->Query($sql);
 		$rs = array();
 		foreach($rabbits as $rabbit)

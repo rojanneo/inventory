@@ -73,8 +73,8 @@ class RabbitsController extends Controller
 		$product_id = null;
 		$data['product_type_id'] = 1;
 		$data['attribute_set_id'] = 4;
-		$data['product_name'] = 'RB_'.$max;
-		$data['product_sku'] = 'rb_'.$max;
+		$data['product_name'] = $max;
+		$data['product_sku'] = $max;
 
 		$data['daily_use_status'] = 0;
 		$data['daily_use_quantity'] = 0;
