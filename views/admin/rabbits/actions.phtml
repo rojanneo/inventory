@@ -12,7 +12,7 @@
 <?php if(isset($rabbit['rabbit_latest_pregnant_date'])):?>
 	<?php $preg_date = new DateTime($rabbit['rabbit_latest_pregnant_date']);?>
 	<?php $diff = $today->diff($dob)->format("%a");?>
-	<?php $preg_diff = $today->diff($preg_date)->format("%a");?>
+	<?php $preg_diff = $today->diff($mate_date)->format("%a");?>
 <?php endif;?>
 <?php if(isset($rabbit['rabbit_latest_birth_date'])):?>
 	<?php $wean_date = new DateTime($rabbit['rabbit_latest_birth_date']);?>
@@ -58,13 +58,13 @@
 		<?php if(!isset($rabbit['is_litter']) or strtolower($rabbit['is_litter']) == 'no'):?>
 			<?php if(!isset($rabbit['rabbit_latest_mate_date'])):?>
 				<div class="status"><h3>Available For Mating</h3></div>
-			<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 15)):?>
+			<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 25)):?>
 				<div class="status"><h3>Is this rabbit pregnant?</h3></div>
 				<a href="<?php echo ADMIN_URL.'rabbits/pregnant/'.$rabbit_id?>">Yes</a>
 				<a href="<?php echo ADMIN_URL.'rabbits/notpregnant/'.$rabbit_id?>">No</a>
-			<?php elseif(!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date'] or $mate_diff < 12 or $mate_diff > 15):?>
-				<div class="status"><h3>We have to wait <?php echo (12 - $mate_diff);?> to <?php echo (15 - $mate_diff)?> days to confirm pregnancy</h3></div>
-			<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 31)):?>
+			<?php elseif(!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date'] or $mate_diff < 12 or $mate_diff > 25):?>
+				<div class="status"><h3>We have to wait <?php echo (12 - $mate_diff);?> to <?php echo (25 - $mate_diff)?> days to confirm pregnancy</h3></div>
+			<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 32)):?>
 				<div class="status"><h3>How many litters are born?</h3></div>
 				<div class="birth-form">
 				<form method="post" action="<?php echo ADMIN_URL.'rabbits/addLitters'?>">
@@ -88,8 +88,8 @@
 					<input type="submit" value="Submit"/>
 				</form>
 				</div>
-			<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 31):?>
-				<div class="status"><h3>We have to wait for <?php echo (27 - $preg_diff)?> to <?php echo (31 - $preg_diff)?> days for birth</h3></div>
+			<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 32):?>
+				<div class="status"><h3>We have to wait for <?php echo (27 - $preg_diff)?> to <?php echo (32 - $preg_diff)?> days for birth</h3></div>
 
 			<?php elseif((!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'])and ($wean_diff >= 21 and $wean_diff <= 28)):?>
 				<div class="status"><h3>Time For Weaning</h3></div>
@@ -137,7 +137,7 @@
 	<a href="#">No</a>-->
 <?php elseif(!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21 or $wean_diff > 28):?>
 	<div class="status"><h3>We have to wait for <?php echo (21 - $wean_diff)?> to <?php echo (28 - $wean_diff)?> days for weaning</h3></div>
-	<?php $litters = getModel('litter')->getCollection($rabbit['product_id']);?>
+	<?php $litters = getModel('litter')->getWeaningCollection($rabbit['product_id']);?>
 	<ul>
 		<?php foreach($litters as $litter):?>
 			<li><p><?php echo 'Litter '.$litter['litter_id'];?></p>
@@ -180,6 +180,7 @@
 			<?php endif;?>
 		</ul>
 	<?php else:?>
+
 		<p>Time for culling</p>
 		<ul>
 			<?php foreach($rabbits as $r_id):?>
@@ -220,7 +221,7 @@
 		<p>Parent Buck:<?php echo $rabbit['parent_buck_id'];?></p>
 		<?php $wean_date = new DateTime($rabbit['rabbit_latest_weaning_date']);?>
 		<?php $cull_diff = $today->diff($wean_date)->format("%a");?>
-		<?php if($cull_diff <= 0):?>
+		<?php if($cull_diff <= 60):?>
 			<div class="status"><h3>We have to wait for <?php echo (60 - $cull_diff)?> days to begin culling.</h3></div>
 			<ul>
 				<?php foreach($rabbits as $r_id):?>
@@ -240,7 +241,6 @@
 						<?php $ra = getModel('rabbit')->load($r_id['rabbit_id']);?>			
 						<?php $wean_date1 = new DateTime($ra['rabbit_latest_weaning_date']);?>
 						<?php $cull_diff1= $today->diff($wean_date1)->format('%a');?>	
-				
 						<li>
 							<p><?php echo $ra['product_name'];?>
 							<?php if($cull_diff1 >= 60):?>

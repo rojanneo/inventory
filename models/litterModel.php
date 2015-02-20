@@ -11,6 +11,8 @@ class LitterModel extends Model
 		if($data != false)
 		{
 			extract($data);
+			if(!isset($rabbit_id)) $rabbit_id = NULL;
+			if(!isset($litter_dob)) $litter_dob = date('Y-m-d');
 			$updated_date = date('Y-m-d');
 			$sql = "INSERT INTO `rabbit_litters`
 			(`parent_id`,
@@ -18,15 +20,17 @@ class LitterModel extends Model
 			`family_id`,
 			`litter_group_id`,
 			`litters_dob`,
-			`updated_date`)
+			`updated_date`,
+			`rabbit_id`)
 			VALUES 
 			(
 			'".mysql_escape_string($parent_rabbit_id)."',
 			'".mysql_escape_string($parent_buck_id)."',
 			'".mysql_escape_string($rabbit_family_id)."',
 			'".$litter_group_id."',
-			'".date('Y-m-d')."',
-			'".$updated_date."'
+			'".mysql_escape_string($litter_dob)."',
+			'".$updated_date."',
+			'".mysql_escape_string($rabbit_id)."'
 			)";
 			$this->connection->Query($sql);
 			return $this->connection->GetInsertID();
@@ -46,6 +50,25 @@ class LitterModel extends Model
                  )";
 		else
 			$sql = "SELECT * FROM rabbit_litters r1 WHERE NOT EXISTS(SELECT * 
+                  FROM   aa_death r2
+                  WHERE  r1.litter_id = r2.lid 
+                 )";
+		
+		$litters = $this->connection->Query($sql);
+		return $litters;
+	}
+
+	public function getWeaningCollection($parent_id = false)
+	{
+		if($parent_id)
+		{
+		$sql = "SELECT * FROM rabbit_litters r1 WHERE parent_id = $parent_id AND rabbit_id IS NULL AND NOT EXISTS(SELECT * 
+                  FROM   aa_death r2
+                  WHERE  r1.litter_id = r2.lid 
+                 )";
+		}
+		else
+			$sql = "SELECT * FROM rabbit_litters r1 WHERE rabbit_id = NULL AND NOT EXISTS(SELECT * 
                   FROM   aa_death r2
                   WHERE  r1.litter_id = r2.lid 
                  )";

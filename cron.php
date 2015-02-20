@@ -1,3 +1,5 @@
 <?php
-header('Location: http://192.168.0.107/inventory/dailyfeeds');
+for ($i=1; $i<=100 ; $i++) { 
+	echo $i.'<br>';
+}
 ?>

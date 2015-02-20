@@ -7,7 +7,7 @@
 		<li><a href="#Categories">Categories</a></li>
 	</ul>
 
-	<form class="tabContainer" id="general" method="post" action="<?php echo ADMIN_URL.'products/addpost'?>">
+	<form class="tabContainer" id="general" method="post" action="<?php echo ADMIN_URL.'products/addLitterPost'?>">
 	<div id="General">
 			<input type="hidden" name="product_type_id" value="<?php echo $product_type?>"/>
 			<input type="hidden" name="attribute_set_id" value="<?php echo $attribute_set?>"/>
@@ -82,7 +82,6 @@
 			<div class="input-box">
 				<label>Parent Buck</label>
 				<select name="parent_buck_id">
-					<option value="0">Null</option>
 					<?php foreach($rabbits as $rabbit):?>
 						<?php $r = getModel('product')->load($rabbit['product_id']);?>
 						<?php if($r['attributes']['rabbit_gender'] == 'Male'):?>
@@ -94,7 +93,6 @@
 			<div class="input-box">
 				<label>Parent Doe</label>
 				<select name="parent_doe_id">
-					<option value="0">Null</option>
 					<?php foreach($rabbits as $rabbit):?>
 						<?php $r = getModel('product')->load($rabbit['product_id']);?>
 						<?php if($r['attributes']['rabbit_gender'] == 'Female'):?>

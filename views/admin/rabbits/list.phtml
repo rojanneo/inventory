@@ -1,5 +1,6 @@
 <div class="rabbits">
 <?php $rabbits = getModel('rabbit')->getCollection();?>
+<?php if($rabbits):?>
 <?php $litter_array = array();?>
 <?php $parents_to_be_array = array();?>
 <?php $products_to_be_array = array();?>
@@ -128,13 +129,13 @@ $available_to_mateCount = 0; $matedCount = 0; $pregnantCount = 0; $available_to_
 		<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and $mate_diff < 12):?>
 			<?php $status = "wait_for_pregnancy"?>
 			<?php $matedCount++;?>
-		<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 15)):?>
+		<?php elseif((!isset($rabbit['rabbit_latest_pregnant_date']) or !$rabbit['rabbit_latest_pregnant_date']) and ($mate_diff >= 12 and $mate_diff <= 25)):?>
 			<?php $status = "check_for_pregnancy";?>
 			<?php $matedCount++;?>
-		<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 31)):?>
+		<?php elseif((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and ($preg_diff >= 27 and $preg_diff <= 32)):?>
 			<?php $pregnantCount++;?>
 			<?php $status = "add_litters";?>
-		<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 31):?>		
+		<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27 or $preg_diff > 32):?>		
 			<?php $pregnantCount++;?>
 			<?php $status = "wait_for_birth"?>
 		<?php elseif((!isset($rabbit['rabbit_latest_weaning_date']) or !$rabbit['rabbit_latest_weaning_date'])and ($wean_diff >= 21 and $wean_diff <= 28)):?>
@@ -237,6 +238,9 @@ $available_to_mateCount = 0; $matedCount = 0; $pregnantCount = 0; $available_to_
 
 
 </div>
+<?php else:?>
+	<h2>No Rabbit Found</h2>
+<?php endif;?>
 </div>
 <script type="text/javascript">
 			$(document).ready(function(){

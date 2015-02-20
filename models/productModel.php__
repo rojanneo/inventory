@@ -16,20 +16,11 @@ class ProductModel extends Model
 		{
 			$where = 1;
 		}
-		//$sql = "SELECT * FROM `products_inventory` WHERE ".$where." ORDER BY sort_order";
-		$sql = "SELECT * FROM `products_inventory` WHERE ".$where." ORDER BY product_id";
-		
+		$sql = "SELECT * FROM `products_inventory` WHERE ".$where." ORDER BY sort_order";
 		$products= $this->connection->Query($sql);
 		if($products)
 			return $products;
 		else return false;
-	}
-
-	public function getAutoIncrementID()
-	{
-		$sql="SELECT AUTO_INCREMENT FROM information_schema.`TABLES`WHERE `table_schema` = 'inventory' AND `table_name` = 'products_inventory'";
-		$ID =$this->connection->Query($sql);
-		return $ID[0]['AUTO_INCREMENT'];
 	}
 
 	public function insert($data = false)

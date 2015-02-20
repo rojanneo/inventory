@@ -13,21 +13,6 @@ class ProductsController extends Controller
 		$this->view->renderAdmin('products/list.phtml',$data);
 	}
 
-	public function addLittersAction()
-	{
-		loadHelper('inputs');
-		$type = 1;
-		$set = 4;
-
-			if($set==4){ $data['ID'] = getModel('product')->getAutoIncrementID(); }	
-			$data['product_type'] = $type;
-			$data['attribute_set'] = $set;
-			$data['attributes'] = getModel('attributeset')->getAttributes(array('AND','attribute_set_id'=>$set));
-			$data['categories'] = getModel('category')->getCollection();
-			$this->view->renderAdmin('products/newlitter.phtml',$data);
-		
-	}
-
 	public function addAction()
 	{
 		loadHelper('inputs');
@@ -35,14 +20,13 @@ class ProductsController extends Controller
 		$set = getParam('set');
 
 		if(!$type and !$set)
-		{			
+		{
 			$data['product_types'] = getModel('producttype')->getCollection();
 			$data['attribute_sets'] = getModel('attributeset')->getCollection();
 			$this->view->renderAdmin('products/selectType.phtml',$data);
 		}
 		else
 		{
-			if($_GET['set']==4){ $data['ID'] = getModel('product')->getAutoIncrementID(); }			
 			$data['product_type'] = $type;
 			$data['attribute_set'] = $set;
 			$data['attributes'] = getModel('attributeset')->getAttributes(array('AND','attribute_set_id'=>$set));
@@ -86,42 +70,6 @@ class ProductsController extends Controller
 
 			getModel('genealogy')->insertRabbit($genealogy_rabbit_data);
 		}
-		redirect('admin/products/add');
-	}
-
-	public function addLitterPostAction()
-	{
-		loadHelper('inputs');
-		$post_data = getPost();
-
-		$attribute_set_id = $post_data['attribute_set_id'];
-		$group = $post_data['attributes']['rabbit_group'];
-		$parent_buck = $post_data['parent_buck_id'];
-		$parent_doe = $post_data['parent_doe_id'];
-		$gender = $post_data['attributes']['rabbit_gender'];
-		$attributes = $post_data['attributes'];
-		$attributes['parent_buck_id'] = $parent_buck;
-		$attributes['parent_doe_id'] = $parent_doe;
-		unset($post_data['attributes']);
-		$categories = $post_data['categories'];
-		unset($post_data['categories']);
-		$group_data['rabbit_family_id'] = $attributes['rabbit_family_id'];
-		$litter_group = getModel('genealogy')->addLitterGroup($group_data);
-
-		$product_id = getModel('product')->insert($post_data);
-
-		$rabbitLitterData['parent_rabbit_id'] = $parent_doe;
-		$rabbitLitterData['parent_buck_id'] = $parent_buck;
-		$rabbitLitterData['rabbit_family_id'] = $attributes['rabbit_family_id'];
-		$rabbitLitterData['litter_dob'] = $attributes['rabbit_dob'];
-		$rabbitLitterData['rabbit_id'] = $product_id;
-
-		$rabbit_litter = getModel('litter')->insert($rabbitLitterData,$litter_group);
-		$attributes['product_id'] = $product_id;
-		$categories['product_id'] = $product_id;
-		getModel('product')->insertAttributes($attributes);
-		getModel('product')->insertCategories($categories);
-		
 		redirect('admin/products/add');
 	}
 

@@ -13,22 +13,12 @@
 			<input type="hidden" name="attribute_set_id" value="<?php echo $attribute_set?>"/>
 		<div class="input-box">
 			<label>Product Name</label>
-			<?php if(isset($ID)) {?>
-			<input type="text" name="product_name" value="<?php echo $ID; ?>"readonly/>
-			</div>
-			<div class="input-box">
-			<label>SKU</label>
-			<input type="text" name="product_sku" value="<?php echo $ID; ?>"readonly/>
-			</div>
-			<?php } else{?>
 			<input type="text" name="product_name"/>
-			</div>
-			<div class="input-box">
+		</div>
+		<div class="input-box">
 			<label>SKU</label>
 			<input type="text" name="product_sku"/>
-			</div>
-			<?php } ?>		
-		
+		</div>
 		<div class="input-box">
 			<label>Quantity</label>
 			<input type="number" name="product_quantity"/>
