@@ -122,7 +122,7 @@ class ProductsController extends Controller
 		getModel('product')->insertAttributes($attributes);
 		getModel('product')->insertCategories($categories);
 		
-		redirect('admin/products/add');
+		redirect('admin/products/addLitters');
 	}
 
 	public function editAction($product_id)
