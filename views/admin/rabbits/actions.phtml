@@ -94,8 +94,14 @@
 					<input type="submit" value="Submit"/>
 				</form>
 				</div>
+				<div class="still_birth">
+				<p>Still Birth:</p><input type="checkbox"/>				
+				</div>
 			<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff < 27):?>
 				<div class="status"><h3>We have to wait for <?php echo (27 - $preg_diff)?> to <?php echo (32 - $preg_diff)?> days for birth</h3></div>
+				<div class="still_birth">
+				<p>Still Birth:</p><input type="checkbox"/>				
+				</div>
 			<?php elseif(!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date'] or $preg_diff > 32):?>
 				<div class="status"><h3>Days exceeded for birth. Rabbit will be available for Mating again</h3></div>
 				<?php getModel('rabbit')->resetDates($rabbit_id);?>
@@ -321,11 +327,18 @@
 	<p>Is rabbit Dead:</p><input type="checkbox"/>
 </div>
 <a class='ajax' href="<?php echo ADMIN_URL.'rabbits/deathActions/'.$rabbit_id?>" style="display:none">Actions</a>
+<a class='still_birth_ajax' href="<?php echo ADMIN_URL.'rabbits/stillbirth/'.$rabbit_id?>" style="display:none">Actions</a>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.ajax').colorbox({width:"50%", height:"auto"});
+		$('.still_birth_ajax').colorbox({width:"50%", height:"auto"});
 		$('.death').click(function(){
 			$(this).parent().parent().find('a.ajax').trigger("click");
+		});
+
+		$('.still_birth').click(function(){
+			console.log($(this).parent().find('a.still_birth_ajax'));
+			$(this).parent().find('a.still_birth_ajax').trigger('click');
 		});
 	});
 

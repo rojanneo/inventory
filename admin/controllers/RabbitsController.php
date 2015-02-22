@@ -304,6 +304,12 @@ class RabbitsController extends Controller
 		$this->view->renderAdmin('rabbits/death.phtml',$data,false,false,false);
 	}
 
+	public function stillbirthAction($rabbit_id)
+	{
+		$data['rabbit_id'] = $rabbit_id;
+		$this->view->renderAdmin('rabbits/stillbirth.phtml',$data,false,false,false);
+	}
+
 	public function deathprocessAction() // Death process
 	{
 		loadHelper('inputs');
@@ -313,6 +319,24 @@ class RabbitsController extends Controller
 			$do=getModel('rabbit')->deathentry($post_data);
 			if($do)
 			{
+				redirect('admin/rabbits');
+			}
+		}
+	}
+
+	public function stillbirthProcessAction() // Death process
+	{
+		loadHelper('inputs');
+		$post_data = getPost(); 
+		if($post_data)
+		{
+			$data['rabbit_id'] = $post_data['rabbit_id'];
+			$data['still_birth_date'] = date('Y-m-d');
+			$data['still_birth_reason'] = $post_data['still_birth_reason']; 
+			$do=getModel('stillbirth')->insert($data);
+			if($do)
+			{
+				getModel('rabbit')->resetDates($post_data['rabbit_id']);
 				redirect('admin/rabbits');
 			}
 		}
