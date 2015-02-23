@@ -1,0 +1,69 @@
+<script type="text/javascript" src="<?php echo ASSET_URL.'js/searchbox.js'?>"></script>
+<div class="rabbit_search col-lg-12 col-md-12">
+	<input type="text" class="search_rabbit" placeholder="Search Rabbit ID"/>
+</div>
+<div id="loading">
+	<p>Loading</p>
+</div>
+<div id="searched_rabbit" class="search_result">
+</div>
+<div class="rabbit_landing">
+	<div class="row">
+		<div class="col-lg-6 col-md-6 sick_rabbit">
+			<div class="thumbnail">
+				<div class="caption text-center">
+					<h3>Sick Rabbits</h3>
+					<p>Information on sick rabbits</p>
+					<p>
+						<a href="#" class="btn btn-default" role="button">View</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6 dead_rabbit">
+			<div class="thumbnail">
+				<div class="caption text-center">
+					<h3>Dead Rabbits</h3>
+					<p>Information on Dead rabbits</p>
+					<p>
+						<a href="#" class="btn btn-default" role="button">View</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-6 col-md-6 shifted_rabbit">
+			<div class="thumbnail">
+				<div class="caption text-center">
+					<h3>Shifted Rabbits</h3>
+					<p>Information on shifted rabbits</p>
+					<p>
+						<a href="#" class="btn btn-default" role="button">View</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6 slaughtered_rabbit">
+			<div class="thumbnail">
+				<div class="caption text-center">
+					<h3>Slaughtered Rabbits</h3>
+					<p>Information on slaughtered rabbits</p>
+					<p>
+						<a href="#" class="btn btn-default" role="button">View</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('input.search_rabbit').searchbox({
+			url:'<?php echo ADMIN_URL."rabbit/search"?>',
+			dom_id:'#searched_rabbit',
+			delay:500,
+			loading_css:'#loading'
+		});
+	});
+</script>

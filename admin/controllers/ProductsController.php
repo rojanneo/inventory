@@ -28,6 +28,7 @@ class ProductsController extends Controller
 		
 	}
 
+
 	public function addAction()
 	{
 		loadHelper('inputs');

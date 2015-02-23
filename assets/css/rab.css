@@ -473,6 +473,12 @@ line-height: 32px;
   color:#fff;
 }
 
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
+  background-color:#903b2e;
+  color:#fff;
+}
+.navbar-default .navbar-nav>li>a{color:#fff;}
+
 .main-container{margin-top:60px;}
 
 /*body .container{

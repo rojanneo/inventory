@@ -23,20 +23,24 @@ class RabbitModel extends Model
 	{
 		$sql = "SELECT * FROM `products_inventory` WHERE product_id = ".$rabbit_id.' LIMIT 1';
 		$rabbit = $this->connection->Query($sql);
-		$ra = array();
-		foreach($rabbit[0] as $attribute_code => $value)
+		if($rabbit)
 		{
-			$ra[$attribute_code] = $value;
-		}
+			$ra = array();
+			foreach($rabbit[0] as $attribute_code => $value)
+			{
+				$ra[$attribute_code] = $value;
+			}
 
-		$attributes = getModel('product')->getAttributes($rabbit_id);
-		foreach($attributes as $attribute)
-		{
-			$ra[$attribute['attribute_code']] = $attribute['value'];
-			if($attribute['value'] == '0000-00-00') $ra[$attribute['attribute_code']] = null;
-		}
+			$attributes = getModel('product')->getAttributes($rabbit_id);
+			foreach($attributes as $attribute)
+			{
+				$ra[$attribute['attribute_code']] = $attribute['value'];
+				if($attribute['value'] == '0000-00-00') $ra[$attribute['attribute_code']] = null;
+			}
 
-		return $ra;
+			return $ra;
+		}
+		else return false;
 	}
 
 	public function performMating($male, $female)
