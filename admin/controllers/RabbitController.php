@@ -27,4 +27,18 @@ class RabbitController extends Controller
 			else echo 'No Rabbit with that ID exists';
 		}
 	}
+        
+        public function sicklistAction()
+        {
+            $sick_rabbits = getModel('rabbit')->getSickRabbits();
+            $data['sick_rabbits'] = $sick_rabbits;
+            $this->view->renderAdmin('rabbit/sick_list.phtml',$data);
+        }
+        
+        public function deathlistAction()
+        {
+            $dead_rabbits = getModel('rabbit')->getDeadRabbits();
+            $data['dead_rabbits'] = $dead_rabbits;
+            $this->view->renderAdmin('rabbit/death_list.phtml',$data);
+        }
 }

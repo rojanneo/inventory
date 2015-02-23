@@ -1,69 +1,89 @@
-<script type="text/javascript" src="<?php echo ASSET_URL.'js/searchbox.js'?>"></script>
+<script type="text/javascript" src="<?php echo ASSET_URL . 'js/searchbox.js' ?>"></script>
 <div class="rabbit_search col-lg-12 col-md-12">
-	<input type="text" class="search_rabbit" placeholder="Search Rabbit ID"/>
+    <input type="text" class="search_rabbit" placeholder="Search Rabbit ID"/>
 </div>
 <div id="loading">
-	<p>Loading</p>
+    <p>Loading</p>
 </div>
 <div id="searched_rabbit" class="search_result">
 </div>
 <div class="rabbit_landing">
-	<div class="row">
-		<div class="col-lg-6 col-md-6 sick_rabbit">
-			<div class="thumbnail">
-				<div class="caption text-center">
-					<h3>Sick Rabbits</h3>
-					<p>Information on sick rabbits</p>
-					<p>
-						<a href="#" class="btn btn-default" role="button">View</a>
-					</p>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6 col-md-6 dead_rabbit">
-			<div class="thumbnail">
-				<div class="caption text-center">
-					<h3>Dead Rabbits</h3>
-					<p>Information on Dead rabbits</p>
-					<p>
-						<a href="#" class="btn btn-default" role="button">View</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-6 col-md-6 shifted_rabbit">
-			<div class="thumbnail">
-				<div class="caption text-center">
-					<h3>Shifted Rabbits</h3>
-					<p>Information on shifted rabbits</p>
-					<p>
-						<a href="#" class="btn btn-default" role="button">View</a>
-					</p>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6 col-md-6 slaughtered_rabbit">
-			<div class="thumbnail">
-				<div class="caption text-center">
-					<h3>Slaughtered Rabbits</h3>
-					<p>Information on slaughtered rabbits</p>
-					<p>
-						<a href="#" class="btn btn-default" role="button">View</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 sick_rabbit">
+            <div class="thumbnail">
+                <div class="caption text-center">
+                    <h3>Sick Rabbits</h3>
+                    <p>Information on sick rabbits</p>
+                    <?php $sick_rabbit_count = getModel('rabbit')->getSickRabbitCount();?>
+                    <?php if($sick_rabbit_count > 0):?>
+                    <div class="alert alert-warning">
+                        <p><?php echo $sick_rabbit_count?> Sick Rabbit(s)</p>
+                    </div>
+                    <?php else:?>
+                    <div class="alert alert-success">
+                        <p><?php echo $sick_rabbit_count?> Sick Rabbit(s)</p>
+                    </div>
+                    <?php endif;?>
+                    <p>
+                        <a href="<?php echo ADMIN_URL . 'rabbit/sicklist' ?>" class="btn btn-default" role="button">View</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 dead_rabbit">
+            <div class="thumbnail">
+                <div class="caption text-center">
+                    <h3>Dead Rabbits</h3>
+                    <p>Information on Dead rabbits</p>
+                   <?php $dead_rabbit_count = getModel('rabbit')->getDeadRabbitCount();?>
+                    <?php if($dead_rabbit_count > 0):?>
+                    <div class="alert alert-danger">
+                        <p><?php echo $dead_rabbit_count?> Dead Rabbit(s)</p>
+                    </div>
+                    <?php else:?>
+                    <div class="alert alert-success">
+                        <p><?php echo $dead_rabbit_count?> Dead Rabbit(s)</p>
+                    </div>
+                    <?php endif;?>
+                    <p>
+                        <a href="<?php echo ADMIN_URL . 'rabbit/deathlist' ?>" class="btn btn-default" role="button">View</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 shifted_rabbit">
+            <div class="thumbnail">
+                <div class="caption text-center">
+                    <h3>Shifted Rabbits</h3>
+                    <p>Information on shifted rabbits</p>
+                    <p>
+                        <a href="#" class="btn btn-default" role="button">View</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 slaughtered_rabbit">
+            <div class="thumbnail">
+                <div class="caption text-center">
+                    <h3>Slaughtered Rabbits</h3>
+                    <p>Information on slaughtered rabbits</p>
+                    <p>
+                        <a href="#" class="btn btn-default" role="button">View</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('input.search_rabbit').searchbox({
-			url:'<?php echo ADMIN_URL."rabbit/search"?>',
-			dom_id:'#searched_rabbit',
-			delay:500,
-			loading_css:'#loading'
-		});
-	});
+    $(document).ready(function () {
+        $('input.search_rabbit').searchbox({
+            url: '<?php echo ADMIN_URL . "rabbit/search" ?>',
+            dom_id: '#searched_rabbit',
+            delay: 500,
+            loading_css: '#loading'
+        });
+    });
 </script>

@@ -1,0 +1,24 @@
+<?php if (isset($sick_rabbits)): ?>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <table class="table table-hover">
+                <thead>
+                <th>ID</th>
+                <th>Rabbit</th>
+                <th>Sick From</th>
+                <th>Reason</th>
+                </thead>
+                <tbody>
+                    <?php foreach ($sick_rabbits as $sick_rabbit): ?>
+                        <tr>
+                            <td><?php echo $sick_rabbit['sick_rabbit_id']; ?></td>
+                            <td><?php echo $sick_rabbit['rabbit_id']; ?></td>
+                            <td><?php echo $sick_rabbit['sick_date']; ?></td>
+                            <td><?php echo $sick_rabbit['reason']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<?php endif; ?>
