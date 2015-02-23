@@ -58,8 +58,12 @@
                 <div class="caption text-center">
                     <h3>Shifted Rabbits</h3>
                     <p>Information on shifted rabbits</p>
+                   <?php $shifted_rabbit_count = getModel('rabbit')->getShiftedRabbitCount();?>
+                    <div class="alert alert-success">
+                        <p><?php echo $shifted_rabbit_count?> Shifted Rabbit(s)</p>
+                    </div>
                     <p>
-                        <a href="#" class="btn btn-default" role="button">View</a>
+                        <a href="<?php echo ADMIN_URL . 'rabbit/shiftedlist' ?>" class="btn btn-default" role="button">View</a>
                     </p>
                 </div>
             </div>

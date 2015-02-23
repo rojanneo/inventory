@@ -124,10 +124,16 @@ class RabbitModel extends Model {
         return count($sick_rabbits);
     }
     
-     public function getDeadRabbitCount()
+    public function getDeadRabbitCount()
     {
         $dead_rabbits = $this->getDeadRabbits();
         return count($dead_rabbits);
+    }
+
+    public function getShiftedRabbitCount()
+    {
+        $shifted_rabbits = $this->getShiftedRabbits();
+        return count($shifted_rabbits);
     }
 
     public function getSickRabbits() {
@@ -145,6 +151,16 @@ class RabbitModel extends Model {
         $dead_rabbits = $this->connection->Query($sql);
         if ($dead_rabbits) {
             return $dead_rabbits;
+        } else {
+            return false;
+        }
+    }
+
+     public function getShiftedRabbits() {
+        $sql = "SELECT shift_id, rabbit_id, shifted_from, shifted_to, shifted_date, reason FROM `shifted_rabbits` JOIN shifting_reasons ON shifted_rabbits.shifting_reason = shifting_reasons.id";
+        $shifted_rabbits = $this->connection->Query($sql);
+        if ($shifted_rabbits) {
+            return $shifted_rabbits;
         } else {
             return false;
         }

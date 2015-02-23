@@ -23,6 +23,8 @@ $available_to_mateCount = 0; $matedCount = 0; $pregnantCount = 0; $available_to_
 	<?php elseif($r['attributes']['rabbit_group'] == 'Products to be '):?>
 		<?php $products_to_beCount++;?>
 		<?php $products_to_be_array[$r['attributes']['rabbit_family_id']][] = $r['product_id'];?>
+	<?php elseif($r['attributes']['rabbit_group'] == 'Products'):?>
+		
 	<?php else:?>
 		<?php $parents_array[$r['attributes']['rabbit_family_id']][] = $r['product_id'];?>
 	<?php endif;?>

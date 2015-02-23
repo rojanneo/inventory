@@ -41,4 +41,11 @@ class RabbitController extends Controller
             $data['dead_rabbits'] = $dead_rabbits;
             $this->view->renderAdmin('rabbit/death_list.phtml',$data);
         }
+
+        public function shiftedlistAction()
+        {
+        	$shifted_rabbits = getModel('rabbit')->getShiftedRabbits();
+            $data['shifted_rabbits'] = $shifted_rabbits;
+            $this->view->renderAdmin('rabbit/shifted_list.phtml',$data);
+        }
 }
