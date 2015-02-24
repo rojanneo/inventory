@@ -30,4 +30,40 @@
 			<a href="#" class="list-group-item">Feeding Group: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_feeding_group']?></span></a>
 		</div>
 	</div>
+	<div class="rabbit-actions col-lg-4 col-md-4 col-sm-2 col-xs-12">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<button type="button" class="sick_btn btn btn-primary btn-block">Sick</button>
+				<button type="button" class="death_btn btn btn-primary btn-block">Death</button>
+				<button type="button" class="shift_btn btn btn-primary btn-block">Shift</button>
+				<button type="button" class="slaughter_btn btn btn-primary btn-block">Slaughter</button>
+			</div>
+		</div>
+	</div>
+	<div class="rabbit-actions-form col-lg-4 col-md-4 col-sm-12 col-xs-12">
+		<form method="post" class="sick_form" style="display:none">
+		<input type="text" placeholder="Reason"/>
+		<input type="submit" value="Save"/>
+		</form>
+		<form method="post" class="sick_form" style="display:none">
+		<input type="text" placeholder="Reason"/>
+		<input type="submit" value="Save"/>
+		</form>
+		<form method="post" class="sick_form" style="display:none">
+		<input type="text" placeholder="Reason"/>
+		<input type="submit" value="Save"/>
+		</form>
+		<form method="post" class="sick_form" style="display:none">
+		<input type="text" placeholder="Reason"/>
+		<input type="submit" value="Save"/>
+		</form>
+	</div>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('button.sick_btn').click(function(){
+			$('.rabbit-actions-form form.sick_form').toggle();
+		});
+	});
+</script>

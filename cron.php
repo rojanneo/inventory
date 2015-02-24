@@ -1,5 +1,6 @@
 <?php
-for ($i=1; $i<=100 ; $i++) { 
-	echo $i.'<br>';
-}
+ $stack = new DOTNET("mscorlib", "System.Collections.Stack");
+ $stack->Push(".Net");
+ $stack->Push("Hello ");
+ echo $stack->Pop() . $stack->Pop();
 ?>

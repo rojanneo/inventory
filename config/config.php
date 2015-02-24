@@ -1,6 +1,6 @@
 <?php
 if (!defined('URL')) {
-	define('URL', 'http://localhost/inventory/');
+	define('URL', 'http://192.168.13.120/inventory/');
 }
 
 if (!defined('ADMIN_URL')) {
