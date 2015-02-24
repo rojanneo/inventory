@@ -121,19 +121,27 @@ class RabbitModel extends Model {
     public function getSickRabbitCount()
     {
         $sick_rabbits = $this->getSickRabbits();
-        return count($sick_rabbits);
+        if($sick_rabbits)
+	        return count($sick_rabbits);
+	    else
+	    	return 0;
     }
     
     public function getDeadRabbitCount()
     {
         $dead_rabbits = $this->getDeadRabbits();
-        return count($dead_rabbits);
+        if($dead_rabbits)
+	        return count($dead_rabbits);
+	    else
+	    	return 0;
     }
 
     public function getShiftedRabbitCount()
     {
         $shifted_rabbits = $this->getShiftedRabbits();
-        return count($shifted_rabbits);
+        if($shifted_rabbits)
+	        return count($shifted_rabbits);
+	    else return 0;
     }
 
     public function getSickRabbits() {
