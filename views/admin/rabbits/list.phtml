@@ -1,4 +1,5 @@
 <div class="rabbits">
+		<?php //echo '<pre';?>
 <?php $rabbits = getModel('rabbit')->getCollection();?>
 <?php if($rabbits):?>
 <?php $litter_array = array();?>
@@ -10,9 +11,10 @@ $available_to_mateCount = 0; $matedCount = 0; $pregnantCount = 0; $available_to_
 <?php $littersCount = count(getModel('litter')->getCollection());?>
 <?php foreach($rabbits as $rabbit):?>
 	<?php $r = getModel('product')->load($rabbit['product_id']);?>
-	<?php if($r['attributes']['rabbit_gender'] == 'Male'):?>
+	<?php if($r['attributes']['rabbit_gender'] == 'Male' and ($r['attributes']['rabbit_group'] == 'Parents' and $r['attributes']['is_litter'] == 'No')):?>
 		<?php $maleCount++;?>
-	<?php elseif($r['attributes']['rabbit_gender'] == 'Female'):?>
+	<?php elseif($r['attributes']['rabbit_gender'] == 'Female' and ($r['attributes']['rabbit_group'] == 'Parents' and $r['attributes']['is_litter'] == 'No')):?>
+		<?php //var_dump($r);?>
 		<?php $femaleCount++;?>
 	<?php endif;?>
 	<?php if($r['attributes']['is_litter'] == 'yes'):?>
