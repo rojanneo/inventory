@@ -185,7 +185,7 @@
                 <?php $wean_date = new DateTime($litter['rabbit_latest_weaning_date']); ?>
                 <?php $cull_diff = $today->diff($wean_date)->format("%a"); ?>
                 <?php $status = null; ?>
-                <?php if ($cull_diff <= 0): ?>
+                <?php if ($cull_diff <= 60): ?>
                     <?php $status = "wait_for_culling" ?>
                                         <?php $waiting_for_cullingCount+= count($litters); ?>
                                     <?php else: ?>
