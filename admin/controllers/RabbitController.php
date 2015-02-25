@@ -22,11 +22,18 @@ class RabbitController extends Controller
 			if($rabbit) 
 			{
 				$data['rabbit'] = $rabbit;
+                                $data['sick_reasons'] = getModel('rabbit')->getSickReasons();
 				$this->view->renderAdmin('rabbit/rabbit.phtml', $data, false, false,false);
 			}
 			else echo 'No Rabbit with that ID exists';
 		}
 	}
+        
+        public function sickAction()
+        {
+            loadHelper('inputs');
+            var_dump(getPost());
+        }
         
         public function sicklistAction()
         {

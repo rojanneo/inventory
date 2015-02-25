@@ -484,5 +484,5 @@ line-height: 32px;
 /*body .container{
   margin-top:50px;
 }*/
-
+input.search_rabbit,.row input{margin:0;}
 body footer .container{margin-top:0;}

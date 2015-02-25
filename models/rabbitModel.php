@@ -173,5 +173,13 @@ class RabbitModel extends Model {
             return false;
         }
     }
+    
+    public function getSickReasons()
+    {
+        $sql = "SELECT * FROM sick_reasons";
+        $reasons = $this->connection->Query($sql);
+        if($reasons) return $reasons;
+        else return false;
+    }
 
 }

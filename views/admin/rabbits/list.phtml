@@ -110,7 +110,7 @@ $available_to_mateCount = 0; $matedCount = 0; $pregnantCount = 0; $available_to_
 				<?php $mate_diff = $today->diff($mate_date)->format("%a");?>
 				<?php endif;?>
 				<?php if(isset($rabbit['rabbit_latest_pregnant_date'])):?>
-				<?php $preg_date = new DateTime($rabbit['rabbit_latest_pregnant_date']);?>
+				<?php $preg_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
 				<?php $diff = $today->diff($dob)->format("%a");?>
 				<?php $preg_diff = $today->diff($mate_date)->format("%a");?>
 				<?php endif;?>

@@ -1,71 +1,124 @@
-<div class="row">
-	<div class = "rabbit col-lg-4 col-md-4 col-sm-6 col-xs-12">
-		<div class="list-group">
-			<a href="javascript:void(0)" class="list-group-item active text-center"><h3>Rabbit <?php echo $rabbit['product_id']?></h3></a> 
-			<a href="#" class="list-group-item">Family ID: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_family_id']?></span></a> 
-			<a href="#" class="list-group-item">Gender: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_gender']?></span></a> 
-			<a href="#" class="list-group-item">Group: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_group']?></span></a> 
-			<?php if($rabbit['parent_doe_id'] != 0):?>
-				<a href="#" class="list-group-item">Parent Doe: <span class="badge badge-primary pull-right"><?php echo $rabbit['parent_doe_id']?></span></a> 
-			<?php endif;?>
-			<?php if($rabbit['parent_buck_id'] != 0):?>
-				<a href="#" class="list-group-item">Parent Buck: <span class="badge badge-primary pull-right"><?php echo $rabbit['parent_buck_id']?></span></a> 
-			<?php endif;?>
-			<a href="#" class="list-group-item">Date of Birth: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_dob']?></span></a>
-			<?php if($rabbit['rabbit_latest_mate_date']):?>
-				<a href="#" class="list-group-item">Recent Mate Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_mate_date']?></span></a> 
-			<?php endif;?>
-			<?php if(isset($rabbit['rabbit_latest_pregnant_date'])):?>
-				<a href="#" class="list-group-item">Recent Pregnant Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_pregnant_date']?></span></a> 
-			<?php endif;?>
-			<?php if(isset($rabbit['rabbit_latest_birth_date'])):?>
-				<a href="#" class="list-group-item">Recent Birth Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_birth_date']?></span></a> 
-			<?php endif;?>
-			<?php if(isset($rabbit['rabbit_latest_weaning_date'])):?>
-				<a href="#" class="list-group-item">Weaning Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_weaning_date']?></span></a> 
-			<?php endif;?>
-			<?php if(isset($rabbit['rabbit_latest_culling_date'])):?>
-				<a href="#" class="list-group-item">Culling Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_culling_date']?></span></a> 
-			<?php endif;?>
-			<a href="#" class="list-group-item">Feeding Group: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_feeding_group']?></span></a>
-		</div>
-	</div>
-	<div class="rabbit-actions col-lg-4 col-md-4 col-sm-2 col-xs-12">
-		<div class="row">
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<button type="button" id="sick_form" class="action_btn sick_btn btn btn-primary btn-block">Sick</button>
-				<button type="button" id="death_form" class="action_btn death_btn btn btn-primary btn-block">Death</button>
-				<button type="button" id="shift_form" class="action_btn shift_btn btn btn-primary btn-block">Shift</button>
-				<button type="button" id="slaughter_form" class="action_btn slaughter_btn btn btn-primary btn-block">Slaughter</button>
-			</div>
-		</div>
-	</div>
-	<div class="rabbit-actions-form col-lg-4 col-md-4 col-sm-12 col-xs-12">
-		<form method="post" class="sick_form" style="display:none">
-		<input type="text" placeholder="Reason Sick"/>
-		<input type="submit" value="Save"/>
-		</form>
-		<form method="post" class="death_form" style="display:none">
-		<input type="text" placeholder="Reason Death"/>
-		<input type="submit" value="Save"/>
-		</form>
-		<form method="post" class="shift_form" style="display:none">
-		<input type="text" placeholder="Reason Shift"/>
-		<input type="submit" value="Save"/>
-		</form>
-		<form method="post" class="slaughter_form" style="display:none">
-		<input type="text" placeholder="Reason Slaugther"/>
-		<input type="submit" value="Save"/>
-		</form>
-	</div>
-</div>
+<?php if ($rabbit): ?>
+    <div class="row">
+        <div class = "rabbit col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="list-group">
+                <a href="javascript:void(0)" class="list-group-item active text-center"><h3>Rabbit <?php echo $rabbit['product_id'] ?></h3></a> 
+                <a href="#" class="list-group-item">Family ID: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_family_id'] ?></span></a> 
+                <a href="#" class="list-group-item">Gender: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_gender'] ?></span></a> 
+                <a href="#" class="list-group-item">Group: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_group'] ?></span></a> 
+                <?php if ($rabbit['parent_doe_id'] != 0): ?>
+                    <a href="#" class="list-group-item">Parent Doe: <span class="badge badge-primary pull-right"><?php echo $rabbit['parent_doe_id'] ?></span></a> 
+                <?php endif; ?>
+                <?php if ($rabbit['parent_buck_id'] != 0): ?>
+                    <a href="#" class="list-group-item">Parent Buck: <span class="badge badge-primary pull-right"><?php echo $rabbit['parent_buck_id'] ?></span></a> 
+                <?php endif; ?>
+                <a href="#" class="list-group-item">Date of Birth: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_dob'] ?></span></a>
+                <?php if ($rabbit['rabbit_latest_mate_date']): ?>
+                    <a href="#" class="list-group-item">Recent Mate Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_mate_date'] ?></span></a> 
+                <?php endif; ?>
+                <?php if (isset($rabbit['rabbit_latest_pregnant_date'])): ?>
+                    <a href="#" class="list-group-item">Recent Pregnant Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_pregnant_date'] ?></span></a> 
+                <?php endif; ?>
+                <?php if (isset($rabbit['rabbit_latest_birth_date'])): ?>
+                    <a href="#" class="list-group-item">Recent Birth Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_birth_date'] ?></span></a> 
+                <?php endif; ?>
+                <?php if (isset($rabbit['rabbit_latest_weaning_date'])): ?>
+                    <a href="#" class="list-group-item">Weaning Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_weaning_date'] ?></span></a> 
+                <?php endif; ?>
+                <?php if (isset($rabbit['rabbit_latest_culling_date'])): ?>
+                    <a href="#" class="list-group-item">Culling Date: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_latest_culling_date'] ?></span></a> 
+                <?php endif; ?>
+                <a href="#" class="list-group-item">Feeding Group: <span class="badge badge-primary pull-right"><?php echo $rabbit['rabbit_feeding_group'] ?></span></a>
+            </div>
+        </div>
+        <div class="rabbit-actions col-lg-1 col-md-2 col-sm-2 col-xs-12">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <button type="button" id="sick_form" class="action_btn sick_btn btn btn-primary btn-block">Sick</button>
+                    <button type="button" id="death_form" class="action_btn death_btn btn btn-primary btn-block">Death</button>
+                    <button type="button" id="shift_form" class="action_btn shift_btn btn btn-primary btn-block">Shift</button>
+                    <button type="button" id="slaughter_form" class="action_btn slaughter_btn btn btn-primary btn-block">Slaughter</button>
+                </div>
+            </div>
+        </div>
+        <div class="rabbit-actions-form col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <form method="get" action="<?php echo ADMIN_URL.'rabbit/sick'?>" class="sick_form" style="display:none" id="sick_form">
+                <input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']; ?>"/>
+                <!--                	<label for name="selecter_label"> Select A Reason</label>-->
+                <div class="row">
+                    <div class="col-lg-12">
+                <select name="selecter_label" class="required" onchange="CheckSickReason(this)">
+                    <option value='' disabled selected style='display:none;'>Select A Reason</option>
+                    <?php if ($sick_reasons): ?>
+                        <?php foreach ($sick_reasons as $reason): ?>
+                            <option value="<?php echo $reason['id']; ?>"><?php echo $reason['reason']; ?></option>
+                        <?php endforeach; ?>
+                            <option value="-1">Other</option>
+                    <?php endif; ?>
+                </select>
+                    </div>
+                </div>
+                <div class="row other_reason" style="display:none">
+                    <div class="col-lg-12">
+                        <div class="row">
+                             <div class="col-lg-12">
+                        <input class=" form-control" placeholder="Mention Reason">
+                             </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-lg-12">
+                        <textarea class="form-control" rows="3" placeholder="Description"></textarea>
+                             </div>
+                        </div>
+                    </div>
 
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('button.action_btn').click(function(){
-			$('.rabbit-actions-form form').hide();
-			var form = $(this).attr('id');
-			$('.'+form).show();
-		});
-	});
-</script>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 col-md-4 col-sm-4">
+                <input type="button" class="btn btn-default btn-block sick_submit_btn" value="Save"/>
+                    </div>
+                </div>
+<!--                <input type="submit" value="Save"/>-->
+            </form>
+            <form method="post" class="death_form" style="display:none">
+                <input type="text" placeholder="Reason Death"/>
+                <input type="submit" value="Save"/>
+            </form>
+            <form method="post" class="shift_form" style="display:none">
+                <input type="text" placeholder="Reason Shift"/>
+                <input type="submit" value="Save"/>
+            </form>
+            <form method="post" class="slaughter_form" style="display:none">
+                <input type="text" placeholder="Reason Slaugther"/>
+                <input type="submit" value="Save"/>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("select").selecter({
+                label: "Select An Item"
+            });
+            $('button.action_btn').click(function () {
+                $('.rabbit-actions-form form').hide();
+                var form = $(this).attr('id');
+                $('.' + form).show();
+            });
+           
+            $('.sick_submit_btn').click(function(){
+                 $(this).ajaxSubmit(); 
+            });
+            
+        });
+        
+        function CheckSickReason(select)
+        {
+            //alert($(select).val());
+            if($(select).val() == -1)
+                $('.other_reason').show();
+            else $('.other_reason').hide();
+        //alert($('select').val());
+        }
+    </script>
+<?php endif; ?>
