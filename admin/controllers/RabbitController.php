@@ -32,7 +32,13 @@ class RabbitController extends Controller
         public function sickAction()
         {
             loadHelper('inputs');
-            var_dump(getPost());
+            $data = getPost();
+            if(!isset($data['sick_reason_id']))
+                echo 'Select a Reason';
+            elseif($data['sick_reason_id'] == -1 and $data['sick_reason'] == '')
+            {
+                echo 'Reason Cannot be Empty';
+            }
         }
         
         public function sicklistAction()

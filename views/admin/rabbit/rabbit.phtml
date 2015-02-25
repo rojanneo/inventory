@@ -34,91 +34,115 @@
         <div class="rabbit-actions col-lg-1 col-md-2 col-sm-2 col-xs-12">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button type="button" id="sick_form" class="action_btn sick_btn btn btn-primary btn-block">Sick</button>
-                    <button type="button" id="death_form" class="action_btn death_btn btn btn-primary btn-block">Death</button>
-                    <button type="button" id="shift_form" class="action_btn shift_btn btn btn-primary btn-block">Shift</button>
-                    <button type="button" id="slaughter_form" class="action_btn slaughter_btn btn btn-primary btn-block">Slaughter</button>
+                    <button type="button" data="sick_form1" class="action_btn sick_btn btn btn-primary btn-block">Sick</button>
+                    <button type="button" data="death_form" class="action_btn death_btn btn btn-primary btn-block">Death</button>
+                    <button type="button" data="shift_form" class="action_btn shift_btn btn btn-primary btn-block">Shift</button>
+                    <button type="button" data="slaughter_form" class="action_btn slaughter_btn btn btn-primary btn-block">Slaughter</button>
                 </div>
             </div>
         </div>
         <div class="rabbit-actions-form col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            <form method="get" action="<?php echo ADMIN_URL.'rabbit/sick'?>" class="sick_form" style="display:none" id="sick_form">
-                <input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']; ?>"/>
-                <!--                	<label for name="selecter_label"> Select A Reason</label>-->
-                <div class="row">
-                    <div class="col-lg-12">
-                <select name="selecter_label" class="required" onchange="CheckSickReason(this)">
-                    <option value='' disabled selected style='display:none;'>Select A Reason</option>
-                    <?php if ($sick_reasons): ?>
-                        <?php foreach ($sick_reasons as $reason): ?>
-                            <option value="<?php echo $reason['id']; ?>"><?php echo $reason['reason']; ?></option>
-                        <?php endforeach; ?>
-                            <option value="-1">Other</option>
-                    <?php endif; ?>
-                </select>
+
+            <form method="post" action="<?php echo ADMIN_URL.'rabbit/sick'?>" style="display:none" id="sick_form1">
+                <fieldset>
+                    <input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']; ?>"/>
+                    <div class="row">
+                        <div class="col-lg-12">
+                         <select name="sick_reason_id" class="required" onchange="CheckSickReason(this)">
+                            <option value='' disabled selected style='display:none;'>Select A Reason</option>
+                            <?php if ($sick_reasons): ?>
+                                <?php foreach ($sick_reasons as $reason): ?>
+                                    <option value="<?php echo $reason['id']; ?>"><?php echo $reason['reason']; ?></option>
+                                <?php endforeach; ?>
+                                <option value="-1">Other</option>
+                            <?php endif; ?>
+                        </select>
                     </div>
                 </div>
                 <div class="row other_reason" style="display:none">
                     <div class="col-lg-12">
                         <div class="row">
-                             <div class="col-lg-12">
-                        <input class=" form-control" placeholder="Mention Reason">
-                             </div>
-                        </div>
-                        <div class="row">
-                             <div class="col-lg-12">
-                        <textarea class="form-control" rows="3" placeholder="Description"></textarea>
-                             </div>
+                           <div class="col-lg-12">
+                               <input name="sick_reason" type="text" class=" form-control required" placeholder="Mention Reason">
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-lg-12">
+                            <textarea name="sick_reason_desc" class="form-control required" rows="3" placeholder="Description"></textarea>
                         </div>
                     </div>
-
                 </div>
-                <div class="row">
-                    <div class="col-lg-2 col-md-4 col-sm-4">
-                <input type="button" class="btn btn-default btn-block sick_submit_btn" value="Save"/>
-                    </div>
-                </div>
-<!--                <input type="submit" value="Save"/>-->
-            </form>
-            <form method="post" class="death_form" style="display:none">
-                <input type="text" placeholder="Reason Death"/>
-                <input type="submit" value="Save"/>
-            </form>
-            <form method="post" class="shift_form" style="display:none">
-                <input type="text" placeholder="Reason Shift"/>
-                <input type="submit" value="Save"/>
-            </form>
-            <form method="post" class="slaughter_form" style="display:none">
-                <input type="text" placeholder="Reason Slaugther"/>
-                <input type="submit" value="Save"/>
-            </form>
-        </div>
-    </div>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("select").selecter({
-                label: "Select An Item"
-            });
-            $('button.action_btn').click(function () {
-                $('.rabbit-actions-form form').hide();
-                var form = $(this).attr('id');
-                $('.' + form).show();
-            });
-           
-            $('.sick_submit_btn').click(function(){
-                 $(this).ajaxSubmit(); 
-            });
-            
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input type="submit" value="Send" class="submit btn btn-default btn-block sick_submit_btn"/>
+                </div>
+            </div>
+            <div class="row">
+            <div id="sick_response"></div>
+            </div>
+        </fieldset>
+    </form>
+    <form method="post" class="death_form" style="display:none">
+        <input type="text" placeholder="Reason Death"/>
+        <input type="submit" value="Save"/>
+    </form>
+    <form method="post" class="shift_form" style="display:none">
+        <input type="text" placeholder="Reason Shift"/>
+        <input type="submit" value="Save"/>
+    </form>
+    <form method="post" class="slaughter_form" style="display:none">
+        <input type="text" placeholder="Reason Slaugther"/>
+        <input type="submit" value="Save"/>
+    </form>
+</div>
+</div>
+
+
+//jQuery source
+<script>
+
+    $(document).ready(function(){
+
+        $('#sick_form1').html5form({
+            allBrowsers : true,
+            responseDiv : '#sick_response',
+            method : 'POST',
         });
         
-        function CheckSickReason(select)
-        {
+    });
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select").selecter({
+            label: "Select An Item"
+        });
+        $('button.action_btn').click(function () {
+            $('.rabbit-actions-form form').hide();
+            $('.rabbit-actions-form form .required').removeAttr('required');
+            var form = $(this).attr('data');
+            $('#' + form).show();
+        });
+
+
+    });
+
+    function CheckSickReason(select)
+    {
             //alert($(select).val());
             if($(select).val() == -1)
+            {
                 $('.other_reason').show();
-            else $('.other_reason').hide();
+                $('.other_reason .required').attr('required','');
+            }
+            else 
+            {
+                $('.other_reason').hide();
+                $('.other_reason .required').removeAttr('required');
+            }
         //alert($('select').val());
-        }
-    </script>
+    }
+</script>
 <?php endif; ?>
