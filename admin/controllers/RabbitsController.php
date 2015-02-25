@@ -385,7 +385,7 @@ class RabbitsController extends Controller
 							$today = new DateTime(date('Y-m-d'));
 							$wean_date = new DateTime($rabbit['rabbit_latest_weaning_date']);
 							$cull_diff = $today->diff($wean_date)->format("%a");
-							if($cull_diff <= 0)
+							if($cull_diff <= 60)
 								array_push($not_available_to_cull_array, $rabbit['product_id']);
 							else
 								array_push($available_to_cull_array, $rabbit['product_id']);
