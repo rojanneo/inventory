@@ -198,7 +198,6 @@
                         <?php endif; ?>
                     </ul>
                 <?php else: ?>
-
                     <p>Time for culling</p>
                     <ul>
                         <?php foreach ($rabbits as $r_id): ?>
@@ -249,6 +248,10 @@
                             <li>
                                 <p><?php echo $ra['product_name']; ?></p>
                             </li>
+                                                     <div class="death">
+        <p>Is rabbit Dead:</p><input type="checkbox"/>
+    </div>
+
                         <?php endforeach; ?>
 
                     </ul>
@@ -323,9 +326,11 @@
             <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>
+    <?php if(isset($cull_diff) and !$cull_diff):?>
     <div class="death">
         <p>Is rabbit Dead:</p><input type="checkbox"/>
     </div>
+<?php endif;?>
     <a class='ajax' href="<?php echo ADMIN_URL . 'rabbits/deathActions/' . $rabbit_id ?>" style="display:none">Actions</a>
     <a class='still_birth_ajax' href="<?php echo ADMIN_URL . 'rabbits/stillbirth/' . $rabbit_id ?>" style="display:none">Actions</a>
     <script type="text/javascript">
