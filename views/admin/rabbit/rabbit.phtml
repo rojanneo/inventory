@@ -5,6 +5,10 @@
                 <div class="alert alert-warning">
                     <p>Rabbit is Sick</p>
                 </div>
+             <?php elseif ($rabbit['is_dead'] == 1): ?>
+                <div class="alert alert-danger">
+                    <p>Rabbit is Dead</p>
+                </div>
             <?php endif; ?>
             <div class="list-group">
                 <a href="javascript:void(0)" class="list-group-item active text-center"><h3>Rabbit <?php echo $rabbit['product_id'] ?></h3></a> 
@@ -89,9 +93,46 @@
                     </div>
                 </fieldset>
             </form>
-            <form method="post" class="death_form" style="display:none">
-                <input type="text" placeholder="Reason Death"/>
-                <input type="submit" value="Save"/>
+            <form method="post" action = "<?php echo ADMIN_URL . 'rabbit/death' ?>" class="death_form" id = "death_form" style="display:none">
+                <fieldset>
+                    <input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']; ?>"/>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <select name="death_reason_id" class="required" onchange="CheckDeathReason(this)">
+                                <option value='' disabled selected style='display:none;'>Select A Reason</option>
+                                <?php if ($death_reasons): ?>
+                                    <?php foreach ($death_reasons as $reason): ?>
+                                        <option value="<?php echo $reason['id']; ?>"><?php echo $reason['reason']; ?></option>
+                                    <?php endforeach; ?>
+                                    <option value="-1">Other</option>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row other_reason" style="display:none">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <input name="death_reason" type="text" class=" form-control required" placeholder="Mention Death Reason">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <textarea name="death_reason_desc" class="form-control required" rows="3" placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <input type="submit" value="Send" class="submit btn btn-default btn-block sick_submit_btn"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="sick_response"></div>
+                    </div>
+                </fieldset>
             </form>
             <form method="post" class="shift_form" style="display:none">
                 <input type="text" placeholder="Reason Shift"/>
@@ -127,6 +168,26 @@
 
                 return false; // avoid to execute the actual submit of the form.
             });
+            
+            $("#death_form").submit(function () {
+
+                var url = $(this).attr('action'); // the script where you handle the form input.
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $("#death_form").serialize(), // serializes the form's elements.
+                    success: function (data)
+                    {
+                        var value = JSON.parse(data);
+                        $(value.identifier).html(value.html);
+                        $('#death_form').hide();
+                        $('.rabbit-actions-form').prepend('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><p>Rabbit Dead</p></div>');
+                    }
+                });
+
+                return false; // avoid to execute the actual submit of the form.
+            });
         });
 
     </script>
@@ -137,6 +198,7 @@
             });
             $('button.action_btn').click(function () {
                 $('.rabbit-actions-form form').hide();
+                $('.rabbit-actions-form form .other_reason').hide();
                 $('.rabbit-actions-form form .required').removeAttr('required');
                 var form = $(this).attr('data');
                 $('#' + form).show();
@@ -146,6 +208,22 @@
         });
 
         function CheckSickReason(select)
+        {
+            //alert($(select).val());
+            if ($(select).val() == -1)
+            {
+                $('.other_reason').show();
+                $('.other_reason .required').attr('required', '');
+            }
+            else
+            {
+                $('.other_reason').hide();
+                $('.other_reason .required').removeAttr('required');
+            }
+            //alert($('select').val());
+        }
+        
+        function CheckDeathReason(select)
         {
             //alert($(select).val());
             if ($(select).val() == -1)

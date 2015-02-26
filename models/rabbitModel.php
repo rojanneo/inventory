@@ -182,6 +182,14 @@ class RabbitModel extends Model {
         else return false;
     }
     
+    public function getDeathReasons()
+    {
+        $sql = "SELECT * FROM death_reasons";
+        $reasons = $this->connection->Query($sql);
+        if($reasons) return $reasons;
+        else return false;
+    }
+    
     public function sick($rabbit_id,$sick_reason_id)
     {
         $sql = "INSERT INTO `sick_rabbits`(`rabbit_id`, `sick_date`, `sick_reason`) VALUES ("
@@ -190,9 +198,30 @@ class RabbitModel extends Model {
         return $this->connection->GetInsertID();
     }
     
+    public function dead($rabbit_id,$death_reason_id)
+    {
+        $sql = "INSERT INTO `dead_rabbits`(`rabbit_id`, `death_date`, `death_reason`) VALUES ("
+                .mysql_escape_string($rabbit_id).",'".date('Y-m-d')."',".mysql_escape_string($death_reason_id).")";
+        $this->connection->InsertQuery($sql);
+        $reason_id = $this->connection->GetInsertID();
+        $sql = "INSERT INTO aa_death (`rid`,`death_reason`) VALUES(".$rabbit_id.", '".$death_reason_id."')";
+        $this->connection->InsertQuery($sql);
+        $delete = "DELETE FROM `aa_rabbits` WHERE `r_id`=".$rabbit_id;
+        $this->connection->DeleteQuery($delete);
+        return $reason_id;
+    }
+    
     public function addSickReason($reason, $reason_description)
     {
         $sql = "INSERT INTO `sick_reasons`(`reason`, `reason_description`) VALUES ('".mysql_escape_string($reason)."','".mysql_escape_string($reason_description)."')";
+        $this->connection->InsertQuery($sql);
+        return $this->connection->GetInsertID();
+             
+    }
+    
+    public function addDeathReason($reason, $reason_description)
+    {
+        $sql = "INSERT INTO `death_reasons`(`reason`, `reason_description`) VALUES ('".mysql_escape_string($reason)."','".mysql_escape_string($reason_description)."')";
         $this->connection->InsertQuery($sql);
         return $this->connection->GetInsertID();
              

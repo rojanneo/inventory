@@ -244,14 +244,14 @@
                     <ul>
                         <?php foreach ($rabbits as $r_id): ?>
                             <?php $ra = getModel('rabbit')->load($r_id['rabbit_id']); ?>
-
+                            <?php if($ra['is_dead'] != 1):?>
                             <li>
                                 <p><?php echo $ra['product_name']; ?></p>
                             </li>
-                                                     <div class="death">
+                                                     <div class="death" id="<?php echo $ra['product_id'];?>">
         <p>Is rabbit Dead:</p><input type="checkbox"/>
     </div>
-
+<?php endif;?>
                         <?php endforeach; ?>
 
                     </ul>
@@ -326,7 +326,7 @@
             <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>
-    <?php if(isset($cull_diff) and !$cull_diff):?>
+    <?php if(!isset($cull_diff)):?>
     <div class="death">
         <p>Is rabbit Dead:</p><input type="checkbox"/>
     </div>
@@ -338,6 +338,14 @@
             $('.ajax').colorbox({width: "50%", height: "auto"});
             $('.still_birth_ajax').colorbox({width: "50%", height: "auto"});
             $('.death').click(function () {
+                var id = $(this).attr('id');
+                if(id)
+                {
+                var qr = '?id='+id;
+                //alert(qr);
+                var href = '<?php echo ADMIN_URL.'rabbits/deathActions/'?>'+qr;
+                $(this).parent().parent().find('a.ajax').attr('href',href);
+            }
                 $(this).parent().parent().find('a.ajax').trigger("click");
             });
 

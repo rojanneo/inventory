@@ -293,9 +293,16 @@ class RabbitsController extends Controller
 		redirect('admin/rabbits');		
 	}
 
-	public function deathActionsAction($rabbit_id) // Ajax request to a page
+	public function deathActionsAction($rabbit_id = false) // Ajax request to a page
 	{
+            if($rabbit_id)
 		$data['rabbit_id'] = $rabbit_id;
+            else
+            {
+                loadHelper('inputs');
+                $data['rabbit_id'] = getParam('id');
+            }
+
 		$this->view->renderAdmin('rabbits/death.phtml',$data,false,false,false);
 	}
 	public function deathlitterActionsAction($litter_id) // Ajax request to a page

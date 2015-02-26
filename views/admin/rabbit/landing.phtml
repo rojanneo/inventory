@@ -39,11 +39,11 @@
 					<?php $dead_rabbit_count = getModel('rabbit')->getDeadRabbitCount();?>
 					<?php if($dead_rabbit_count > 0):?>
 						<div class="alert alert-danger">
-							<p><?php echo $dead_rabbit_count?> Dead Rabbit(s)</p>
+                                                    <p><span id="dead_rabbit_count"><?php echo $dead_rabbit_count?></span> Dead Rabbit(s)</p>
 						</div>
 					<?php else:?>
 						<div class="alert alert-success">
-							<p><?php echo $dead_rabbit_count?> Dead Rabbit(s)</p>
+                                                    <p><span id="dead_rabbit_count"><?php echo $dead_rabbit_count?></span> Dead Rabbit(s)</p>
 						</div>
 					<?php endif;?>
 					<p>

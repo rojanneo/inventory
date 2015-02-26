@@ -23,6 +23,7 @@ class RabbitController extends Controller
 			{
 				$data['rabbit'] = $rabbit;
                                 $data['sick_reasons'] = getModel('rabbit')->getSickReasons();
+                                $data['death_reasons'] = getModel('rabbit')->getDeathReasons();
 				$this->view->renderAdmin('rabbit/rabbit.phtml', $data, false, false,false);
 			}
 			else echo 'No Rabbit with that ID exists';
@@ -56,6 +57,33 @@ class RabbitController extends Controller
             }
         }
         
+        
+        public function deathAction()
+        {
+            loadHelper('inputs');
+            $data = getPost();
+            if(!isset($data['death_reason_id']))
+            {
+                echo '<p>Select a Reason</p>';
+            }
+            else
+            {
+                $rabbit_id = $data['rabbit_id'];
+                $death_reason_id = $data['death_reason_id'];
+                if($death_reason_id == -1)
+                {
+                    $reason = $data['death_reason'];
+                    $reason_description = $data['death_reason_desc'];
+                    $death_reason_id = getModel('rabbit')->addDeathReason($reason,$reason_description);
+                }
+                getModel('product')->updateDefaultAttribute($rabbit_id,'is_dead','1');
+                getModel('rabbit')->dead($rabbit_id,$death_reason_id);
+                $arr = array();
+                $arr['identifier'] = '#dead_rabbit_count';
+                $arr['html'] = getModel('rabbit')->getDeadRabbitCount();;
+                echo json_encode($arr);
+            }
+        }
         public function sicklistAction()
         {
             $sick_rabbits = getModel('rabbit')->getSickRabbits();
