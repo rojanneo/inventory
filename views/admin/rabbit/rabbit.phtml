@@ -134,9 +134,62 @@
                     </div>
                 </fieldset>
             </form>
-            <form method="post" class="shift_form" style="display:none">
-                <input type="text" placeholder="Reason Shift"/>
-                <input type="submit" value="Save"/>
+            <form method="post" class="shift_form" id="shift_form" action = "<?php echo ADMIN_URL . 'rabbit/shift' ?>" style="display:none">
+                <fieldset>
+                    <input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']; ?>"/>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <select name="rabbit_group" class="required">
+                                <option value='' disabled selected style='display:none;'>Select A Group</option>
+                                <?php if ($rabbit['rabbit_group'] == 'Parents'):?>
+                                    <option value="20">Products</option>
+<!--                                    <option value="19">Parents to be</option>
+                                    <option value="21">Products to be</option>-->
+                                <?php elseif($rabbit['rabbit_group'] == 'Products'):?>
+                                    <option value="18">Parents</option>
+<!--                                    <option value="19">Parents to be</option>
+                                    <option value="21">Products to be</option>-->
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <select name="shifting_reason_id" class="required" onchange="CheckShiftingReason(this)">
+                                <option value='' disabled selected style='display:none;'>Select A Reason</option>
+                                <?php if ($shifting_reasons): ?>
+                                    <?php foreach ($shifting_reasons as $reason): ?>
+                                        <option value="<?php echo $reason['id']; ?>"><?php echo $reason['reason']; ?></option>
+                                    <?php endforeach; ?>
+                                    <option value="-1">Other</option>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row other_reason" style="display:none">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <input name="shifting_reason" type="text" class=" form-control required" placeholder="Mention Shifting Reason">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <textarea name="shifting_reason_desc" class="form-control required" rows="3" placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <input type="submit" value="Send" class="submit btn btn-default btn-block sick_submit_btn"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="sick_response"></div>
+                    </div>
+                </fieldset>
             </form>
             <form method="post" class="slaughter_form" style="display:none">
                 <input type="text" placeholder="Reason Slaugther"/>
@@ -183,6 +236,26 @@
                         $(value.identifier).html(value.html);
                         $('#death_form').hide();
                         $('.rabbit-actions-form').prepend('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><p>Rabbit Dead</p></div>');
+                    }
+                });
+
+                return false; // avoid to execute the actual submit of the form.
+            });
+            
+            $("#shift_form").submit(function () {
+
+                var url = $(this).attr('action'); // the script where you handle the form input.
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $("#shift_form").serialize(), // serializes the form's elements.
+                    success: function (data)
+                    {
+                        var value = JSON.parse(data);
+                        $(value.identifier).html(value.html);
+                        $('#shift_form').hide();
+                        $('.rabbit-actions-form').prepend('<div class="alert alert-danger alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><p>Rabbit Shifted</p></div>');
                     }
                 });
 
@@ -237,6 +310,23 @@
                 $('.other_reason .required').removeAttr('required');
             }
             //alert($('select').val());
+        
         }
+         function CheckShiftingReason(select)
+        {
+            //alert($(select).val());
+            if ($(select).val() == -1)
+            {
+                $('.other_reason').show();
+                $('.other_reason .required').attr('required', '');
+            }
+            else
+            {
+                $('.other_reason').hide();
+                $('.other_reason .required').removeAttr('required');
+            }
+            //alert($('select').val());
+        }
+        
     </script>
 <?php endif; ?>

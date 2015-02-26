@@ -190,10 +190,31 @@ class RabbitModel extends Model {
         else return false;
     }
     
+     public function getShiftingReasons()
+    {
+        $sql = "SELECT * FROM shifting_reasons";
+        $reasons = $this->connection->Query($sql);
+        if($reasons) return $reasons;
+        else return false;
+    }
+    
     public function sick($rabbit_id,$sick_reason_id)
     {
         $sql = "INSERT INTO `sick_rabbits`(`rabbit_id`, `sick_date`, `sick_reason`) VALUES ("
                 .mysql_escape_string($rabbit_id).",'".date('Y-m-d')."',".mysql_escape_string($sick_reason_id).")";
+        $this->connection->InsertQuery($sql);
+        return $this->connection->GetInsertID();
+    }
+    
+    public function shift($rabbit_id, $shifted_to, $shifting_reason_id)
+    {
+        $rabbit = getModel('rabbit')->load($rabbit_id);
+        $shifted_from = $rabbit['rabbit_group'];
+        
+        getModel('product')->updateAttribute($rabbit_id, 'rabbit_group', $shifted_to);
+        $rabbit = getModel('rabbit')->load($rabbit_id);
+        $shifted_to = $rabbit['rabbit_group'];
+        $sql = "INSERT INTO `shifted_rabbits`(`rabbit_id`, `shifted_from`, `shifted_to`, `shifted_date`, `shifting_reason`) VALUES (".mysql_escape_string($rabbit_id).",'".$shifted_from."','".$shifted_to."','".date('Y-m-d')."','".mysql_escape_string($shifting_reason_id)."')";
         $this->connection->InsertQuery($sql);
         return $this->connection->GetInsertID();
     }
@@ -222,6 +243,14 @@ class RabbitModel extends Model {
     public function addDeathReason($reason, $reason_description)
     {
         $sql = "INSERT INTO `death_reasons`(`reason`, `reason_description`) VALUES ('".mysql_escape_string($reason)."','".mysql_escape_string($reason_description)."')";
+        $this->connection->InsertQuery($sql);
+        return $this->connection->GetInsertID();
+             
+    }
+    
+    public function addShiftingReason($reason, $reason_description)
+    {
+        $sql = "INSERT INTO `shifting_reasons`(`reason`, `reason_description`) VALUES ('".mysql_escape_string($reason)."','".mysql_escape_string($reason_description)."')";
         $this->connection->InsertQuery($sql);
         return $this->connection->GetInsertID();
              

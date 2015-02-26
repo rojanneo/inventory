@@ -24,6 +24,7 @@ class RabbitController extends Controller
 				$data['rabbit'] = $rabbit;
                                 $data['sick_reasons'] = getModel('rabbit')->getSickReasons();
                                 $data['death_reasons'] = getModel('rabbit')->getDeathReasons();
+                                $data['shifting_reasons'] = getModel('rabbit')->getShiftingReasons();
 				$this->view->renderAdmin('rabbit/rabbit.phtml', $data, false, false,false);
 			}
 			else echo 'No Rabbit with that ID exists';
@@ -81,6 +82,35 @@ class RabbitController extends Controller
                 $arr = array();
                 $arr['identifier'] = '#dead_rabbit_count';
                 $arr['html'] = getModel('rabbit')->getDeadRabbitCount();;
+                echo json_encode($arr);
+            }
+        }
+        
+        
+        public function shiftAction()
+        {
+            loadHelper('inputs');
+            $data = getPost();
+            $product=  getModel('product')->load($data['rabbit_id']);
+            if(!isset($data['shifting_reason_id']))
+            {
+                echo '<p>Select a Reason</p>';
+            }
+            else
+            {
+                $rabbit_id = $data['rabbit_id'];
+                $shifting_reason_id = $data['shifting_reason_id'];
+                $shifted_to = $data['rabbit_group'];
+                if($shifting_reason_id == -1)
+                {
+                    $reason = $data['shifting_reason'];
+                    $reason_description = $data['shifting_reason_desc'];
+                    $shifting_reason_id = getModel('rabbit')->addShiftingReason($reason,$reason_description);
+                }
+                getModel('rabbit')->shift($rabbit_id,$shifted_to,$shifting_reason_id);
+                $arr = array();
+                $arr['identifier'] = '#shifted_rabbit_count';
+                $arr['html'] = getModel('rabbit')->getShiftedRabbitCount();
                 echo json_encode($arr);
             }
         }

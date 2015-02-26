@@ -59,7 +59,7 @@
 					<p>Information on shifted rabbits</p>
 					<?php $shifted_rabbit_count = getModel('rabbit')->getShiftedRabbitCount();?>
 					<div class="alert alert-success">
-						<p><?php echo $shifted_rabbit_count?> Shifted Rabbit(s)</p>
+                                            <p><span id="shifted_rabbit_count"><?php echo $shifted_rabbit_count?></span> Shifted Rabbit(s)</p>
 					</div>
 					<p>
 						<a href="<?php echo ADMIN_URL . 'rabbit/shiftedlist' ?>" class="btn btn-default" role="button">View</a>
