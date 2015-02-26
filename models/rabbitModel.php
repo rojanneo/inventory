@@ -181,5 +181,21 @@ class RabbitModel extends Model {
         if($reasons) return $reasons;
         else return false;
     }
+    
+    public function sick($rabbit_id,$sick_reason_id)
+    {
+        $sql = "INSERT INTO `sick_rabbits`(`rabbit_id`, `sick_date`, `sick_reason`) VALUES ("
+                .mysql_escape_string($rabbit_id).",'".date('Y-m-d')."',".mysql_escape_string($sick_reason_id).")";
+        $this->connection->InsertQuery($sql);
+        return $this->connection->GetInsertID();
+    }
+    
+    public function addSickReason($reason, $reason_description)
+    {
+        $sql = "INSERT INTO `sick_reasons`(`reason`, `reason_description`) VALUES ('".mysql_escape_string($reason)."','".mysql_escape_string($reason_description)."')";
+        $this->connection->InsertQuery($sql);
+        return $this->connection->GetInsertID();
+             
+    }
 
 }

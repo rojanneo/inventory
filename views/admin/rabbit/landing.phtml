@@ -18,11 +18,11 @@
 					<?php $sick_rabbit_count = getModel('rabbit')->getSickRabbitCount();?>
 					<?php if($sick_rabbit_count > 0):?>
 						<div class="alert alert-warning">
-							<p><?php echo $sick_rabbit_count?> Sick Rabbit(s)</p>
+                                                    <p><span id="sick_rabbit_count"><?php echo $sick_rabbit_count?></span> Sick Rabbit(s)</p>
 						</div>
 					<?php else:?>
 						<div class="alert alert-success">
-							<p><?php echo $sick_rabbit_count?> Sick Rabbit(s)</p>
+                                                    <p><span id="sick_rabbit_count"><?php echo $sick_rabbit_count?></span> Sick Rabbit(s)</p>
 						</div>
 					<?php endif;?>
 					<p>

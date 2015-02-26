@@ -34,10 +34,25 @@ class RabbitController extends Controller
             loadHelper('inputs');
             $data = getPost();
             if(!isset($data['sick_reason_id']))
-                echo 'Select a Reason';
-            elseif($data['sick_reason_id'] == -1 and $data['sick_reason'] == '')
             {
-                echo 'Reason Cannot be Empty';
+                echo '<p>Select a Reason</p>';
+            }
+            else
+            {
+                $rabbit_id = $data['rabbit_id'];
+                $sick_reason_id = $data['sick_reason_id'];
+                if($sick_reason_id == -1)
+                {
+                    $reason = $data['sick_reason'];
+                    $reason_description = $data['sick_reason_desc'];
+                    $sick_reason_id = getModel('rabbit')->addSickReason($reason,$reason_description);
+                }
+                getModel('product')->updateDefaultAttribute($rabbit_id,'is_sick','1');
+                getModel('rabbit')->sick($rabbit_id,$sick_reason_id);
+                $arr = array();
+                $arr['identifier'] = '#sick_rabbit_count';
+                $arr['html'] = getModel('rabbit')->getSickRabbitCount();;
+                echo json_encode($arr);
             }
         }
         
