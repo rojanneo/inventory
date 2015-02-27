@@ -39,10 +39,15 @@ class RabbitController extends Controller
             {
                 echo '<p>Select a Reason</p>';
             }
+            elseif(($data['sick_from'])== "")
+            {
+                echo '<p>Select Sick Date</p>';
+            }
             else
             {
                 $rabbit_id = $data['rabbit_id'];
                 $sick_reason_id = $data['sick_reason_id'];
+                $sick_from = $data['sick_from'];
                 if($sick_reason_id == -1)
                 {
                     $reason = $data['sick_reason'];
@@ -50,7 +55,7 @@ class RabbitController extends Controller
                     $sick_reason_id = getModel('rabbit')->addSickReason($reason,$reason_description);
                 }
                 getModel('product')->updateDefaultAttribute($rabbit_id,'is_sick','1');
-                getModel('rabbit')->sick($rabbit_id,$sick_reason_id);
+                getModel('rabbit')->sick($rabbit_id,$sick_from,$sick_reason_id);
                 $arr = array();
                 $arr['identifier'] = '#sick_rabbit_count';
                 $arr['html'] = getModel('rabbit')->getSickRabbitCount();;
@@ -67,10 +72,15 @@ class RabbitController extends Controller
             {
                 echo '<p>Select a Reason</p>';
             }
+            elseif(($data['dead_on'])== "")
+            {
+                echo '<p>Select Death Date</p>';
+            }
             else
             {
                 $rabbit_id = $data['rabbit_id'];
                 $death_reason_id = $data['death_reason_id'];
+                $death_on = $data['dead_on'];
                 if($death_reason_id == -1)
                 {
                     $reason = $data['death_reason'];
@@ -78,7 +88,7 @@ class RabbitController extends Controller
                     $death_reason_id = getModel('rabbit')->addDeathReason($reason,$reason_description);
                 }
                 getModel('product')->updateDefaultAttribute($rabbit_id,'is_dead','1');
-                getModel('rabbit')->dead($rabbit_id,$death_reason_id);
+                getModel('rabbit')->dead($rabbit_id,$death_on,$death_reason_id);
                 $arr = array();
                 $arr['identifier'] = '#dead_rabbit_count';
                 $arr['html'] = getModel('rabbit')->getDeadRabbitCount();;
@@ -96,18 +106,23 @@ class RabbitController extends Controller
             {
                 echo '<p>Select a Reason</p>';
             }
+            elseif(($data['shifted_on'])== "")
+            {
+                echo '<p>Select Shiting Date</p>';
+            }
             else
             {
                 $rabbit_id = $data['rabbit_id'];
                 $shifting_reason_id = $data['shifting_reason_id'];
                 $shifted_to = $data['rabbit_group'];
+                $shifted_date = $data['shifted_on'];
                 if($shifting_reason_id == -1)
                 {
                     $reason = $data['shifting_reason'];
                     $reason_description = $data['shifting_reason_desc'];
                     $shifting_reason_id = getModel('rabbit')->addShiftingReason($reason,$reason_description);
                 }
-                getModel('rabbit')->shift($rabbit_id,$shifted_to,$shifting_reason_id);
+                getModel('rabbit')->shift($rabbit_id,$shifted_date,$shifted_to,$shifting_reason_id);
                 $arr = array();
                 $arr['identifier'] = '#shifted_rabbit_count';
                 $arr['html'] = getModel('rabbit')->getShiftedRabbitCount();

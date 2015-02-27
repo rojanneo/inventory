@@ -155,7 +155,7 @@ class RabbitModel extends Model {
     }
     
     public function getDeadRabbits() {
-        $sql = "SELECT death_id, rabbit_id, litter_id, death_date, reason FROM `dead_rabbits` JOIN death_reasons ON dead_rabbits.death_reason = death_reasons.id";
+        $sql = "SELECT death_id, rabbit_id, litter_id, death_date, reason FROM `dead_rabbits` JOIN death_reasons ON dead_rabbits.death_reason = death_reasons.id GROUP by dead_rabbits.rabbit_id";
         $dead_rabbits = $this->connection->Query($sql);
         if ($dead_rabbits) {
             return $dead_rabbits;
@@ -198,15 +198,15 @@ class RabbitModel extends Model {
         else return false;
     }
     
-    public function sick($rabbit_id,$sick_reason_id)
+    public function sick($rabbit_id,$sick_from,$sick_reason_id)
     {
         $sql = "INSERT INTO `sick_rabbits`(`rabbit_id`, `sick_date`, `sick_reason`) VALUES ("
-                .mysql_escape_string($rabbit_id).",'".date('Y-m-d')."',".mysql_escape_string($sick_reason_id).")";
+                .mysql_escape_string($rabbit_id).",'".mysql_escape_string($sick_from)."',".mysql_escape_string($sick_reason_id).")";
         $this->connection->InsertQuery($sql);
         return $this->connection->GetInsertID();
     }
     
-    public function shift($rabbit_id, $shifted_to, $shifting_reason_id)
+    public function shift($rabbit_id, $shifted_date, $shifted_to, $shifting_reason_id)
     {
         $rabbit = getModel('rabbit')->load($rabbit_id);
         $shifted_from = $rabbit['rabbit_group'];
@@ -214,15 +214,15 @@ class RabbitModel extends Model {
         getModel('product')->updateAttribute($rabbit_id, 'rabbit_group', $shifted_to);
         $rabbit = getModel('rabbit')->load($rabbit_id);
         $shifted_to = $rabbit['rabbit_group'];
-        $sql = "INSERT INTO `shifted_rabbits`(`rabbit_id`, `shifted_from`, `shifted_to`, `shifted_date`, `shifting_reason`) VALUES (".mysql_escape_string($rabbit_id).",'".$shifted_from."','".$shifted_to."','".date('Y-m-d')."','".mysql_escape_string($shifting_reason_id)."')";
+        $sql = "INSERT INTO `shifted_rabbits`(`rabbit_id`, `shifted_from`, `shifted_to`, `shifted_date`, `shifting_reason`) VALUES (".mysql_escape_string($rabbit_id).",'".$shifted_from."','".$shifted_to."','".mysql_escape_string($shifted_date)."','".mysql_escape_string($shifting_reason_id)."')";
         $this->connection->InsertQuery($sql);
         return $this->connection->GetInsertID();
     }
     
-    public function dead($rabbit_id,$death_reason_id)
+    public function dead($rabbit_id,$death_on,$death_reason_id)
     {
         $sql = "INSERT INTO `dead_rabbits`(`rabbit_id`, `death_date`, `death_reason`) VALUES ("
-                .mysql_escape_string($rabbit_id).",'".date('Y-m-d')."',".mysql_escape_string($death_reason_id).")";
+                .mysql_escape_string($rabbit_id).",'".mysql_escape_string($death_on)."',".mysql_escape_string($death_reason_id).")";
         $this->connection->InsertQuery($sql);
         $reason_id = $this->connection->GetInsertID();
         $sql = "INSERT INTO aa_death (`rid`,`death_reason`) VALUES(".$rabbit_id.", '".$death_reason_id."')";

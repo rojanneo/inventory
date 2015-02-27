@@ -478,7 +478,7 @@ line-height: 32px;
   color:#fff;
 }
 .navbar-default .navbar-nav>li>a{color:#fff;}
-
+.datepicker-days tr th, .datepicker-days tr td{color:#fff;}
 .main-container{margin-top:60px;}
 
 /*body .container{
