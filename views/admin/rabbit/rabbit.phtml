@@ -57,7 +57,7 @@
                     <input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']; ?>"/>
                     <div class="row">
                         <div class="col-lg-12">
-                            <select name="sick_reason_id" class="required" onchange="CheckSickReason(this)">
+                            <select name="sick_reason_id" class="required" onchange="CheckSickReason(this)"  style="width: 100%;height: 35px;border-radius: 5px;width: 100%;margin:0">
                                 <option value='' disabled selected style='display:none;'>Select A Reason</option>
                                 <?php if ($sick_reasons): ?>
                                     <?php foreach ($sick_reasons as $reason): ?>
@@ -109,7 +109,7 @@
                     <input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']; ?>"/>
                     <div class="row">
                         <div class="col-lg-12">
-                            <select name="death_reason_id" class="required" onchange="CheckDeathReason(this)">
+                            <select name="death_reason_id" class="required" onchange="CheckDeathReason(this)" style="width: 100%;height: 35px;border-radius: 5px;width: 100%;margin:0">
                                 <option value='' disabled selected style='display:none;'>Select A Reason</option>
                                 <?php if ($death_reasons): ?>
                                     <?php foreach ($death_reasons as $reason): ?>
@@ -161,7 +161,7 @@
                     <input type="hidden" name="rabbit_id" value="<?php echo $rabbit['product_id']; ?>"/>
                     <div class="row">
                         <div class="col-lg-12">
-                            <select name="rabbit_group" class="required">
+                            <select name="rabbit_group" class="required" style="width: 100%;height: 35px;border-radius: 5px;width: 100%;margin:0">
                                 <option value='' disabled selected style='display:none;'>Select A Group</option>
                                 <?php if ($rabbit['rabbit_group'] == 'Parents'):?>
                                     <option value="20">Products</option>
@@ -188,7 +188,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <select name="shifting_reason_id" class="required" onchange="CheckShiftingReason(this)">
+                            <select name="shifting_reason_id" class="required" onchange="CheckShiftingReason(this)" style="width: 100%;height: 35px;border-radius: 5px;width: 100%;margin:0">
                                 <option value='' disabled selected style='display:none;'>Select A Reason</option>
                                 <?php if ($shifting_reasons): ?>
                                     <?php foreach ($shifting_reasons as $reason): ?>
@@ -299,9 +299,9 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("select").selecter({
-                label: "Select An Item"
-            });
+            // $("select").selecter({
+            //     label: "Select An Item"
+            // });
             $('button.action_btn').click(function () {
                 $('.rabbit-actions-form form').hide();
                 $('.rabbit-actions-form form .other_reason').hide();

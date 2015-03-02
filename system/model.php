@@ -13,7 +13,9 @@
 
 		public function generateWhereCondition($condition = false)
 		{
-			$where = '';
+                    if($condition)
+                    {
+			$where = ' WHERE ';
 			if(isset($condition['type']))
 			{
 				$type = $condition['type'];
@@ -36,6 +38,9 @@
 
 			$where = rtrim($where,' '.$type.' ');
 			return $where;
+                    }
+                    else
+                        return false;
 		}
 	}
 ?>

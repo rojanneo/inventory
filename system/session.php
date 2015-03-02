@@ -123,17 +123,11 @@
 	{
 		if(isset($_SESSION['error']))
 		{
-			foreach($_SESSION['error'] as $key => $msg)
-			{
-				echo '<div class="error-message">';
-				echo $msg;
-				echo '</div>';
-				unset($_SESSION['error'][$key]);
-			}
+			include 'views/default/error-messages.phtml';
 		}
 	}
 
-	public function addSuccessMessage($msg)
+	public static function addSuccessMessage($msg)
 	{
 		if(!isset($_SESSION['success'])) $_SESSION['success'] = array();
 		array_push($_SESSION['success'], $msg);
@@ -143,13 +137,7 @@
 	{
 		if(isset($_SESSION['success']))
 		{
-			foreach($_SESSION['success'] as $key => $msg)
-			{
-				echo '<div class="success-message">';
-				echo $msg;
-				echo '</div>';
-				unset($_SESSION['success'][$key]);
-			}
+			include 'views/default/success-messages.phtml';
 		}
 	}
 }

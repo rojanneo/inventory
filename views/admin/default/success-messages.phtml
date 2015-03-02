@@ -1,0 +1,13 @@
+<div class="row">
+<?php
+foreach($_SESSION['success'] as $key => $msg):?>
+<div class="col-lg-12">
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+	<i class="glyphicon glyphicon-ok"></i>
+	<?php echo $msg;?>
+</div>
+</div>
+<?php unset($_SESSION['success'][$key]);?>
+<?php endforeach;?>
+</div>

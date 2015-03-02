@@ -127,11 +127,7 @@
 	{
 		if(isset($_SESSION['error']))
 		{
-			foreach($_SESSION['error'] as $key => $msg)
-			{
-				echo $msg;
-				unset($_SESSION['error'][$key]);
-			}
+			include 'views/admin/default/error-messages.phtml';
 		}
 	}
 
@@ -145,11 +141,7 @@
 	{
 		if(isset($_SESSION['success']))
 		{
-			foreach($_SESSION['success'] as $key => $msg)
-			{
-				echo $msg;
-				unset($_SESSION['success'][$key]);
-			}
+			include 'views/admin/default/success-messages.phtml';
 		}
 	}
 }

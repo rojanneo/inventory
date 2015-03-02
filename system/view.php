@@ -8,6 +8,7 @@
 		
 		public function render($name, $data = false, $showHeader = true, $showFooter = true)
 		{
+                    loadHelper('view');
 			if($data)
 			extract($data, EXTR_PREFIX_ALL, "view");
 			if($showHeader)
@@ -36,6 +37,14 @@
 			include 'views/admin/'.$name;
 			if($showFooter)
 			include 'views/admin/default/footer.phtml';
+		}
+                
+                public function renderWithoutAnything($name, $data = false)
+		{
+                    loadHelper('view');
+			if($data)
+				extract($data);
+			include 'views/admin/'.$name;
 		}
 	}
 ?>
