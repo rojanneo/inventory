@@ -1,0 +1,28 @@
+<?php AdminSession::showSuccessMessages();?>
+<?php AdminSession::showSuccessMessages();?>
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <div class="page-header">
+            <h3>Purchase Categories</h3>
+        </div>
+    </div>
+</div>
+
+<?php if(isset($categories)):?>
+<ul>
+    <li><a onclick="GetSubCategories(this,'<?php echo $categories['category_id']?>')" href="javascript:void(0)" class="load_sub_category" id="<?php echo $categories['category_id']?>"><i class="glyphicon glyphicon-plus"></i></a><?php echo $categories['name'];?></li>
+    <div class="sub_categories"></div>
+</ul>
+<?php endif;?>
+<script>
+function GetSubCategories(icon,id)
+{
+    $.ajax({
+        url:'<?php echo ADMIN_URL.'purchasecategories/getSubCategories/'?>'+id,
+        success:function(response){
+            console.log($(icon));
+            $(icon).parent().parent().find('.sub_categories').first().html(response);
+        }
+    });
+}
+</script>
