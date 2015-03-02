@@ -9,10 +9,18 @@
 </div>
 
 <?php if(isset($categories)):?>
+<div class="row">
+<div class="col-lg-4">
 <ul>
-    <li><a onclick="GetSubCategories(this,'<?php echo $categories['category_id']?>')" href="javascript:void(0)" class="load_sub_category" id="<?php echo $categories['category_id']?>"><i class="glyphicon glyphicon-plus"></i></a><?php echo $categories['name'];?></li>
+    <li><a onclick="GetSubCategories(this,'<?php echo $categories['category_id']?>')" href="javascript:void(0)" class="load_sub_category" id="<?php echo $categories['category_id']?>"><i class="glyphicon glyphicon-plus"></i></a><a href="javascript:void(0)" onclick="LoadData(<?php echo $categories['category_id']?>)"><?php echo $categories['name'];?></a></li>
     <div class="sub_categories"></div>
 </ul>
+</div>
+<div class="col-lg-8">
+<div class="form">
+</div>
+</div>
+</div>
 <?php endif;?>
 <script>
 function GetSubCategories(icon,id)
@@ -25,4 +33,14 @@ function GetSubCategories(icon,id)
         }
     });
 }
+
+function LoadData(id)
+{
+    alert(id);
+    $('.form').load('<?php echo ADMIN_URL.'purchasecategories/editajax/'?>'+id);    
+}
+
+$(document).ready(function(){
+    $('.form').load('<?php echo ADMIN_URL.'purchasecategories/add'?>');
+});
 </script>

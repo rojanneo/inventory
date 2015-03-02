@@ -27,6 +27,14 @@ class PurchasecategoryModel extends Model{
                 return $cat;
             else return false;
     }
+
+    public function load($id)
+    {
+        $sql = "SELECT * FROM purchase_categories WHERE category_id = ".$id;
+        $cat = $this->connection->Query($sql);
+        if($cat) return $cat[0];
+        else return false;
+    }
     
     public function insert($data = false)
     {

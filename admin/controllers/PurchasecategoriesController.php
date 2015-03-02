@@ -28,6 +28,19 @@ class PurchasecategoriesController extends Controller {
         $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active'=>'1'));
         $this->view->renderAdmin('purchasecategories/form.phtml',$data);
     }
+
+    public function editajaxAction($id)
+    {
+        $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active'=>'1'));
+        $data['category'] = getModel('purchasecategory')->load($id);
+        $this->view->renderWithoutAnything('purchasecategories/editform.phtml',$data);
+    }
+
+    public function addAction()
+    {
+        $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active'=>'1'));
+        $this->view->renderWithoutAnything('purchasecategories/form.phtml',$data);
+    }
     
     public function newpostAction()
     {
