@@ -1,0 +1,103 @@
+<div class="panel panel-primary col-lg-8 col-lg-offset-2">
+    <div class="panel-heading text-center">
+        <h3 class="panel-title">New Purchase Product</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-12 ">
+                <div class="panel">
+                    <form method="post" action="<?php echo (isset($product) and $product) ? ADMIN_URL.'purchaseproducts/editpost' : ADMIN_URL.'purchaseproducts/newpost'   ?>">
+                       <?php if(isset($product) and $product):?>
+                        <input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
+                       <?php endif;?>
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                                    <label for="product_name">Product Name</label>
+                                    <input type="text" name="product_name" class="form-control required" value="<?php echo (isset($product) and $product) ? $product['product_name'] : null   ?>"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                                    <label for="product_sku">Product SKU</label>
+                                    <input type="text" name="product_sku" class="form-control required" value="<?php echo (isset($product) and $product) ? $product['product_sku'] : null   ?>"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-5 col-lg-offset-1  col-md-5 col-md-offset-1 col-sm-6">
+                                    <label for="product_unit_price">Product Unit Price</label>
+                                    <input type="text" name="product_unit_price" class="form-control required" value="<?php echo (isset($product) and $product) ? $product['product_unit_price'] : null   ?>"/>
+                                </div>
+<!--                                <select name="status">
+                                    <option value="0">Disabled</option>
+                                    <option value="1">Enabled</option>
+                                </select>-->
+                                <div class="col-lg-5 col-md-5 col-sm-6">
+                                    <label for="product_status">Product Status</label>
+                                    <select name="product_status" class="form-control" style="margin:0">
+                                        <option value="0" <?php echo (isset($product) and $product and $product['product_status'] == 0) ? 'selected' : null   ?>>Disabled</option>
+                                        <option value="1" <?php echo (isset($product) and $product and $product['product_status'] == 1) ? 'selected' : null   ?>>Enabled</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-5 col-lg-offset-1  col-md-5 col-md-offset-1 col-sm-6">
+                                    <label for="product_quantity">Product Quantity</label>
+                                    <input type="text" name="product_quantity" class="form-control required" value="<?php echo (isset($product) and $product) ? $product['product_quantity'] : null   ?>"/>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-6">
+                                    <label for="product_weight_unit">Unit of Measure</label>
+                                    <select name="product_weight_unit" class="form-control" style="margin:0">
+                                        <?php if (isset($units) and $units): ?>
+                                            <?php foreach ($units as $unit): ?>
+                                                <option value="<?php echo $unit['weight_unit_id'] ?>" <?php echo (isset($product) and $product and $product['product_weight_unit'] == $unit['weight_unit_id']) ? 'selected' : null   ?>><?php echo $unit['unit_name'] ?> (<?php echo $unit['unit_symbol'] ?>)</option>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <option value="" disabled selected>No Units Found</option>
+
+                                        <?php endif; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                                    <label for="product_desc">Product Description</label>
+                                    <textarea name="product_desc" class="form-control" rows="20"><?php echo (isset($product) and $product) ? $product['product_description'] : null   ?></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-5 col-lg-offset-1  col-md-5 col-md-offset-1 col-sm-6">
+                                    <label for="suppliers">Suppliers</label>
+                                    <select name="suppliers[]" class="form-control" multiple style="margin:0">
+                                    <?php foreach($suppliers as $supplier):?>
+                                        <option value="<?php echo $supplier['supplier_id']?>" <?php echo (isset($product) and $product and in_array($supplier['supplier_id'], $product_suppliers)) ? 'selected' : null   ?>><?php echo $supplier['supplier_name']?></option>
+                                    <?php endforeach;?>
+                                    </select>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-6">
+                                    <label for="categories">Categories</label>
+                                    <select name="categories[]" class="form-control" multiple style="margin:0">
+                                        <?php foreach($categories as $category):?>
+                                            <option value="<?php echo $category['category_id']?>" <?php echo (isset($product) and $product and in_array($category['category_id'], $product_categories)) ? 'selected' : null   ?>><?php echo $category['name']?></option>
+                                    <?php endforeach;?>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-lg-10 col-lg-offset-1 text-right">
+                                    <input type="submit" class="btn btn-primary" value="Save Product"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
