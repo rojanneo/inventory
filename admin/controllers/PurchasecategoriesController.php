@@ -39,7 +39,7 @@ class PurchasecategoriesController extends Controller {
     public function addAction()
     {
         $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active'=>'1'));
-        $this->view->renderWithoutAnything('purchasecategories/form.phtml',$data);
+        $this->view->renderWithoutAnything('purchasecategories/form_ajax.phtml',$data);
     }
     
     public function newpostAction()
@@ -53,6 +53,23 @@ class PurchasecategoriesController extends Controller {
         else
         {
             AdminSession::addErrorMessage('Failed to create Purchase Category');
+        }
+        
+        redirect('admin/purchasecategories');
+    }
+    
+    public function editpostAction()
+    {
+        loadHelper('inputs');
+        $post_data = getPost();
+        //var_dump($post_data);die;
+        if(getModel('purchasecategory')->update($post_data))
+        {
+            AdminSession::addSuccessMessage('Purchase Category Updated');
+        }
+        else
+        {
+            AdminSession::addErrorMessage('Failed to update Purchase Category');
         }
         
         redirect('admin/purchasecategories');

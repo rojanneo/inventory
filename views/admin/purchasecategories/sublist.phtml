@@ -1,8 +1,9 @@
 <?php if(isset($sub_cats) and $sub_cats):?>
 <ul>
     <?php foreach($sub_cats as $sub_cat):?>
-    <li><a onclick="GetSubCategories(this,'<?php echo $sub_cat['category_id']?>')" href="javascript:void(0)" class="load_sub_category" id="<?php echo $sub_cat['category_id']?>"><i class="glyphicon glyphicon-plus"></i></a><a href="javascript:void(0)" onclick="LoadData(<?php echo $sub_cat['category_id']?>)"><?php echo $sub_cat['name'];?></a></li>
-    <div class="sub_categories"></div>
+    <li><a onclick="GetSubCategories(this,'<?php echo $sub_cat['category_id']?>')" href="javascript:void(0)" class="load_sub_category" id="<?php echo $sub_cat['category_id']?>"><i class="glyphicon glyphicon-plus"></i></a><a href="javascript:void(0)" onclick="LoadData(<?php echo $sub_cat['category_id']?>)"><?php echo $sub_cat['name'];?></a>
+    <div class="sub_categories"></div></li>
+    
     <?php endforeach;?>
 </ul>
 <?php endif;?>

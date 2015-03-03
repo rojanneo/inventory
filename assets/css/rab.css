@@ -480,6 +480,13 @@ line-height: 32px;
 .navbar-default .navbar-nav>li>a{color:#fff;}
 .datepicker-days tr th, .datepicker-days tr td{color:#fff;}
 .main-container{margin-top:60px;}
+ul{list-style: none}
+ul .sub_categories ul {
+margin-left: 40px;
+}
+ul .sub_categories ul .sub_categories ul {
+margin-left: 60px;
+}
 
 /*body .container{
   margin-top:50px;

@@ -51,6 +51,18 @@ class PurchasecategoryModel extends Model{
         return false;
     }
     
+    public function update($data = false)
+    {
+        if($data)
+        {
+            extract($data);
+            $sql = "UPDATE `purchase_categories` SET `category_sku`='".mysql_escape_string($category_sku)."',`name`='".mysql_escape_string($category_name)."',`category_desc`='".mysql_escape_string($category_desc)."',`parent`='".mysql_escape_string($parent)."',`is_active`='".mysql_escape_string($is_active)."' WHERE `category_id` = ".$category_id;
+            $this->connection->UpdateQuery($sql);
+            return true;
+        }
+        else return false;
+    }
+    
     public function getTopLevelCategories()
     {
         $sql = "Select * From purchase_categories WHERE parent = 0 LIMIT 1";

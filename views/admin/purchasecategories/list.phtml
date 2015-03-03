@@ -10,11 +10,26 @@
 
 <?php if(isset($categories)):?>
 <div class="row">
-<div class="col-lg-4">
+<div class="col-lg-2">
+<div class="panel panel-default">
+  <div class="panel-heading text-center">
+    <h3 class="panel-title">Categories</h3>
+  </div>
+  <div class="panel-body">
+      <div class="row" id="new-button" style="display:none">
+         <div class="col-lg-6 col-lg-offset-3">
+             <a href="#" class="btn btn-block btn-primary add-new-category" onclick="LoadNewForm()">New Category</a>
+         </div>
+      </div>
 <ul>
-    <li><a onclick="GetSubCategories(this,'<?php echo $categories['category_id']?>')" href="javascript:void(0)" class="load_sub_category" id="<?php echo $categories['category_id']?>"><i class="glyphicon glyphicon-plus"></i></a><a href="javascript:void(0)" onclick="LoadData(<?php echo $categories['category_id']?>)"><?php echo $categories['name'];?></a></li>
-    <div class="sub_categories"></div>
+    <li><a onclick="GetSubCategories(this,'<?php echo $categories['category_id']?>')" href="javascript:void(0)" class="load_sub_category" id="<?php echo $categories['category_id']?>"><i class="glyphicon glyphicon-plus"></i></a><a href="javascript:void(0)" onclick="LoadData(<?php echo $categories['category_id']?>)"><?php echo $categories['name'];?></a>
+
+    	<div class="sub_categories"></div>
+    </li>
+    
 </ul>
+  </div>
+</div>
 </div>
 <div class="col-lg-8">
 <div class="form">
@@ -29,18 +44,24 @@ function GetSubCategories(icon,id)
         url:'<?php echo ADMIN_URL.'purchasecategories/getSubCategories/'?>'+id,
         success:function(response){
             console.log($(icon));
-            $(icon).parent().parent().find('.sub_categories').first().html(response);
+            $(icon).parent().find('.sub_categories').first().html(response);
         }
     });
 }
 
 function LoadData(id)
 {
-    alert(id);
+    //alert(id);
+    $('#new-button').show();
     $('.form').load('<?php echo ADMIN_URL.'purchasecategories/editajax/'?>'+id);    
 }
 
 $(document).ready(function(){
-    $('.form').load('<?php echo ADMIN_URL.'purchasecategories/add'?>');
+    LoadNewForm();
 });
+
+function LoadNewForm()
+{
+    $('.form').load('<?php echo ADMIN_URL.'purchasecategories/add'?>');
+}
 </script>
