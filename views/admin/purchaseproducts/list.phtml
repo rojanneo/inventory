@@ -1,0 +1,86 @@
+<?php AdminSession::showSuccessMessages();?>
+<?php AdminSession::showSuccessMessages();?>
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <div class="page-header">
+            <h3>Products</h3>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-lg-3">
+                <select id="suppliers" class="form-control" style="margin:0" onchange="FilterProducts()">
+                    <option value="" selected disabled>Suppliers</option>
+                    <option value="-1">All</option>
+                    <?php if(isset($suppliers) and $suppliers):?>
+                        <?php foreach($suppliers as $supplier):?>
+                    <option value="<?php echo $supplier['supplier_id']?>"><?php echo $supplier['supplier_name'];?></option>
+                        <?php endforeach;?>
+                    <?php endif;?>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <select id="categories" class="form-control" style="margin:0" onchange="FilterProducts()"> 
+                    <option value="" selected disabled>Categories</option>
+                    <option value="-1">All</option>
+                    <?php if(isset($categories) and $categories):?>
+                        <?php foreach($categories as $category):?>
+                    <option value="<?php echo $category['category_id']?>"><?php echo $category['name'];?></option>
+                        <?php endforeach;?>
+                    <?php endif;?>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive" id="purchase-products">
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+       $('#purchase-products').load('<?php echo ADMIN_URL.'purchaseproducts/getProducts'?>');
+    });
+    
+    function FilterProducts()
+    {
+        var supplier = $('#suppliers').val();
+        var category = $('#categories').val();
+        
+        $.ajax({
+            url:'<?php echo ADMIN_URL.'purchaseproducts/getProducts'?>',
+            method:'POST',
+            data:{'supplier':supplier,'category':category},
+            success:function(response){
+                $('#purchase-products').html(response);
+            }
+        });
+    }
+    function SearchList(filter)
+    {
+//        var filters = {};
+//        $('.filter').each(function(index, value){
+//            filters[$(value).attr('id')] = $(value).val();
+//        });
+//        
+//        //console.log(filters);
+//        
+//        $.ajax({
+//            url:'<?php echo ADMIN_URL.'suppliers/filterSuppliers'?>',
+//            method:"post",
+//            data:filters,
+//            success:function(response)
+//            {
+//                $('tr.data').remove();
+//                $('table.suppliers tbody').append(response);
+//                //alert(1);
+//            }
+//        });
+    }
+</script>

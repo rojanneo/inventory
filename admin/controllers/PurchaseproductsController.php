@@ -19,7 +19,27 @@ class PurchaseproductsController extends Controller{
     
     public function indexAction()
     {
+        $data['categories'] = getModel('purchasecategory')->getCollection();
+        $data['suppliers'] = getModel('supplier')->getCollection();
+        //$data['products'] = getModel('purchaseproduct')->getCollection();
+        $this->view->renderAdmin('purchaseproducts/list.phtml',$data);
         
+    }
+    
+    public function getProductsAction()
+    {
+        loadHelper('inputs');
+        $condition = getPost();
+        if(!isset($condition['supplier']) and !isset($condition['category']))
+        $data['products'] = getModel('purchaseproduct')->getCollection();
+        else
+        {
+           if($condition['supplier'] == -1) $condition['supplier'] = "";
+           if($condition['category'] == -1) $condition['category'] = "";
+           $data['products']=getModel('purchaseproduct')->getFilteredProducts($condition['supplier'], $condition['category']);
+        }
+        $html = $this->view->renderWithoutAnything('purchaseproducts/table.phtml', $data);
+        echo $html;
     }
     
     public function newAction()
