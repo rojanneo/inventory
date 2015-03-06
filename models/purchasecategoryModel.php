@@ -27,6 +27,15 @@ class PurchasecategoryModel extends Model{
                 return $cat;
             else return false;
     }
+    
+    public function getActiveCollection()
+    {
+            $sql = "SELECT * FROM purchase_categories WHERE is_active = '1' and parent != 0";
+            $cat = $this->connection->Query($sql);
+            if($cat)
+                return $cat;
+            else return false;
+    }
 
     public function load($id)
     {

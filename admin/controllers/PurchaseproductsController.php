@@ -19,8 +19,8 @@ class PurchaseproductsController extends Controller{
     
     public function indexAction()
     {
-        $data['categories'] = getModel('purchasecategory')->getCollection();
-        $data['suppliers'] = getModel('supplier')->getCollection();
+        $data['categories'] = getModel('purchasecategory')->getActiveCollection();
+        $data['suppliers'] = getModel('supplier')->getActiveCollection();
         //$data['products'] = getModel('purchaseproduct')->getCollection();
         $this->view->renderAdmin('purchaseproducts/list.phtml',$data);
         
@@ -30,13 +30,13 @@ class PurchaseproductsController extends Controller{
     {
         loadHelper('inputs');
         $condition = getPost();
-        if(!isset($condition['supplier']) and !isset($condition['category']))
+        if(!isset($condition['supplier']) and !isset($condition['category']) and !isset($condition['status']))
         $data['products'] = getModel('purchaseproduct')->getCollection();
         else
         {
            if($condition['supplier'] == -1) $condition['supplier'] = "";
            if($condition['category'] == -1) $condition['category'] = "";
-           $data['products']=getModel('purchaseproduct')->getFilteredProducts($condition['supplier'], $condition['category']);
+           $data['products']=getModel('purchaseproduct')->getFilteredProducts($condition['supplier'], $condition['category'],$condition['status']);
         }
         $html = $this->view->renderWithoutAnything('purchaseproducts/table.phtml', $data);
         echo $html;
@@ -89,10 +89,10 @@ class PurchaseproductsController extends Controller{
             {
                 getModel('purchaseproduct')->updateCategories($post_data['categories'],$post_data['product_id']);
                 getModel('purchaseproduct')->updateSuppliers($post_data['suppliers'],$post_data['product_id']);
-                AdminSession::addSuccessMessage('Product Added');
+                AdminSession::addSuccessMessage('Product Updated');
             }
             else
-            AdminSession::addErrorMessage ('Failet to add Product');
+            AdminSession::addErrorMessage ('Failet to update Product');
         }
         
         redirect('admin/purchaseproducts');

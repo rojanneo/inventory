@@ -23,6 +23,15 @@ class SupplierModel extends Model
             else return false;
     }
     
+    public function getActiveCollection($condition = false)
+    {
+            $sql = "SELECT * FROM purchase_suppliers WHERE is_active = '1'";
+            $suppliers = $this->connection->Query($sql);
+            if($suppliers)
+                return $suppliers;
+            else return false;
+    }
+    
     public function insert($data = false)
     {
         if($data != false)
@@ -65,6 +74,14 @@ class SupplierModel extends Model
             $this->connection->UpdateQuery($sql);
             return true;
         }
+        else return false;
+    }
+    
+    public function getProductSuppliers($product_id)
+    {
+        $sql = "SELECT pps.supplier_id, suppliers.supplier_name FROM purchase_suppliers AS suppliers JOIN purchase_products_suppliers AS pps ON suppliers.supplier_id = pps.supplier_id WHERE product_id = ".$product_id;
+        $suppliers =$this->connection->Query($sql);
+        if($suppliers) return $suppliers;
         else return false;
     }
 

@@ -85,7 +85,15 @@ class PurchaseproductModel extends Model{
         else return false;
     }
     
-    public function getFilteredProducts($supplier, $category)
+    public function getActiveCollection()
+    {
+        $sql = "SELECT * FROM purchase_products WHERE product_status = '1'";
+        $products = $this->connection->Query($sql);
+        if($products) return $products;
+        else return false;
+    }
+    
+    public function getFilteredProducts($supplier, $category, $status)
     {
         $sql = "SELECT * FROM `purchase_products_suppliers` JOIN purchase_products_categories ON purchase_products_suppliers.product_id = purchase_products_categories.product_id WHERE purchase_products_suppliers.supplier_id LIKE '%".$supplier."%' AND purchase_products_categories.category_id LIKE '%".$category."%' GROUP BY purchase_products_suppliers.product_id";
        // echo $sql;die;
@@ -96,8 +104,15 @@ class PurchaseproductModel extends Model{
             foreach($products as $product)
             {
                 $p = $this->load($product['product_id']);
-                if($p)
-                array_push($products_array,$p);
+                if ($p) {
+                    if($status == '')
+                        array_push($products_array, $p);
+                    else
+                    {
+                        if($status == $p['product_status'])
+                            array_push($products_array, $p);                             
+                    }
+                }
             }
             return $products_array;
         }

@@ -32,6 +32,14 @@
                     <?php endif;?>
                 </select>
             </div>
+            <div class="col-lg-3">
+                <select id="status" class="form-control" style="margin:0" onchange="FilterProducts()"> 
+                    <option value="" selected disabled>Status</option>
+                    <option value="">Both</option>
+                    <option value="1">Enabled</option>
+                    <option value="0">Disabled</option>
+                </select>
+            </div>
         </div>
     </div>
 </div>
@@ -52,11 +60,12 @@
     {
         var supplier = $('#suppliers').val();
         var category = $('#categories').val();
+        var status = $('#status').val();
         
         $.ajax({
             url:'<?php echo ADMIN_URL.'purchaseproducts/getProducts'?>',
             method:'POST',
-            data:{'supplier':supplier,'category':category},
+            data:{'supplier':supplier,'category':category, 'status':status},
             success:function(response){
                 $('#purchase-products').html(response);
             }

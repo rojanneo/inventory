@@ -24,5 +24,13 @@ class uomModel extends Model{
         if($units) return $units;
         else return false;
     }
+    
+    public function getConvertibleUnits($unit)
+    {
+       $sql = "SELECT * FROM `unit_of_measure` AS UOM JOIN units ON units.weight_unit_id = UOM.unit_from WHERE unit_from = ".$unit." OR unit_to = ".$unit;
+       $units = $this->connection->Query($sql);
+       if($units) return $units;
+       else return false;
+    }
     //put your code here
 }
