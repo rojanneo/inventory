@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2015 at 05:16 PM
+-- Generation Time: Mar 06, 2015 at 10:56 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `inventory`
 --
+CREATE DATABASE IF NOT EXISTS `inventory` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `inventory`;
 
 -- --------------------------------------------------------
 
@@ -8744,6 +8746,19 @@ INSERT INTO `nested_category` (`category_id`, `name`, `lft`, `rgt`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `po_status`
+--
+
+DROP TABLE IF EXISTS `po_status`;
+CREATE TABLE IF NOT EXISTS `po_status` (
+`id` int(11) NOT NULL,
+  `status_name` varchar(255) NOT NULL,
+  `status_desc` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products_inventory`
 --
 
@@ -14745,6 +14760,45 @@ INSERT INTO `product_category` (`id`, `product_id`, `category_id`, `sort_order`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `purchaseorder`
+--
+
+DROP TABLE IF EXISTS `purchaseorder`;
+CREATE TABLE IF NOT EXISTS `purchaseorder` (
+`id` int(11) NOT NULL,
+  `po_group_id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `unit_price` double NOT NULL,
+  `quantity` double NOT NULL,
+  `unit` int(11) NOT NULL,
+  `total_price` double NOT NULL,
+  `completed_date` date NOT NULL,
+  `update_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchaseorder_groups`
+--
+
+DROP TABLE IF EXISTS `purchaseorder_groups`;
+CREATE TABLE IF NOT EXISTS `purchaseorder_groups` (
+`id` int(11) NOT NULL,
+  `sku` int(11) NOT NULL,
+  `po_entered_date` date NOT NULL,
+  `po_completed_date` date NOT NULL,
+  `po_status` int(11) NOT NULL,
+  `total_price` double NOT NULL,
+  `is_realtime` enum('0','1') NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `updated_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `purchaseorder_product`
 --
 
@@ -14771,6 +14825,19 @@ INSERT INTO `purchaseorder_product` (`id`, `purchase_order_id`, `product_id`, `p
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `purchaseorder_status`
+--
+
+DROP TABLE IF EXISTS `purchaseorder_status`;
+CREATE TABLE IF NOT EXISTS `purchaseorder_status` (
+`id` int(11) NOT NULL,
+  `status_code` varchar(255) NOT NULL,
+  `status_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `purchase_categories`
 --
 
@@ -14782,7 +14849,7 @@ CREATE TABLE IF NOT EXISTS `purchase_categories` (
   `category_desc` text NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `is_active` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_categories`
@@ -14790,12 +14857,14 @@ CREATE TABLE IF NOT EXISTS `purchase_categories` (
 
 INSERT INTO `purchase_categories` (`category_id`, `category_sku`, `name`, `category_desc`, `parent`, `is_active`) VALUES
 (1, 'root_category', 'Root Category', 'Root Category', 0, '1'),
-(2, 'cat_1', 'Category 1', 'Category 1', 1, '1'),
-(3, 'cat_2', 'test1', 'Category 2', 1, '1'),
-(4, 'sub_cat_1', 'Sub Category 1', 'Sub Category 1', 2, '1'),
-(5, 'sub_cat_4', 'Sub Category 4', 'Sub Category 4', 3, '1'),
-(6, 'cat_3', 'Sub Category 2', 'Category 3', 3, '1'),
-(7, 'test', 'test', 'test', 1, '1');
+(2, 'cat_1', 'Category 1', 'Category 1', 1, '0'),
+(3, 'cat_2', 'test1', 'Category 2', 1, '0'),
+(4, 'sub_cat_1', 'Sub Category 1', 'Sub Category 1', 1, '0'),
+(5, 'sub_cat_4', 'Sub Category 4', 'Sub Category 4', 3, '0'),
+(6, 'cat_3', 'Sub Category 2', 'Category 3', 3, '0'),
+(7, 'test', 'test', 'test', 1, '0'),
+(8, 'medicine', 'Medicine', 'Medicine', 1, '1'),
+(9, 'food', 'Food', 'Food', 1, '1');
 
 -- --------------------------------------------------------
 
@@ -14835,7 +14904,7 @@ CREATE TABLE IF NOT EXISTS `purchase_products` (
   `product_quantity` int(11) NOT NULL,
   `product_unit_price` int(11) NOT NULL,
   `product_status` enum('0','1') NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_products`
@@ -14843,7 +14912,17 @@ CREATE TABLE IF NOT EXISTS `purchase_products` (
 
 INSERT INTO `purchase_products` (`product_id`, `product_sku`, `product_name`, `product_description`, `product_weight_unit`, `product_quantity`, `product_unit_price`, `product_status`) VALUES
 (4, 'product_1update', 'Product 1update', 'Product 1update', 1, 1001, 1001, '0'),
-(5, 'product_2', 'Product 2', 'Product 2', 2, 100, 100, '1');
+(5, 'product_2', 'Product 2', 'Product 2', 2, 100, 100, '0'),
+(6, 'medicine_1', 'Medicine 1', 'Medicine 1', 6, 20, 10, '1'),
+(7, 'medicine_2', 'Medicine 2', 'Medicine 2', 6, 10, 20, '1'),
+(8, 'medicine_3', 'Medicine 3', 'Medicine 3', 6, 10, 20, '1'),
+(9, 'medicine_4', 'Medicine 4', 'Medicine 4', 6, 100, 200, '1'),
+(10, 'medicine_5', 'Medicine 5', 'Medicine 5', 6, 10, 200, '1'),
+(11, 'food_1', 'Food 1', 'Food 1', 2, 10, 500, '1'),
+(12, 'food_2', 'Food 2', 'Food 2', 2, 100, 600, '1'),
+(13, 'food_3', 'Food 3', 'Food 3', 2, 100, 1000, '1'),
+(14, 'food_4', 'Food 4', 'Food 4', 2, 10, 100, '1'),
+(15, 'food_5', 'Food 5', 'Food 5', 2, 100, 2000, '1');
 
 -- --------------------------------------------------------
 
@@ -14856,7 +14935,7 @@ CREATE TABLE IF NOT EXISTS `purchase_products_categories` (
 `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_products_categories`
@@ -14865,9 +14944,19 @@ CREATE TABLE IF NOT EXISTS `purchase_products_categories` (
 INSERT INTO `purchase_products_categories` (`id`, `product_id`, `category_id`) VALUES
 (3, 4, 2),
 (4, 4, 4),
-(8, 5, 2),
-(9, 5, 5),
-(10, 5, 6);
+(12, 7, 8),
+(13, 8, 8),
+(14, 9, 8),
+(15, 10, 8),
+(16, 11, 9),
+(17, 12, 9),
+(18, 13, 9),
+(19, 14, 9),
+(20, 15, 9),
+(21, 5, 2),
+(22, 5, 5),
+(23, 5, 6),
+(27, 6, 8);
 
 -- --------------------------------------------------------
 
@@ -14880,7 +14969,7 @@ CREATE TABLE IF NOT EXISTS `purchase_products_suppliers` (
 `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `supplier_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_products_suppliers`
@@ -14890,8 +14979,20 @@ INSERT INTO `purchase_products_suppliers` (`id`, `product_id`, `supplier_id`) VA
 (3, 4, 1),
 (4, 4, 2),
 (5, 4, 3),
-(7, 5, 2),
-(8, 5, 4);
+(10, 7, 5),
+(11, 8, 7),
+(12, 9, 7),
+(13, 10, 5),
+(14, 10, 7),
+(15, 11, 6),
+(16, 12, 6),
+(17, 13, 8),
+(18, 14, 8),
+(19, 15, 6),
+(20, 15, 8),
+(21, 5, 2),
+(22, 5, 4),
+(26, 6, 5);
 
 -- --------------------------------------------------------
 
@@ -14907,17 +15008,21 @@ CREATE TABLE IF NOT EXISTS `purchase_suppliers` (
   `supplier_email` varchar(50) NOT NULL,
   `supplier_phone` varchar(20) NOT NULL,
   `is_active` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_suppliers`
 --
 
 INSERT INTO `purchase_suppliers` (`supplier_id`, `supplier_name`, `supplier_address`, `supplier_email`, `supplier_phone`, `is_active`) VALUES
-(1, 'New supplier', 'baluwatar', 'new_supplier@test.com', '1234567890', '1'),
+(1, 'New supplier', 'baluwatar', 'new_supplier@test.com', '1234567890', '0'),
 (2, 'New supplier1', 'baluwatar', 'new_supplier@test.com1', '1234567890', '0'),
 (3, 'Supplier 3', 'address3', 'email@3@supplier3.com', '1234567890', '0'),
-(4, 'Supplier 4', 'address 4', 'email4@supplier4.com', '1234567890123', '1');
+(4, 'Supplier 4', 'address 4', 'email4@supplier4.com', '1234567890123', '0'),
+(5, 'Test Pharmaceutical', 'Kathmandu', 'email@pharmacy.com', '1234567890', '1'),
+(6, 'Food Supplier', 'Kathmandu', 'email@food.com', '1234567890', '1'),
+(7, 'Test Pharmaceutical 2', 'Kathmandu', 'email2@medicine.com', '1234567890', '1'),
+(8, 'Food Supplier 2', 'Kathmandu', 'email2@food.com', '1234567890', '1');
 
 -- --------------------------------------------------------
 
@@ -15313,6 +15418,12 @@ ALTER TABLE `nested_category`
  ADD PRIMARY KEY (`category_id`);
 
 --
+-- Indexes for table `po_status`
+--
+ALTER TABLE `po_status`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `status_name` (`status_name`);
+
+--
 -- Indexes for table `products_inventory`
 --
 ALTER TABLE `products_inventory`
@@ -15355,10 +15466,28 @@ ALTER TABLE `product_category`
  ADD PRIMARY KEY (`id`), ADD KEY `product_id` (`product_id`,`category_id`), ADD KEY `category_id` (`category_id`);
 
 --
+-- Indexes for table `purchaseorder`
+--
+ALTER TABLE `purchaseorder`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `purchaseorder_groups`
+--
+ALTER TABLE `purchaseorder_groups`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `sku` (`sku`);
+
+--
 -- Indexes for table `purchaseorder_product`
 --
 ALTER TABLE `purchaseorder_product`
  ADD PRIMARY KEY (`id`), ADD KEY `purchase_order_id` (`purchase_order_id`,`product_id`), ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `purchaseorder_status`
+--
+ALTER TABLE `purchaseorder_status`
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `purchase_categories`
@@ -15532,6 +15661,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 ALTER TABLE `nested_category`
 MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
+-- AUTO_INCREMENT for table `po_status`
+--
+ALTER TABLE `po_status`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `products_inventory`
 --
 ALTER TABLE `products_inventory`
@@ -15567,15 +15701,30 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=268;
 ALTER TABLE `product_category`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=522;
 --
+-- AUTO_INCREMENT for table `purchaseorder`
+--
+ALTER TABLE `purchaseorder`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `purchaseorder_groups`
+--
+ALTER TABLE `purchaseorder_groups`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `purchaseorder_product`
 --
 ALTER TABLE `purchaseorder_product`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
+-- AUTO_INCREMENT for table `purchaseorder_status`
+--
+ALTER TABLE `purchaseorder_status`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `purchase_categories`
 --
 ALTER TABLE `purchase_categories`
-MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `purchase_orders`
 --
@@ -15585,22 +15734,22 @@ MODIFY `purchase_order_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT for table `purchase_products`
 --
 ALTER TABLE `purchase_products`
-MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `purchase_products_categories`
 --
 ALTER TABLE `purchase_products_categories`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `purchase_products_suppliers`
 --
 ALTER TABLE `purchase_products_suppliers`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `purchase_suppliers`
 --
 ALTER TABLE `purchase_suppliers`
-MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `rabbit_daily_feeds`
 --

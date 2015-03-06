@@ -1,6 +1,6 @@
 <div class="row">
-    <form method="post" action="">
-        
+    <form method="post" action="<?php echo ADMIN_URL.'purchaseorders/add'?>">
+        <input type="hidden" name="is_realtime" value ="1" id="realtime"/>
         <div class="col-lg-8 col-lg-offset-2">
             <div class="row">
     <div class="col-lg-6">
@@ -8,8 +8,9 @@
             <div class="col-lg-10">
                 
                 <div class="form-group">
-                <input type="text" name="po_date" class="form-control dp" onchange="CheckDate(this)">
-                <span class="glyphicon glyphicon-calendar form-control-feedback calendar-icon" style="right: 10px;"></span>
+                <input type="date" name="po_date" class="form-control dp" onchange="CheckDate(this)" style="width:100%">
+                <input type="hidden" name="employee_id" value="0"/>
+                <!--<span class="glyphicon glyphicon-calendar form-control-feedback calendar-icon" style="right: 10px;"></span>-->
                 </div>
             </div>
         </div>
@@ -69,14 +70,14 @@
                                             <td class="text-center"><?php echo $product['product_id'] ?></td>
                                             <td class="text-center"><?php echo $product['product_name'] ?></td>
                                             <td class="text-center">
-                                                <select name="suppliers[<?php echo $product['product_id']?>][]" class="form-control" style="margin:0;">
+                                                <select name="suppliers[<?php echo $product['product_id']?>]" class="form-control" style="margin:0;">
                                                     <?php foreach($p_suppliers as $s):?>
                                                     <option class="text-center" value="<?php echo $s['supplier_id']?>"><?php echo $s['supplier_name'];?></option>
                                                     <?php endforeach;?>
                                                 </select>
                                             </td>
-                                            <td class="text-center"><input type="text" name="unit_prices[<?php echo $product['product_id'] ?>][]" readonly="" class="form-control unit_price text-center" value="<?php echo $product['product_unit_price']?>" style="margin:0" /></td>
-                                            <td class="text-center"><input type="text" name="quantities[<?php echo $product['product_id'] ?>][]" class="form-control quantity text-center" style="margin:0" onchange="UpdateTotalPrice(this)" value="0"/></td>
+                                            <td class="text-center"><input type="text" name="unit_prices[<?php echo $product['product_id'] ?>]" readonly="" class="form-control unit_price text-center" value="<?php echo $product['product_unit_price']?>" style="margin:0" /></td>
+                                            <td class="text-center"><input type="text" name="quantities[<?php echo $product['product_id'] ?>]" class="form-control quantity text-center" style="margin:0" onchange="UpdateTotalPrice(this)" value="0"/></td>
                                             <td class="text-center">
                                                 <select name="units[<?php echo $product['product_id']?>][]" class='form-control' style='margin:0'>
                                                     <?php if($units):?>
@@ -86,7 +87,7 @@
                                                     <?php endif;?>
                                                 </select>
                                             </td>
-                                            <td class="text-center"><input type="text" name="total_prices[<?php echo $product['product_id']?>][]" value="" class="form-control text-center total_price"  onchange="UpdateUnitPrice(this)"/></td>
+                                            <td class="text-center"><input type="text" name="total_prices[<?php echo $product['product_id']?>]" value="" class="form-control text-center total_price"  onchange="UpdateUnitPrice(this)"/></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else:?>
@@ -147,11 +148,11 @@
            UpdateTotalPrice(this); 
         });
         
-        $('.dp').datepicker({
-            format:'yyyy-mm-dd',
-            defaultDate: "11/1/2013"
-        });
-        
+//        $('.dp').datepicker({
+//            format:'yyyy-mm-dd',
+//            keepOpen:true
+//        });
+//        
         $('.dp').val(moment().format('YYYY-MM-DD'));
     });
     
@@ -161,12 +162,22 @@
         var date2 = new Date(moment().format('YYYY-MM-DD'));
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-         if(diffDays > 30)
+        if(diffDays > 7)
         {
-            alert("Date Cannot be more than 30 days");
+            alert("Date Cannot be more than 7 days");
             $('.dp').val(moment().format('YYYY-MM-DD'));
         }
-        else if(diffDays > 7) alert("Not Real Time Data");
+        else if(diffDays > 0 && diffDays <= 7) 
+        {
+            //$('.dp').setDate(moment().format('YYYY-MM-DD'));
+           //$('.datepicker-dropdown').hide();
+           if(confirm("Not Real Time Data"))
+            $('#realtime').val(0);
+           else
+               $('.dp').val(moment().format('YYYY-MM-DD'));
+        }
+        else if(diffDays == 0)
+            $('#realtime').val(1);
        
     }
 </script>
