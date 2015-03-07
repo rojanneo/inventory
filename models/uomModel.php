@@ -32,5 +32,13 @@ class uomModel extends Model{
        if($units) return $units;
        else return false;
     }
+
+    public function load($id)
+    {
+      $sql = "SELECT * FROM units WHERE weight_unit_id = ".$id." LIMIT 1";
+      $unit = $this->connection->Query($sql);
+      if($unit) return $unit[0];
+      else return false;
+    }
     //put your code here
 }

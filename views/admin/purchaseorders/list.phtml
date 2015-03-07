@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col-lg-6 col-lg-offset-3">
+	<div class="row">
+		<div class="col-lg-4">
+			<select id="status" class="form-control" style="margin:0" onchange="FilterPO()">
+				<option value="">All</option>
+				<option value="1">In Progress</option>
+				<option value="2">Completed</option>
+				<option value="3">Canceled</option>
+			</select>
+		</div>
+	<div class="col-lg-4">
+		<a href="<?php echo ADMIN_URL.'purchaseorders/new'?>" class="btn btn-primary">New Purchase Order</a>
+	</div>
+	</div>
+	<div class="list-group" id="purchase-orders">
+	<h4 class="list-group-item active">Purchase Orders</h4>
+	<?php if(isset($purchase_orders) and $purchase_orders):?>
+		<?php foreach($purchase_orders as $po):?>
+			<a class="list-group-item" href="<?php echo ADMIN_URL.'purchaseorders/complete/'.$po['id']?>"><?php echo $po['sku'];?>
+			<?php if($po['po_status'] == 1){$class = 'primary';} else if($po['po_status'] == 2){$class="success";} else{$class = "danger";}?>
+			<span class="badge badge-<?php echo $class?>"><?php echo getModel('postatus')->getStatusName($po['po_status']);?></span>
+			</a>
+		<?php endforeach;?>
+	<?php else:?>
+		<p class="list-group-item text-center">No Data Found</p>
+	<?php endif;?>
+	</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function FilterPO()
+	{
+		var status = $('#status').val();
+		 $.ajax({
+            url:'<?php echo ADMIN_URL.'purchaseorders/getFilteredPO'?>',
+            method:'POST',
+            data:{'status':status},
+            success:function(response){
+                $('#purchase-orders').html(response);
+            }
+        });
+	}
+</script>

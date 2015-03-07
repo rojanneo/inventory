@@ -1,0 +1,11 @@
+<h4 class="list-group-item active">Purchase Orders</h4>
+	<?php if(isset($purchase_orders) and $purchase_orders):?>
+		<?php foreach($purchase_orders as $po):?>
+			<a class="list-group-item" href="<?php echo ADMIN_URL.'purchaseorders/complete/'.$po['id']?>"><?php echo $po['sku'];?>
+			<?php if($po['po_status'] == 1){$class = 'primary';} else if($po['po_status'] == 2){$class="success";} else{$class = "danger";}?>
+			<span class="badge badge-<?php echo $class?>"><?php echo getModel('postatus')->getStatusName($po['po_status']);?></span>
+			</a>
+		<?php endforeach;?>
+	<?php else:?>
+		<p class="list-group-item text-center">No Data Found</p>
+	<?php endif;?>

@@ -1,0 +1,151 @@
+<?php if(isset($po_group) and $po_group and isset($purchase_orders) and $purchase_orders):?>
+    <div class="row">
+        <form method="post" action="<?php echo ADMIN_URL.'purchaseorders/completePost'?>" id="po_form">
+        <input type="hidden" name="po_group_id" value="<?php echo $po_group['id']?>"/>
+        <input type="hidden" name="complete" value="0"/>
+            <div class="col-lg-12">
+             <?php if($po_group['is_complete'] == 0 and $po_group['po_status'] == 1):?>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <input type="date" name="po_date" class="form-control dp" onchange="CheckDate(this)" style="width:100%" required>
+                       <input type="hidden" name="employee_id" value="0"/>
+                    </div>
+
+                </div>
+                </div>
+            <?php elseif($po_group['is_complete'] == 1 and $po_group['po_status'] == 2):?>
+                <div class="alert alert-success alert-dismissable">
+                <div class="row">
+                    <div class="col-lg-12">
+                    <p>Purchase Order was completed on <?php echo $po_group['po_completed_date'];?>.</p>
+                    </div>
+                    <div class="col-lg-4">
+                    <a class="btn btn-success" href="<?php echo ADMIN_URL.'purchaseorders/reopen/'.$po_group['id']?>">Re-open Purchase Order</a>
+                    </div>
+                </div>
+                </div>
+            <?php elseif($po_group['is_complete'] == 0 and $po_group['po_status'] == 3):?>
+
+                <div class="alert alert-danger alert-dismissable">
+<div class="row">
+                    <div class="col-lg-12">
+                    <p>Purchase Order was canceled on <?php echo $po_group['po_cancel_date'];?>.</p>
+                    </div>
+                    <div class="col-lg-4">
+                    <a class="btn btn-danger" href="<?php echo ADMIN_URL.'purchaseorders/reopen/'.$po_group['id']?>">Re-open Purchase Order</a>
+                    </div>
+                </div>
+
+                    
+                </div>
+            <?php endif;?>
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">
+                        <h3 class="panel-title"><?php echo $po_group['sku']?></h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <th class="col-lg-1 text-center">Product ID</th>
+                                    <th class="col-lg-2 text-center">Product Name</th>
+                                    <th class="col-lg-2 text-center">Supplier</th>
+                                    <th class="col-lg-1 text-center">Unit Price</th>
+                                    <th class="col-lg-1 text-center">Quantity Ordered</th>
+                                    <th class="col-lg-1 text-center">Quantity Received</th>
+                                    <th class="col-lg-1 text-center">Units</th>
+                                    <th class="col-lg-1 text-center">Total Price</th>
+                                    <th class="col-lg-2 text-center">Total Price to pay</th>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($purchase_orders as $po):?>
+                                        <?php $product = getModel('purchaseproduct')->load($po['product_id']);?>
+                                        <?php $supplier = getModel('supplier')->load($po['supplier_id']);?>
+                                        <?php $unit = getModel('uom')->load($po['unit']);?>
+                                        <tr>
+                                            <td class="text-center"><?php echo $po['product_id'];?></td>
+                                            <td class="text-center"><?php echo $product['product_name'];?></td>
+                                            <td class="text-center"><?php echo $supplier['supplier_name'];?></td>
+                                            <td class="text-center unit_price"><?php echo $po['unit_price'];?></td>
+                                            <td class="text-center"><?php echo $po['quantity'];?></td>
+                                            <td class="text-center">
+                                            <?php if($po_group['is_complete'] == 0 and $po_group['po_status'] == 1):?>
+                                            <input type="text" name="quantity_recieved[<?php echo $po['id']?>]" value="<?php echo $po['quantity_recieved']?>" class="form-control" onchange="UpdateTotalPrice(this)"/>
+                                            <?php else:?>
+                                                <?php echo $po['quantity_recieved'];?>
+                                            <?php endif;?>
+                                            </td>
+                                            <td class="text-center"><?php echo $unit['unit_name'].' ( '.$unit['unit_symbol'].' )';?></td>
+                                            <td class="text-center"><?php echo $po['total_price'];?></td>
+                                            <td class="text-center">
+                                            <?php if($po_group['is_complete'] == 0 and $po_group['po_status'] == 1):?>
+                                            <input type="text" name="total_price_to_pay[<?php echo $po['id']?>]" value="<?php echo $po['total_price_to_pay']?>" readonly class="form-control total_price"/>
+                                            <?php else:?>
+                                                <?php echo $po['total_price_to_pay'];?>
+                                            <?php endif;?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach;?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-12 text-right">
+                            <?php if($po_group['is_complete'] == 0 and $po_group['po_status'] == 1):?>
+                                <input type="button" value="Save" class="btn btn-primary save-btn" onclick="Save()"/>
+                                <input type="button" value="Complete" class="btn btn-success complete-btn" onclick="Complete()"/>
+                                <a href="<?php echo ADMIN_URL.'purchaseorders/cancel/'.$po_group['id']?>" class="btn btn-danger" onclick="return confirm('Are You Sure. This is not reversible.')">Cancel</a>
+                            <?php endif;?>
+                        </div>
+                    </div>  
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+    function UpdateTotalPrice(quantity)
+    {
+        var q = $(quantity).val();
+        var u = $(quantity).parent().parent().find('.unit_price').text();
+
+        var t =q * u;
+
+        $(quantity).parent().parent().find('.total_price').val(t);
+    }
+
+    function Save()
+    {
+        $(document).find('input[name=complete]').val(0);
+        if($("#po_form .dp").val() == "")
+        {
+            alert("Date is missing");
+            return false;
+        }
+        else
+        {
+            $('#po_form').submit();
+        }
+    }
+    function Complete()
+    {
+        var ans = confirm("Are you sure you want to complete this PO. This cannot be reverted");
+        if(ans)
+        {
+            $(document).find('input[name=complete]').val(1);
+            if($("#po_form .dp").val() == "")
+            {
+                alert("Date is missing");
+                return false;
+            }
+            else
+            {
+                $('#po_form').submit();
+            }
+
+        }
+    }
+    </script>
+<?php endif;?>
