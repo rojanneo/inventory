@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <h3 class="panel-title">Purchase Report</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" action="<?php echo ADMIN_URL.'purchasereports/generatereport'?>">
+                    <div class="row">
+                        <div class="col-lg-6 col-lg-offset-3">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label>Category</label>
+                                    <select name="categories" class="form-control" style="margin:0">
+                                        <option value="" selected>All Categories</option>
+                                        <?php if (isset($categories) and $categories): ?>
+                                            <?php foreach ($categories as $category): ?>
+                                                <option value="<?php echo $category['category_id'] ?>"><?php echo $category['name']; ?></option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label>Suppliers</label>
+                                    <select name="suppliers" class="form-control" style="margin:0">
+                                        <option value="" selected>All Suppliers</option>
+                                        <?php if (isset($suppliers) and $suppliers): ?>
+                                            <?php foreach ($suppliers as $supplier): ?>
+                                                <option value="<?php echo $supplier['supplier_id'] ?>"><?php echo $supplier['supplier_name']; ?></option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Date From</label>
+                                    <input type="date" name="date_from" class="form-control" style="margin:0;width:100%"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Date From</label>
+                                    <input type="date" name="date_from" class="form-control" style="margin:0;width:100%"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label>Period</label>
+                                    <select name="suppliers" class="form-control" style="margin:0">
+                                        <option value="" selected disabled>Select A Period</option>
+                                        <option value="1">1 Week</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label>Realtime Only</label>
+                                    <select name="suppliers" class="form-control" style="margin:0">
+                                        <option value="0" selected>No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 text-center">
+                                    <input type="submit" value="Generate Report" class="btn btn-primary"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
