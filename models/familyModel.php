@@ -8,7 +8,7 @@ class FamilyModel extends Model
 
 	public function getCollection()
 	{
-		$attribute = getModel('attribute')->load(array('AND','attribute_code'=>'rabbit_family_id'));
+		$attribute = getModel('attribute')->load(array('attribute_code'=>'rabbit_family_id'));
 		$sql = "SELECT value FROM products_inventory AS p JOIN product_attribute_value_number ON p.product_id = product_attribute_value_number.product_id WHERE attribute_id = ".$attribute['attribute_id']." group BY value";
 		$families = $this->connection->Query($sql);
 		$family_array = array();

@@ -78,7 +78,7 @@ class AttributeModel extends Model
 		{
 			$where = 1;
 		}
-		$sql = "SELECT `attribute_id`, `attribute_code`, `attribute_default_value`, `attribute_type`, `attribute_admin_label`,`is_unique`, `is_required`, `is_used_for_variation` FROM `attributes` WHERE ".$where;
+		$sql = "SELECT `attribute_id`, `attribute_code`, `attribute_default_value`, `attribute_type`, `attribute_admin_label`,`is_unique`, `is_required`, `is_used_for_variation` FROM `attributes` ".$where;
 		$attributes = $this->connection->Query($sql);
 		if($attributes)
 			return $attributes;
@@ -91,7 +91,7 @@ class AttributeModel extends Model
 		{
 			$where = $this->generateWhereCondition($condition);
 
-			$sql = "DELETE FROM attributes WHERE ".$where;
+			$sql = "DELETE FROM attributes ".$where;
 			$this->connection->DeleteQuery($sql);
 			return true;
 		}
@@ -101,11 +101,10 @@ class AttributeModel extends Model
 
 	public function load($condition = false)
 	{
-
 		if($condition and is_array($condition))
 		{
 			$where = $this->generateWhereCondition($condition);
-			$sql = "SELECT * FROM attributes WHERE ".$where;
+			$sql = "SELECT * FROM attributes ".$where;
 			$attribute = $this->connection->Query($sql);
 			if($attribute)
 				return $attribute[0];
