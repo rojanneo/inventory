@@ -116,7 +116,7 @@ class PurchaseorderModel extends Model
 	public function cancel($id)
 	{
 		$now = date('Y-m-d');
-		$sql = "UPDATE purchaseorder_groups SET is_complete = 0, po_status = 3, po_cancel_date = '".$now."' WHERE id = ".$id;
+		$sql = "UPDATE purchaseorder_groups SET is_complete = '0', po_status = 3, po_cancel_date = '".$now."' WHERE id = ".$id;
 		$this->connection->UpdateQuery($sql);
 	}
 }

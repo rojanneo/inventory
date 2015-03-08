@@ -40,5 +40,30 @@ class uomModel extends Model{
       if($unit) return $unit[0];
       else return false;
     }
+    
+    public function getMultiplierFactor($from, $to)
+    {
+        if($from == $to) return 1;
+        $sql = "SELECT * FROM unit_of_measure WHERE unit_from = ".$from." AND unit_to = ".$to." Limit 1";
+        $uom = $this->connection->Query($sql);
+        if($uom) return $uom[0]['multiply_factor'];
+        else return false;
+    }
+    
+    public function getUnitSymbol($id)
+    {
+        $u = $this->load($id);
+        if($u) return $u['unit_symbol'];
+        else return false;
+    }
+    
+    public function getConstantFactor($from, $to)
+    {
+        if($from == $to) return 0;
+        $sql = "SELECT * FROM unit_of_measure WHERE unit_from = ".$from." AND unit_to = ".$to." Limit 1";
+        $uom = $this->connection->Query($sql);
+        if($uom) return $uom[0]['constant_factor'];
+        else return false;
+    }
     //put your code here
 }

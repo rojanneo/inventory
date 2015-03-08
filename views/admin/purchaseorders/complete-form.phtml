@@ -96,7 +96,7 @@
                             <?php if($po_group['is_complete'] == 0 and $po_group['po_status'] == 1):?>
                                 <input type="button" value="Save" class="btn btn-primary save-btn" onclick="Save()"/>
                                 <input type="button" value="Complete" class="btn btn-success complete-btn" onclick="Complete()"/>
-                                <a href="<?php echo ADMIN_URL.'purchaseorders/cancel/'.$po_group['id']?>" class="btn btn-danger" onclick="return confirm('Are You Sure. This is not reversible.')">Cancel</a>
+                                <a href="<?php echo ADMIN_URL.'purchaseorders/cancel/'.$po_group['id']?>" class="btn btn-danger" onclick="return confirm('Are You Sure?')">Cancel</a>
                             <?php endif;?>
                         </div>
                     </div>  
@@ -131,7 +131,7 @@
     }
     function Complete()
     {
-        var ans = confirm("Are you sure you want to complete this PO. This cannot be reverted");
+        var ans = confirm("Are you sure you want to complete this PO?");
         if(ans)
         {
             $(document).find('input[name=complete]').val(1);

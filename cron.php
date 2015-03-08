@@ -1,22 +1,12 @@
 <?php
-function getTasks($parent = 0){
-    $tasks = array();
-    mysql_connect('localhost','root','');
-    mysql_select_db('inventory');
-    $query = mysql_query("select * from purchase_categories where parent = $parent");
-    $rows = array();
-    while($row = mysql_fetch_assoc($query))
-    {
-    	$rows[] = $row;
-    }
-    if(count($rows)){
-    	$tasks[$parent][] = $rows[0]['parent'];
-    	//echo $rows[0]['parent'];
-    } else {
-        return $tasks;
-    }
-}
 
-$tasks = getTasks(2);
+$connection = mysql_connect("localhost", "root", "");
+mysql_select_db('inventory');
+  //run the store proc
+  $result = mysql_query("CALL PurchaseReport(8,7,'2015-03-07','2015-03-10')") or die("Query fail: " . mysqli_error());
 
-var_dump($tasks);
+  //loop the result set
+  echo '<pre>';
+  while ($row = mysql_fetch_assoc($result)){   
+      var_dump($row);
+  }

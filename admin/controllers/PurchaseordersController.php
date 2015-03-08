@@ -140,7 +140,7 @@ class PurchaseordersController extends Controller{
 
         }
 
-        redirect('admin/purchaseorders/new');
+        redirect('admin/purchaseorders');
 
         //var_dump($post_data);die;
     }
