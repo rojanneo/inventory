@@ -37,6 +37,9 @@ class PurchaseorderModel extends Model
 	{
 		$sql = "UPDATE purchaseorder_groups SET is_complete = '0', po_status = 1, po_completed_date = 'NULL', po_cancel_date = 'NULL' WHERE id = ".$id;
 		$this->connection->UpdateQuery($sql);
+
+		$sql = "UPDATE purchaseorder SET is_complete = '0', completed_date = 'NULL' WHERE po_group_id = ".$id;
+		$this->connection->UpdateQuery($sql);
 	}
 
 	public function insert($data)
@@ -106,7 +109,10 @@ class PurchaseorderModel extends Model
 			extract($data);
 			$now = date('Y-m-d');
 			$total_price = array_sum($total_price_to_pay);
-			$sql = "UPDATE purchaseorder_groups SET is_complete = '1', po_completed_date = '".$now."', po_status = '2', total_price = '".$total_price."' WHERE id = ".$po_group_id;
+			$sql = "UPDATE purchaseorder_groups SET is_complete = '1', po_completed_date = '".$po_date."', po_status = '2', total_price = '".$total_price."' WHERE id = ".$po_group_id;
+			$this->connection->UpdateQuery($sql);
+
+			$sql = "UPDATE purchaseorder SET is_complete = '1', completed_date = '".$po_date."' WHERE po_group_id = ".$po_group_id;
 			$this->connection->UpdateQuery($sql);
 		}
 		else
