@@ -54,13 +54,15 @@ class PurchaseordersController extends Controller{
 
     public function reopenAction($id)
     {
-    	getModel('purchaseorder')->reopen($id);
+        $employee_id = 1;
+    	getModel('purchaseorder')->reopen($id,$employee_id);
     	redirect('admin/purchaseorders/complete/'.$id);
     }
 
     public function cancelAction($id)
     {
-    	getModel('purchaseorder')->cancel($id);
+        $employee_id = 1;
+    	getModel('purchaseorder')->cancel($id,$employee_id);
     	redirect('admin/purchaseorders');
     }
 
@@ -130,6 +132,8 @@ class PurchaseordersController extends Controller{
 	            	$data['unit'] = $units[$product_id];
 	            	$data['total_price'] = $total_prices[$product_id];
 	            	$data['is_complete'] = 0;
+                        $data['employee_id'] = $employee_id;
+                        $data['entered_date'] = $po_date;
 
 	            	getModel('purchaseorder')->insert($data);
 

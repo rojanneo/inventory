@@ -21,7 +21,7 @@ class purchasereportModel extends Model{
         if($data)
         {
             extract($data);
-            $sql = "CALL po('".$category."','".$supplier."','".$start_date."','".$end_date."','".$realtime."')";            
+            $sql = "CALL po('".$category."','".$supplier."','".$start_date."','".$end_date."','".$realtime."', '".$status_code."')";            
             $report = $this->connection->Query($sql);
             if($report) return $report;
             else return false;

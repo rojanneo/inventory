@@ -29,6 +29,7 @@ class PurchasereportsController extends Controller {
         $data['category'] = $post_data['categories'];
         $data['supplier'] = $post_data['suppliers'];
         $data['realtime'] = $post_data['realtime'];
+        $data['status_code'] = $post_data['status_code'];
         if (isset($post_data['periods']) and $post_data['periods'] and $post_data['periods'] != "") {
             $period = $post_data['periods'];
             if ($period == 1) {

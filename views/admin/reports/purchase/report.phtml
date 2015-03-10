@@ -25,8 +25,9 @@
             <th class="col-lg-2 text-center">Status</th>
             </thead>
             <tbody>
+                <?php $count = 1;$total_qty_ordered = 0; $total_qty_received = 0; $total_amount_ordered = 0; $total_payable = 0;?><?php $count = 1;$total_qty_ordered = 0; $total_qty_received = 0; $total_amount_ordered = 0; $total_payable = 0;?>
                 <?php if(isset($reports) and $reports):?>
-                <?php $count = 1;?>
+                
                 <?php foreach($reports as $report):?>
                 <tr>
                     <td class="text-center"><?php echo $count++;?>
@@ -43,6 +44,12 @@
                     <td class="text-center"><?php echo $report['total_price_to_pay'];?></td>
                     <td class="text-center"><?php echo $report['status_name'];?></td>
                 </tr>
+                <?php 
+                    $total_qty_ordered += $report['quantity'];
+                    $total_qty_received += $report['quantity_recieved'];
+                    $total_amount_ordered += $report['total_price'];
+                    $total_payable += $report['total_price_to_pay'];
+                ?>
                 <?php endforeach;?>
                 <?php else:?>
                 <tr>
@@ -51,6 +58,29 @@
                 <?php endif;?>
             </tbody>
         </table>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class="col-lg-4 col-lg-offset-8">
+        <div class="panel panel-info">
+            <div class="panel-heading text-center"><h3 style="margin:0">Totals</h3></div>
+        <div class="responsive-table">
+        <table class="table table-hover">
+            <tr>
+                <td><strong>Total Quantity Ordered</strong></td>
+                <td><?php echo $total_qty_ordered;?></td>
+                <td><strong>Total Amount</strong></td>
+                <td><?php echo $total_amount_ordered;?></td>
+            </tr>
+            <tr>
+                <td><strong>Total Quantity Received</strong></td>
+                <td><?php echo $total_qty_received;?></td>
+                <td><strong>Total Amount Payable</strong></strong></td>
+                <td><?php echo $total_payable;?></td>
+            </tr>
+        </table>
+        </div>
         </div>
     </div>
 </div>

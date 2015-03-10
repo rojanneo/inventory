@@ -2,8 +2,13 @@
 	<?php if(isset($purchase_orders) and $purchase_orders):?>
 		<?php foreach($purchase_orders as $po):?>
 			<a class="list-group-item" href="<?php echo ADMIN_URL.'purchaseorders/complete/'.$po['id']?>"><?php echo $po['sku'];?>
+                        <?php $edited = getModel('purchaseorder')->isEdited($po['id']);?>
+                        <span class="badge "><?php echo $po['po_entered_date'];?></span>
 			<?php if($po['po_status'] == 1){$class = 'primary';} else if($po['po_status'] == 2){$class="success";} else{$class = "danger";}?>
 			<span class="badge badge-<?php echo $class?>"><?php echo getModel('postatus')->getStatusName($po['po_status']);?></span>
+                        <?php if($edited):?>
+                            <span class="badge badge-danger">Edited</span>                            
+                        <?php endif;?>
 			</a>
 		<?php endforeach;?>
 	<?php else:?>

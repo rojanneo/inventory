@@ -1,6 +1,6 @@
 <div class="panel panel-primary col-lg-8 col-lg-offset-2">
     <div class="panel-heading text-center">
-        <h3 class="panel-title">New Purchase Product</h3>
+        <h3 class="panel-title">New Purchase Item</h3>
     </div>
     <div class="panel-body">
         <div class="row">
@@ -20,14 +20,14 @@
 
                             <div class="row">
                                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-                                    <label for="product_sku">Product SKU</label>
+                                    <label for="product_sku">Item SKU</label>
                                     <input type="text" name="product_sku" class="form-control required" value="<?php echo (isset($product) and $product) ? $product['product_sku'] : null   ?>"/>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-5 col-lg-offset-1  col-md-5 col-md-offset-1 col-sm-6">
-                                    <label for="product_unit_price">Product Unit Price</label>
+                                    <label for="product_unit_price">Item Unit Price</label>
                                     <input type="text" name="product_unit_price" class="form-control required" value="<?php echo (isset($product) and $product) ? $product['product_unit_price'] : null   ?>"/>
                                 </div>
 <!--                                <select name="status">
@@ -35,7 +35,7 @@
                                     <option value="1">Enabled</option>
                                 </select>-->
                                 <div class="col-lg-5 col-md-5 col-sm-6">
-                                    <label for="product_status">Product Status</label>
+                                    <label for="product_status">Item Status</label>
                                     <select name="product_status" class="form-control" style="margin:0">
                                         <option value="0" <?php echo (isset($product) and $product and $product['product_status'] == 0) ? 'selected' : null   ?>>Disabled</option>
                                         <option value="1" <?php echo (isset($product) and $product and $product['product_status'] == 1) ? 'selected' : null   ?>>Enabled</option>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-5 col-lg-offset-1  col-md-5 col-md-offset-1 col-sm-6">
-                                    <label for="product_quantity">Product Quantity</label>
+                                    <label for="product_quantity">Item Quantity</label>
                                     <input type="text" name="product_quantity" class="form-control required" value="<?php echo (isset($product) and $product) ? $product['product_quantity'] : null   ?>"/>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-6">
@@ -63,7 +63,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-                                    <label for="product_desc">Product Description</label>
+                                    <label for="product_desc">Item Description</label>
                                     <textarea name="product_desc" class="form-control" rows="20"><?php echo (isset($product) and $product) ? $product['product_description'] : null   ?></textarea>
                                 </div>
                             </div>

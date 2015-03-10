@@ -1,16 +1,18 @@
 <div class="row">
 	<div class="col-lg-6 col-lg-offset-3">
 	<div class="row">
-		<div class="col-lg-4">
-			<select id="status" class="form-control" style="margin:0" onchange="FilterPO()">
+                    <!--This Can be used to show filter later on. Removed Based on Subodh's requirement -->
+		<div class="col-lg-4" style='display:none'>
+			<select id="status" class="form-control" style="margin:0;display:none" onchange="FilterPO()" >
 				<option value="">All</option>
 				<option value="1">In Progress</option>
-				<option value="2">Completed</option>
 				<option value="3">Canceled</option>
 			</select>
 		</div>
-	<div class="col-lg-4">
+	<div class="col-lg-12">
 		<a href="<?php echo ADMIN_URL.'purchaseorders/new'?>" class="btn btn-primary">New Purchase Order</a>
+		<a href="javascript:void(0)" class="btn btn-danger canceled" onclick='ShowCanceled()'>Canceled Purchase Orders</a>
+                <a href="javascript:void(0)" class="btn btn-info all" onclick='ShowAll()' onclick='ShowCanceled()'>All Purchase Orders</a>
 	</div>
 	</div>
 	<div class="list-group" id="purchase-orders">
@@ -44,4 +46,21 @@
             }
         });
 	}
+        
+        $(document).ready(function(){
+            $('#status').val(1);
+            FilterPO();
+        });
+        
+        function ShowCanceled()
+        {
+            $('#status').val(3);
+            FilterPO();
+        }
+        function ShowAll()
+        {
+            $('#status').val('1');
+            FilterPO();
+        }
+        
 </script>
