@@ -60,7 +60,7 @@ class LitterModel extends Model
 	{
 		if($parent_id)
 		{
-		$sql = "SELECT * FROM rabbit_litters r1 WHERE parent_id = $parent_id AND rabbit_id IS NULL AND NOT EXISTS(SELECT * 
+		$sql = "SELECT * FROM rabbit_litters r1 WHERE parent_id = $parent_id AND (rabbit_id IS NULL or rabbit_id = 0) AND NOT EXISTS(SELECT * 
                   FROM   aa_death r2
                   WHERE  r1.litter_id = r2.lid 
                  )";

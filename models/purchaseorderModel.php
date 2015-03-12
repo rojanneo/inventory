@@ -87,7 +87,7 @@ class PurchaseorderModel extends Model
 			extract($data);
 			foreach($quantity_recieved as $po_id => $q)
 			{
-				$sql = "UPDATE purchaseorder SET unit_price = '".  mysql_escape_string($unit_price)."', quantity_recieved = '".mysql_escape_string($q)."',employee_id = '".mysql_escape_string($employee_id)."',is_save = '1',update_date = '".mysql_escape_string($po_date)."',total_price_to_pay = '".mysql_escape_string($total_price_to_pay[$po_id])."' WHERE id = ".$po_id;
+				$sql = "UPDATE purchaseorder SET unit_price = '".  mysql_escape_string($unit_price[$po_id])."', quantity_recieved = '".mysql_escape_string($q)."',employee_id = '".mysql_escape_string($employee_id)."',is_save = '1',update_date = '".mysql_escape_string($po_date)."',total_price_to_pay = '".mysql_escape_string($total_price_to_pay[$po_id])."' WHERE id = ".$po_id;
 				$this->connection->UpdateQuery($sql);
 				
 			}
@@ -105,13 +105,23 @@ class PurchaseorderModel extends Model
 		if($data)
 		{
 			extract($data);
+			$po = $this->loadPurchaseOrderByGroup($po_group_id);
 			$now = date('Y-m-d');
 			$total_price = array_sum($total_price_to_pay);
 			$sql = "UPDATE purchaseorder_groups SET is_complete = '1', po_completed_date = '".$po_date."', po_status = '2', total_price = '".$total_price."' WHERE id = ".$po_group_id;
 			$this->connection->UpdateQuery($sql);
 
-			$sql = "UPDATE purchaseorder SET is_save = '0', is_complete = '1', completed_date = '".$po_date."' ,employee_id = '".mysql_escape_string($employee_id)."' WHERE po_group_id = ".$po_group_id;
-			$this->connection->UpdateQuery($sql);
+
+			if($po)
+			{
+							foreach($po as $p)
+			{
+				$sql = "UPDATE purchaseorder SET is_save = '0', is_complete = '1', completed_date = '".$po_date."' ,employee_id = '".mysql_escape_string($employee_id)."' WHERE id = ".$p['id'];
+				$this->connection->UpdateQuery($sql);				
+			}
+
+			}
+
 		}
 		else
 			return false;

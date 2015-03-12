@@ -68,7 +68,7 @@
                                             <td class="text-center"><?php echo $po['product_id'];?></td>
                                             <td class="text-center"><?php echo $product['product_name'];?></td>
                                             <td class="text-center"><?php echo $supplier['supplier_name'];?></td>
-                                            <td class="text-center"><input type="text" name="unit_price" class="form-control  unit_price" value="<?php echo $po['unit_price'];?>" readonly/></td>
+                                            <td class="text-center"><input type="text" name="unit_price[<?php echo $po['id']?>]" class="form-control  unit_price" value="<?php echo $po['unit_price'];?>" readonly/></td>
                                             <td class="text-center"><?php echo $po['quantity'];?></td>
                                             <td class="text-center">
                                             <?php if($po_group['is_complete'] == 0 and $po_group['po_status'] == 1):?>
@@ -109,10 +109,9 @@
     function UpdateTotalPrice(quantity)
     {
         var q = $(quantity).val();
-        var u = $(quantity).parent().parent().find('.unit_price').text();
+        var u = $(quantity).parent().parent().find('.unit_price').val();
 
         var t =q * u;
-
         $(quantity).parent().parent().find('.total_price').val(t);
     }
 
