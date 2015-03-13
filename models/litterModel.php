@@ -133,4 +133,20 @@ class LitterModel extends Model
 		}
 		return false;
 	}
+
+	public function getWeanedLitters()
+	{
+		$sql = "SELECT * FROM rabbit_litters WHERE rabbit_id NOT IN (SELECT rabbit_id FROM `rabbit_litters` JOIN aa_death ON rabbit_litters.rabbit_id = aa_death.rid WHERE rabbit_id IS NOT NULL AND rabbit_id <> 0) AND rabbit_id IS NOT NULL and rabbit_id <> 0";
+		$litters = $this->connection->Query($sql);
+		if($litters) return $litters;
+		else return false;
+	}
+
+	public function getUnweanedLitters()
+	{
+		$sql = "SELECT * FROM rabbit_litters WHERE rabbit_id NOT IN (SELECT rabbit_id FROM `rabbit_litters` JOIN aa_death ON rabbit_litters.rabbit_id = aa_death.rid WHERE rabbit_id IS NULL AND rabbit_id = 0) AND rabbit_id IS NULL or rabbit_id = 0";
+		$litters = $this->connection->Query($sql);
+		if($litters) return $litters;
+		else return false;
+	}
 }

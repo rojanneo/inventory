@@ -56,20 +56,39 @@ class DailyfeedsController extends Controller
             echo '<pre>';
                 $adult_male_count = 0;
                 $adult_female_count = 0;
+                $pregnant_lactating_count = 0;
+                $weaned_litters = 0;
             foreach($rabbits as $rabbit)
             {
                 $r = getModel('rabbit')->load($rabbit['product_id']);
-                if((!isset($r['rabbit_latest_weaning_date']) or !$r['rabbit_latest_weaning_date']) or $r['rabbit_latest_weaning_date'] and (isset($r['rabbit_latest_culling_date']) and $r['rabbit_latest_culling_date']))
+                if((!isset($r['rabbit_latest_weaning_date']) or !$r['rabbit_latest_weaning_date']) or ($r['rabbit_latest_weaning_date'] and (isset($r['rabbit_latest_culling_date']) and $r['rabbit_latest_culling_date'])))
                 {
                     if($r['rabbit_gender'] == 'Male')
                         $adult_male_count++;
                     else if($r['rabbit_gender'] == 'Female')
-                        $adult_female_count++;
+                    {
+                        if(isset($r['rabbit_feeding_group']) and $r['rabbit_feeding_group'] == 'Pregnant/Lactating')
+                        {
+                        	$pregnant_lactating_count++;
+                        }
+                        else
+   	                        $adult_female_count++;
+
+                    }
                 }
+
                 
             }
+
+            $weaned_litters = (getModel('litter')->getWeanedLitters());
+            $weaned_litters_count = count($weaned_litters);
+            $unweaned_litters = (getModel('litter')->getUnweanedLitters());
+            $unweaned_litters_count = count($unweaned_litters);
                 echo 'Male: '.$adult_male_count.'<br>';
-                echo 'Female: '.$adult_female_count.'<br>';
+                echo 'Adult Female: '.$adult_female_count.'<br>';
+                echo 'Pregnant/Lactating Female: '.$pregnant_lactating_count.'<br>';
+                echo 'Weaned Litters: '.$weaned_litters_count.'<br>';
+                echo 'Unweaned Litters: '.$unweaned_litters_count.'<br>';
         }
 
 	public function updateDailyFeedAction()

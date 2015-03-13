@@ -124,8 +124,15 @@
                                 <td><?php echo $products_to_beCount; ?></td>
                             </tr>
                             <tr>
+                            <?php
+                            $weaned_litters = (getModel('litter')->getWeanedLitters());
+            $weaned_litters_count = count($weaned_litters);
+            $unweaned_litters = (getModel('litter')->getUnweanedLitters());
+            $unweaned_litters_count = count($unweaned_litters);
+            $lc = $weaned_litters_count + $unweaned_litters_count;
+                            ?>
                                 <td>Litters</td>
-                                <td><?php echo $littersCount; ?>	</td>
+                                <td><?php echo $lc; ?>	</td>
                             </tr>
                             <tr>
                                 <td><a href="<?php echo ADMIN_URL . 'rabbits/list/available_to_mate' ?>"><p>Available to Mate</p></a></td>
