@@ -46,7 +46,7 @@ class ProductsController extends Controller
 			if($_GET['set']==4){ $data['ID'] = getModel('product')->getAutoIncrementID(); }			
 			$data['product_type'] = $type;
 			$data['attribute_set'] = $set;
-			$data['attributes'] = getModel('attributeset')->getAttributes(array('AND','attribute_set_id'=>$set));
+			$data['attributes'] = getModel('attributeset')->getAttributes(array('attribute_set_id'=>$set));
 			$data['categories'] = getModel('category')->getCollection();
 			$this->view->renderAdmin('products/new.phtml',$data);
 		}
@@ -130,7 +130,7 @@ class ProductsController extends Controller
 	{
 		$product = getModel('product')->load($product_id);
 		$data['product'] = $product;
-		$data['attributes'] = getModel('attributeset')->getAttributes(array('AND','attribute_set_id'=>$product['attribute_set_id']));
+		$data['attributes'] = getModel('attributeset')->getAttributes(array('attribute_set_id'=>$product['attribute_set_id']));
 		$data['categories'] = getModel('category')->getCollection();
 		$this->view->renderAdmin('products/edit.phtml',$data);
 	}

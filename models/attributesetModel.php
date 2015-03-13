@@ -15,9 +15,9 @@ class AttributesetModel extends Model
 		}
 		else
 		{
-			$where = 1;
+			$where = "Where 1";
 		}
-		$sql = "SELECT `attribute_set_id`, `attribute_set_code`,  `attribute_set_name` FROM `attribute_sets` WHERE ".$where." ORDER BY sort_order";
+		$sql = "SELECT `attribute_set_id`, `attribute_set_code`,  `attribute_set_name` FROM `attribute_sets` ".$where." ORDER BY sort_order";
 		$sets = $this->connection->Query($sql);
 		if($sets)
 			return $sets;
@@ -71,7 +71,7 @@ class AttributesetModel extends Model
 		{
 			$where = $this->generateWhereCondition($condition);
 
-			$sql = "DELETE FROM attribute_sets WHERE ".$where;
+			$sql = "DELETE FROM attribute_sets ".$where;
 			$this->connection->DeleteQuery($sql);
 			return true;
 		}
@@ -85,7 +85,7 @@ class AttributesetModel extends Model
 		if($condition and is_array($condition))
 		{
 			$where = $this->generateWhereCondition($condition);
-			$sql = "SELECT * FROM attribute_sets WHERE ".$where;
+			$sql = "SELECT * FROM attribute_sets ".$where;
 			$attribute = $this->connection->Query($sql);
 			if($attribute)
 				return $attribute[0];
@@ -100,7 +100,7 @@ class AttributesetModel extends Model
 		if($condition and is_array($condition))
 		{
 				$where = $this->generateWhereCondition($condition);
-				$sql = "SELECT attribute_id FROM attribute_attributeset WHERE ".$where;
+				$sql = "SELECT attribute_id FROM attribute_attributeset ".$where;
 				$attributes = $this->connection->Query($sql);
 				if($attributes)
 				{

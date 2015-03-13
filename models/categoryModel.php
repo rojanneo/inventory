@@ -15,9 +15,9 @@ class CategoryModel extends Model
 		}
 		else
 		{
-			$where = 1;
+			$where = "Where 1";
 		}
-		$sql = "SELECT * FROM `categories` WHERE ".$where." ORDER BY sort_order";
+		$sql = "SELECT * FROM `categories` ".$where." ORDER BY sort_order";
 		$categories = $this->connection->Query($sql);
 		if($categories)
 			return $categories;

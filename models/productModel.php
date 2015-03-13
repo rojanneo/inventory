@@ -14,11 +14,10 @@ class ProductModel extends Model
 		}
 		else
 		{
-			$where = 1;
+			$where = "Where 1";
 		}
 		//$sql = "SELECT * FROM `products_inventory` WHERE ".$where." ORDER BY sort_order";
-		$sql = "SELECT * FROM `products_inventory` WHERE ".$where." ORDER BY product_id";
-		
+		$sql = "SELECT * FROM `products_inventory` ".$where." ORDER BY product_id";
 		$products= $this->connection->Query($sql);
 		if($products)
 			return $products;

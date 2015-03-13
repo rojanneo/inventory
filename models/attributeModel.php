@@ -76,7 +76,7 @@ class AttributeModel extends Model
 		}
 		else
 		{
-			$where = 1;
+			$where = "Where 1";
 		}
 		$sql = "SELECT `attribute_id`, `attribute_code`, `attribute_default_value`, `attribute_type`, `attribute_admin_label`,`is_unique`, `is_required`, `is_used_for_variation` FROM `attributes` ".$where;
 		$attributes = $this->connection->Query($sql);

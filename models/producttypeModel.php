@@ -14,9 +14,9 @@ class ProducttypeModel extends Model
 		}
 		else
 		{
-			$where = 1;
+			$where = "Where 1";
 		}
-		$sql = "SELECT id, product_type_name FROM products_type WHERE ".$where;
+		$sql = "SELECT id, product_type_name FROM products_type ".$where;
 		$product_types = $this->connection->Query($sql);
 		if($product_types)
 			return $product_types;

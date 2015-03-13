@@ -63,7 +63,7 @@ class OptionModel extends Model
 		{
 			$where = $this->generateWhereCondition($condition);
 
-			$sql = "SELECT * FROM attribute_values WHERE ".$where." ORDER BY sort_order";
+			$sql = "SELECT * FROM attribute_values ".$where." ORDER BY sort_order";
 			$options = $this->connection->Query($sql);
 			if($options)
 				return $options;
