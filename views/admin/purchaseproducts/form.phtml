@@ -19,9 +19,16 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                                <div class="col-lg-5 col-lg-offset-1  col-md-5 col-md-offset-1 col-sm-6">
                                     <label for="product_sku">Item SKU</label>
                                     <input type="text" name="product_sku" class="form-control required" value="<?php echo (isset($product) and $product) ? $product['product_sku'] : null   ?>"/>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-6">
+                                    <label for="is_used_daily">Is Used daily?</label>
+                                    <select name="is_used_daily" class="form-control" style="margin:0">
+                                        <option value="0" <?php echo (isset($product) and $product and $product['is_used_daily'] == 0) ? 'selected' : null   ?>>No</option>
+                                        <option value="1" <?php echo (isset($product) and $product and $product['is_used_daily'] == 1) ? 'selected' : null   ?>>Yes</option>
+                                    </select>
                                 </div>
                             </div>
 

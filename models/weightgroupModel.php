@@ -8,7 +8,7 @@ class WeightgroupModel extends Model
 
 	public function getCollection()
 	{
-		$sql = "SELECT * FROM rabbit_weight_group";
+		$sql = "SELECT * FROM weight_groups";
 		$groups = $this->connection->Query($sql);
 		if($groups) return $groups;
 		else return false;

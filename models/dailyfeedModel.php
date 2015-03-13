@@ -25,6 +25,35 @@ class DailyfeedModel extends Model
 			getModel('product')->updateDefaultAttribute($product_id,'product_quantity',$newQuantity);
 		}
 	}
+        
+        public function saveDailyFeeds($data = false)
+        {
+            if($data)
+            {
+                extract($data);
+                $product_id = $product_id;
+                $sql = "DELETE FROM rabbit_daily_feeds WHERE product_id = $product_id";
+                $this->connection->DeleteQuery($sql);
+                foreach($weight_group as $fg => $wgroup)
+                {
+                    foreach($wgroup as $wg => $qty)
+                    {
+                        $sql = "INSERT INTO `rabbit_daily_feeds`(`feeding_group_id`, `product_id`, `weight_group_id`, `quantity`) VALUES "
+                                . "('".mysql_escape_string($fg)."','".mysql_escape_string($product_id)."','".mysql_escape_string($wg)."','".mysql_escape_string($qty)."')";
+                        $this->connection->InsertQuery($sql);
+                    }
+                }
+            }
+            else return false;
+        }
+        
+        public function getDailyFeedQuantity($product_id, $weightgroup_id, $feed_group_id)
+        {
+            $sql = "SELECT * FROM rabbit_daily_feeds WHERE product_id = $product_id AND weight_group_id = $weightgroup_id AND feeding_group_id = $feed_group_id LIMIT 1";
+            $feed = $this->connection->Query($sql);
+            if($feed) return $feed[0];
+            else return false;
+        }
 
 	public function insert($data = false)
 	{

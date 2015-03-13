@@ -21,9 +21,9 @@ class PurchaseproductModel extends Model{
         if($data)
         {
             extract($data);
-            $sql = "INSERT INTO `purchase_products`(`product_sku`, `product_name`, `product_description`, `product_weight_unit`, `product_quantity`, `product_unit_price`, `product_status`) "
+            $sql = "INSERT INTO `purchase_products`(`product_sku`, `product_name`, `product_description`, `product_weight_unit`, `product_quantity`, `product_unit_price`, `product_status`,`is_used_daily`) "
                     . "VALUES ('".mysql_escape_string($product_sku)."','".mysql_escape_string($product_name)."','".mysql_escape_string($product_desc)."','".mysql_escape_string($product_weight_unit)."',"
-                    . "'".mysql_escape_string($product_quantity)."','".mysql_escape_string($product_unit_price)."','".mysql_escape_string($product_status)."')";
+                    . "'".mysql_escape_string($product_quantity)."','".mysql_escape_string($product_unit_price)."','".mysql_escape_string($product_status)."','".mysql_escape_string($is_used_daily)."')";
             
             $this->connection->InsertQuery($sql);
             return $this->connection->GetInsertID();
@@ -36,7 +36,7 @@ class PurchaseproductModel extends Model{
         if($data)
         {
             extract($data);
-            $sql = "UPDATE `purchase_products` SET `product_sku`='".mysql_escape_string($product_sku)."',`product_name`='".mysql_escape_string($product_name)."',`product_description`='".mysql_escape_string($product_desc)."',`product_weight_unit`='".mysql_escape_string($product_weight_unit)."',`product_quantity`='".mysql_escape_string($product_quantity)."',`product_unit_price`='".mysql_escape_string($product_unit_price)."',`product_status`='".mysql_escape_string($product_status)."' WHERE `product_id` = ".$product_id;
+            $sql = "UPDATE `purchase_products` SET `product_sku`='".mysql_escape_string($product_sku)."',`product_name`='".mysql_escape_string($product_name)."',`product_description`='".mysql_escape_string($product_desc)."',`product_weight_unit`='".mysql_escape_string($product_weight_unit)."',`product_quantity`='".mysql_escape_string($product_quantity)."',`product_unit_price`='".mysql_escape_string($product_unit_price)."',`product_status`='".mysql_escape_string($product_status)."',`is_used_daily` = '".mysql_escape_string($is_used_daily)."' WHERE `product_id` = ".$product_id;
             $this->connection->UpdateQuery($sql);
             return true;
         }
@@ -80,6 +80,14 @@ class PurchaseproductModel extends Model{
     public function getCollection()
     {
         $sql = "SELECT * FROM purchase_products";
+        $products = $this->connection->Query($sql);
+        if($products) return $products;
+        else return false;
+    }
+    
+    public function getDailyFeeds()
+    {
+        $sql = "SELECT * FROM purchase_products WHERE is_used_daily = '1'";
         $products = $this->connection->Query($sql);
         if($products) return $products;
         else return false;

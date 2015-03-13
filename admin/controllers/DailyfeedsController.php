@@ -11,27 +11,66 @@ class DailyfeedsController extends Controller
 	{
 		//getModel('dailyfeed')->deductDailyFeeds();
 
-		$feeding_groups = getModel('attribute')->load(array('attribute_code'=>'rabbit_feeding_group'));
-		$feeding_groups = getModel('attribute')->getOptions($feeding_groups['attribute_id']);
-		//echo '<pre>';
-		//var_dump($feeding_groups);
-
-		$dailyfeeds = getModel('dailyfeed')->getCollection();
-
-		if($dailyfeeds)
-		{
-			$data['dailyfeeds'] = $dailyfeeds;
-			$data['feeding_groups'] = $feeding_groups;
-			$this->view->renderAdmin('dailyfeeds/table.phtml',$data);
-		}
-		else
-		{
-
-			$data['feeding_groups'] = $feeding_groups;
-
-			$this->view->renderAdmin('dailyfeeds/table.phtml',$data);
-		}
+//		$feeding_groups = getModel('attribute')->load(array('attribute_code'=>'rabbit_feeding_group'));
+//		$feeding_groups = getModel('attribute')->getOptions($feeding_groups['attribute_id']);
+//		//echo '<pre>';
+//		//var_dump($feeding_groups);
+//
+//		$dailyfeeds = getModel('dailyfeed')->getCollection();
+//
+//		if($dailyfeeds)
+//		{
+//			$data['dailyfeeds'] = $dailyfeeds;
+//			$data['feeding_groups'] = $feeding_groups;
+//			$this->view->renderAdmin('dailyfeeds/table.phtml',$data);
+//		}
+//		else
+//		{
+//
+//			$data['feeding_groups'] = $feeding_groups;
+//
+//			$this->view->renderAdmin('dailyfeeds/table.phtml',$data);
+//		}
+                
+                $data['feeding_groups']= getModel('feedinggroup')->getCollection();
+                $data['weight_groups'] = getModel('weightgroup')->getCollection();
+                
+                $data['products'] = getModel('purchaseproduct')->getDailyFeeds();
+                
+                $this->view->renderAdmin('dailyfeeds/form.phtml',$data);
 	}
+        
+        public function dailyfeedpostAction()
+        {
+            loadHelper('inputs');
+            $post_data = getPost();
+            echo '<pre>';
+            getModel('dailyfeed')->saveDailyFeeds($post_data);
+            redirect('dailyfeeds');
+            
+        }
+        
+        public function useFeedAction()
+        {
+            $rabbits = getModel('rabbit')->getCollection();
+            echo '<pre>';
+                $adult_male_count = 0;
+                $adult_female_count = 0;
+            foreach($rabbits as $rabbit)
+            {
+                $r = getModel('rabbit')->load($rabbit['product_id']);
+                if((!isset($r['rabbit_latest_weaning_date']) or !$r['rabbit_latest_weaning_date']) or $r['rabbit_latest_weaning_date'] and (isset($r['rabbit_latest_culling_date']) and $r['rabbit_latest_culling_date']))
+                {
+                    if($r['rabbit_gender'] == 'Male')
+                        $adult_male_count++;
+                    else if($r['rabbit_gender'] == 'Female')
+                        $adult_female_count++;
+                }
+                
+            }
+                echo 'Male: '.$adult_male_count.'<br>';
+                echo 'Female: '.$adult_female_count.'<br>';
+        }
 
 	public function updateDailyFeedAction()
 	{
