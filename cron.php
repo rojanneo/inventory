@@ -1,12 +1,9 @@
 <?php
 
-$connection = mysql_connect("localhost", "root", "");
-mysql_select_db('inventory');
-  //run the store proc
-  $result = mysql_query("CALL po('8','','2015-03-08','2015-03-14','')") or die("Query fail: " . mysqli_error());
-
-  //loop the result set
-  echo '<pre>';
-  while ($row = mysql_fetch_assoc($result)){   
-      var_dump($row);
-  }
+$file = 'people.txt';
+// The new person to add to the file
+$person = "John Smith\n";
+// Write the contents to the file, 
+// using the FILE_APPEND flag to append the content to the end of the file
+// and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+file_put_contents($file, $person, FILE_APPEND | LOCK_EX);

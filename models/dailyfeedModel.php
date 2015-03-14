@@ -51,9 +51,25 @@ class DailyfeedModel extends Model
         {
             $sql = "SELECT * FROM rabbit_daily_feeds WHERE product_id = $product_id AND weight_group_id = $weightgroup_id AND feeding_group_id = $feed_group_id LIMIT 1";
             $feed = $this->connection->Query($sql);
-            if($feed) return $feed[0];
+            if($feed) return $feed[0]['quantity'];
             else return false;
         }
+
+    public function useFeed($product_id, $quantity, $unit)
+    {
+    	$date = date('Y-m-d');
+    	$sql = "INSERT INTO `stock_usage`(`product_id`, `quantity`, `unit`, `date`) VALUES ($product_id,$quantity,$unit,'$date')";
+    	$this->connection->InsertQuery($sql);
+    	return $this->connection->GetInsertID();
+    }
+
+    public function stockUsedOnDate($date, $product_id)
+    {
+    	$sql = "SELECT * FROM stock_usage WHERE date = '$date' AND product_id = $product_id";
+    	$usage = $this->connection->Query($sql);
+    	if($usage) return true;
+    	else return false;
+    }
 
 	public function insert($data = false)
 	{

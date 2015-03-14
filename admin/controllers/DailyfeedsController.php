@@ -31,65 +31,128 @@ class DailyfeedsController extends Controller
 //
 //			$this->view->renderAdmin('dailyfeeds/table.phtml',$data);
 //		}
-                
-                $data['feeding_groups']= getModel('feedinggroup')->getCollection();
-                $data['weight_groups'] = getModel('weightgroup')->getCollection();
-                
-                $data['products'] = getModel('purchaseproduct')->getDailyFeeds();
-                
-                $this->view->renderAdmin('dailyfeeds/form.phtml',$data);
+
+		$data['feeding_groups']= getModel('feedinggroup')->getCollection();
+		$data['weight_groups'] = getModel('weightgroup')->getCollection();
+
+		$data['products'] = getModel('purchaseproduct')->getDailyFeeds();
+
+		$this->view->renderAdmin('dailyfeeds/form.phtml',$data);
 	}
-        
-        public function dailyfeedpostAction()
-        {
-            loadHelper('inputs');
-            $post_data = getPost();
-            echo '<pre>';
-            getModel('dailyfeed')->saveDailyFeeds($post_data);
-            redirect('dailyfeeds');
-            
-        }
-        
-        public function useFeedAction()
-        {
-            $rabbits = getModel('rabbit')->getCollection();
-            echo '<pre>';
-                $adult_male_count = 0;
-                $adult_female_count = 0;
-                $pregnant_lactating_count = 0;
-                $weaned_litters = 0;
-            foreach($rabbits as $rabbit)
-            {
-                $r = getModel('rabbit')->load($rabbit['product_id']);
-                if((!isset($r['rabbit_latest_weaning_date']) or !$r['rabbit_latest_weaning_date']) or ($r['rabbit_latest_weaning_date'] and (isset($r['rabbit_latest_culling_date']) and $r['rabbit_latest_culling_date'])))
-                {
-                    if($r['rabbit_gender'] == 'Male')
-                        $adult_male_count++;
-                    else if($r['rabbit_gender'] == 'Female')
-                    {
-                        if(isset($r['rabbit_feeding_group']) and $r['rabbit_feeding_group'] == 'Pregnant/Lactating')
-                        {
-                        	$pregnant_lactating_count++;
-                        }
-                        else
-   	                        $adult_female_count++;
 
-                    }
-                }
+	public function dailyfeedpostAction()
+	{
+		loadHelper('inputs');
+		$post_data = getPost();
+		echo '<pre>';
+		getModel('dailyfeed')->saveDailyFeeds($post_data);
+		redirect('dailyfeeds');
 
-                
-            }
+	}
 
-            $weaned_litters = (getModel('litter')->getWeanedLitters());
-            $weaned_litters_count = count($weaned_litters);
-            $unweaned_litters = (getModel('litter')->getUnweanedLitters());
-            $unweaned_litters_count = count($unweaned_litters);
-                echo 'Male: '.$adult_male_count.'<br>';
-                echo 'Adult Female: '.$adult_female_count.'<br>';
-                echo 'Pregnant/Lactating Female: '.$pregnant_lactating_count.'<br>';
-                echo 'Weaned Litters: '.$weaned_litters_count.'<br>';
-                echo 'Unweaned Litters: '.$unweaned_litters_count.'<br>';
-        }
+	public function useFeedAction()
+	{
+		error_reporting(0);
+		$rabbits = getModel('rabbit')->getCollection();
+		echo '<pre>';
+		$adult_male_count = 0;
+		$adult_female_count = 0;
+		$pregnant_lactating_count = 0;
+		$weaned_litters = 0;
+		$count = array();
+		$products = getModel('purchaseproduct')->getDailyFeeds();
+		foreach($products as $product)
+		{
+			foreach($rabbits as $rabbit)
+			{
+				$r = getModel('rabbit')->load($rabbit['product_id']);
+				if($r['weight'] == 0) $w = 1;
+				else $w = $r['weight'];
+				$wg = getModel('weightgroup')->getWeightGroupFromWeight($w);
+				if((!isset($r['rabbit_latest_weaning_date']) or !$r['rabbit_latest_weaning_date']) or ($r['rabbit_latest_weaning_date'] and (isset($r['rabbit_latest_culling_date']) and $r['rabbit_latest_culling_date'])))
+				{
+					if($r['rabbit_gender'] == 'Male')
+					{
+						$count[$product['product_id']][1][$wg['id']]++;
+						$adult_male_count++;
+					}
+					else if($r['rabbit_gender'] == 'Female')
+					{
+						if(isset($r['rabbit_feeding_group']) and $r['rabbit_feeding_group'] == 'Pregnant/Lactating')
+						{
+							$count[$product['product_id']][3][$wg['id']]++;
+							$pregnant_lactating_count++;
+						}
+						else
+						{
+							$count[$product['product_id']][2][$wg['id']]++;
+							$adult_female_count++;
+						}
+
+					}
+				}
+
+
+			}
+
+			$weaned_litters = (getModel('litter')->getWeanedLitters());
+			$weaned_litters_count = count($weaned_litters);
+			$unweaned_litters = (getModel('litter')->getUnweanedLitters());
+			$unweaned_litters_count = count($unweaned_litters);
+			// echo 'Male: '.$adult_male_count.'<br>';
+			// echo 'Adult Female: '.$adult_female_count.'<br>';
+			// echo 'Pregnant/Lactating Female: '.$pregnant_lactating_count.'<br>';
+			// echo 'Weaned Litters: '.$weaned_litters_count.'<br>';
+			// echo 'Unweaned Litters: '.$unweaned_litters_count.'<br>';
+
+			foreach($weaned_litters as $l)
+			{
+				$wl = getModel('rabbit')->load($l['rabbit_id']);
+				if($wl['weight'] == 0) $w = 0.64;
+				else $w = $wl['weight'];
+				$wg = getModel('weightgroup')->getWeightGroupFromWeight($w); 
+				if($wg['id'])
+					$count[$product['product_id']][4][$wg['id']]++;
+
+			}
+
+			foreach($unweaned_litters as $l)
+			{
+				if($l['litter_weight'] == NULL or $l['litter_weight'] == 0) $w = 0.66;
+				else $w = $l['litter_weight'];
+				$wg = getModel('weightgroup')->getWeightGroupFromWeight($w);
+				if($wg['id'])
+					$count[$product['product_id']][4][$wg['id']]++;
+			}
+
+
+		}
+
+		foreach($count as $product_id => $fg)
+		{
+			if(!getModel('dailyfeed')->stockUsedOnDate(date('Y-m-d'), $product_id))
+			{
+				$product = getModel('purchaseproduct')->load($product_id);
+				$unit = $product['product_weight_unit'];
+				$total_usage = 0;
+				foreach($fg as $fg_id => $wg)
+				{
+					foreach($wg as $wg_id => $c)
+					{
+						$quantity = getModel('dailyfeed')->getDailyFeedQuantity($product_id,$wg_id,$fg_id);
+						$usage_quantity = $quantity * $c;
+						$total_usage += $usage_quantity;
+					}
+				}
+				getModel('dailyfeed')->useFeed($product_id, $total_usage,$unit);
+
+			}
+		}
+		die;
+
+
+
+	}
 
 	public function updateDailyFeedAction()
 	{
