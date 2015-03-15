@@ -91,8 +91,7 @@ class RabbitsController extends Controller
 		$product['product_id']= $product_id;
 		$product['rabbit_family_id'] = $parent['rabbit_family_id'];
 		$product['rabbit_gender'] = $gender;
-		if($gender == '11') $product['rabbit_feeding_group'] = '24';
-		else $product['rabbit_feeding_group'] = '25';
+		$product['rabbit_feeding_group'] = '27';
 
 		$product['is_litter'] = 23;
 		$product['weight'] = ($litter['litter_weight'] == 'NULL')?0:$litter['litter_weight'];
@@ -235,6 +234,9 @@ class RabbitsController extends Controller
 		getModel('product')->updateAttribute($rabbit['product_id'],'rabbit_group',$post_data['group']);
 		getModel('product')->updateAttribute($rabbit['product_id'],'is_litter','22');
 		getModel('product')->updateAttribute($rabbit['product_id'],'rabbit_latest_culling_date',date('Y-m-d'));
+		if($post_data['group'] == 19) $feeding_group = '28';
+		else $feeding_group = '29';
+		getModel('product')->updateAttribute($rabbit['product_id'], 'rabbit_feeding_group',$feeding_group);
 		if($post_data['group'] == 19)
 		{
 

@@ -23,4 +23,12 @@ class FeedinggroupModel extends Model{
         if($groups) return $groups;
         else return false;
     }
+    
+    public function getLitterDays()
+    {
+        $sql = "SELECT * FROM litter_days";
+        $days = $this->connection->Query($sql);
+        if($days) return $days;
+        else return false;
+    }
 }

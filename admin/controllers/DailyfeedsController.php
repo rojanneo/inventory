@@ -34,7 +34,7 @@ class DailyfeedsController extends Controller
 
 		$data['feeding_groups']= getModel('feedinggroup')->getCollection();
 		$data['weight_groups'] = getModel('weightgroup')->getCollection();
-
+                $data['litter_days'] = getModel('feedinggroup')->getLitterDays();
 		$data['products'] = getModel('purchaseproduct')->getDailyFeeds();
 
 		$this->view->renderAdmin('dailyfeeds/form.phtml',$data);
@@ -53,101 +53,215 @@ class DailyfeedsController extends Controller
 	public function useFeedAction()
 	{
 		error_reporting(0);
-		$rabbits = getModel('rabbit')->getCollection();
-		echo '<pre>';
-		$adult_male_count = 0;
-		$adult_female_count = 0;
-		$pregnant_lactating_count = 0;
-		$weaned_litters = 0;
-		$count = array();
-		$products = getModel('purchaseproduct')->getDailyFeeds();
-		foreach($products as $product)
-		{
-			foreach($rabbits as $rabbit)
-			{
-				$r = getModel('rabbit')->load($rabbit['product_id']);
-				if($r['weight'] == 0) $w = 1;
-				else $w = $r['weight'];
-				$wg = getModel('weightgroup')->getWeightGroupFromWeight($w);
-				if((!isset($r['rabbit_latest_weaning_date']) or !$r['rabbit_latest_weaning_date']) or ($r['rabbit_latest_weaning_date'] and (isset($r['rabbit_latest_culling_date']) and $r['rabbit_latest_culling_date'])))
-				{
-					if($r['rabbit_gender'] == 'Male')
-					{
-						$count[$product['product_id']][1][$wg['id']]++;
-						$adult_male_count++;
-					}
-					else if($r['rabbit_gender'] == 'Female')
-					{
-						if(isset($r['rabbit_feeding_group']) and $r['rabbit_feeding_group'] == 'Pregnant/Lactating')
-						{
-							$count[$product['product_id']][3][$wg['id']]++;
-							$pregnant_lactating_count++;
-						}
-						else
-						{
-							$count[$product['product_id']][2][$wg['id']]++;
-							$adult_female_count++;
-						}
+                
+                $rabbits = getModel('rabbit')->getCollection();
+                $adult_male_count = 0;
+                $adult_female_count = 0;
+                $pregnant_lactating_count = 0;
+                $parent_to_be_count = 0;
+                $product_to_be_count = 0;
+                $litters = array();
+                foreach($rabbits as $r)
+                {
+                    $rabbit = getModel('rabbit')->load($r['product_id']);
+                    $feeding_group = strtolower($rabbit['rabbit_feeding_group']);
+                    if($feeding_group == 'litters')
+                    {
+                        $dow = new DateTime($rabbit['rabbit_latest_weaning_date']);
+                        $today = new DateTime(date('Y-m-d'));
+                        $diff = $today->diff($dow)->format('%a');
+                       
 
-					}
-				}
+                       $lid = getModel('dailyfeed')->getLitterDaysId($diff);
+                       if($litters[$lid['id']]) $litters[$lid['id']]++;
+                       else $litters[$lid['id']] = 1;
+                    }
+                    else if($feeding_group == 'adult male')
+                    {
+                        $adult_male_count++;
+                    }
+                    else if($feeding_group == 'adult female')
+                    {
+                        $adult_female_count++;
+                    }
+                    else if($feeding_group == 'pregnant/lactating')
+                    {
+                        $pregnant_lactating_count++;
+                    }
+                    else if($feeding_group == 'parent to be')
+                    {
+                        $parent_to_be_count++;
+                    }
+                    else if($feeding_group == 'product to be')
+                    {
+                        $product_to_be_count++;
+                    }
+                }
+                
+                $products = getModel('purchaseproduct')->getDailyFeeds();
+                $feedinggroups = getModel('feedinggroup')->getCollection();
+                $adult_male_qty = 0;
+                $adult_female_qty = 0;
+                $pregnant_qty = 0;
+                $parenttobe_qty = 0;
+                $producttobe_qty = 0;
+                $litter_qty = 0;
+                foreach($products as $product)
+                {
+                    foreach($feedinggroups as $fg)
+                    {
+                        if($fg['feeding_group'] == 'male')
+                        {
+                            $qty = getModel('dailyfeed')->getDailyFeedQuantity($product['product_id'],$fg['id'], 'NULL');
+                            $adult_male_qty = $qty * $adult_male_count;
+                        }
+                        else if($fg['feeding_group'] == 'female')
+                        {                            
+                            $qty = getModel('dailyfeed')->getDailyFeedQuantity($product['product_id'],$fg['id'], 'NULL');
+                            $adult_female_qty = $qty * $adult_female_count;
+                        }
+                        else if($fg['feeding_group'] == 'preg_lact')
+                        {                            
+                            $qty = getModel('dailyfeed')->getDailyFeedQuantity($product['product_id'],$fg['id'], 'NULL');
+                            $pregnant_qty = $qty * $pregnant_lactating_count;
+                        }
+                        else if($fg['feeding_group'] == 'parent_to_be')
+                        {                            
+                            $qty = getModel('dailyfeed')->getDailyFeedQuantity($product['product_id'],$fg['id'], 'NULL');
+                            $parenttobe_qty = $qty * $parent_to_be_count;
+                        }
+                        else if($fg['feeding_group'] == 'product_to_be')
+                        {                            
+                            $qty = getModel('dailyfeed')->getDailyFeedQuantity($product['product_id'],$fg['id'], 'NULL');
+                            $producttobe_qty = $qty * $product_to_be_count;
+                        }
+                        else if($fg['feeding_group'] == 'litter')
+                        {
+                            foreach($litters as $id => $litter)
+                            {
+                               $qty = getModel('dailyfeed')->getDailyFeedQuantity($product['product_id'], $fg['id'],$id);
+                               $litter_qty += $qty * $litter;
+                            }
+                        }
+                    }
+                 $total_usage = $adult_male_qty + $adult_female_qty + $pregnant_qty + $parenttobe_qty + $producttobe_qty + $litter_qty;
+                 echo 'Total Usage: '.$total_usage;
+                 getModel('dailyfeed')->useFeed($product['product_id'], $total_usage,$unit);
+                }
+                
 
-
-			}
-
-			$weaned_litters = (getModel('litter')->getWeanedLitters());
-			$weaned_litters_count = count($weaned_litters);
-			$unweaned_litters = (getModel('litter')->getUnweanedLitters());
-			$unweaned_litters_count = count($unweaned_litters);
-			// echo 'Male: '.$adult_male_count.'<br>';
-			// echo 'Adult Female: '.$adult_female_count.'<br>';
-			// echo 'Pregnant/Lactating Female: '.$pregnant_lactating_count.'<br>';
-			// echo 'Weaned Litters: '.$weaned_litters_count.'<br>';
-			// echo 'Unweaned Litters: '.$unweaned_litters_count.'<br>';
-
-			foreach($weaned_litters as $l)
-			{
-				$wl = getModel('rabbit')->load($l['rabbit_id']);
-				if($wl['weight'] == 0) $w = 0.64;
-				else $w = $wl['weight'];
-				$wg = getModel('weightgroup')->getWeightGroupFromWeight($w); 
-				if($wg['id'])
-					$count[$product['product_id']][4][$wg['id']]++;
-
-			}
-
-			foreach($unweaned_litters as $l)
-			{
-				if($l['litter_weight'] == NULL or $l['litter_weight'] == 0) $w = 0.66;
-				else $w = $l['litter_weight'];
-				$wg = getModel('weightgroup')->getWeightGroupFromWeight($w);
-				if($wg['id'])
-					$count[$product['product_id']][4][$wg['id']]++;
-			}
-
-
-		}
-
-		foreach($count as $product_id => $fg)
-		{
-			if(!getModel('dailyfeed')->stockUsedOnDate(date('Y-m-d'), $product_id))
-			{
-				$product = getModel('purchaseproduct')->load($product_id);
-				$unit = $product['product_weight_unit'];
-				$total_usage = 0;
-				foreach($fg as $fg_id => $wg)
-				{
-					foreach($wg as $wg_id => $c)
-					{
-						$quantity = getModel('dailyfeed')->getDailyFeedQuantity($product_id,$wg_id,$fg_id);
-						$usage_quantity = $quantity * $c;
-						$total_usage += $usage_quantity;
-					}
-				}
-				getModel('dailyfeed')->useFeed($product_id, $total_usage,$unit);
-
-			}
-		}
+                
+                
+//		$rabbits = getModel('rabbit')->getCollection();
+//		echo '<pre>';
+//
+//		foreach($rabbits as $r)
+//		{
+//			$rabbit = getModel('rabbit')->load($r['product_id']);
+//			
+//			echo $rabbit['product_id'].' -> '.$rabbit['rabbit_feeding_group'].'<br>';
+//		}
+//		die;
+//
+//		$adult_male_count = 0;
+//		$adult_female_count = 0;
+//		$pregnant_lactating_count = 0;
+//		$weaned_litters = 0;
+//		$count = array();
+//		$products = getModel('purchaseproduct')->getDailyFeeds();
+//		foreach($products as $product)
+//		{
+//			foreach($rabbits as $rabbit)
+//			{
+//				$r = getModel('rabbit')->load($rabbit['product_id']);
+//				if($r['weight'] == 0) $w = 1;
+//				else $w = $r['weight'];
+//				$wg = getModel('weightgroup')->getWeightGroupFromWeight($w);
+//				if((!isset($r['rabbit_latest_weaning_date']) or !$r['rabbit_latest_weaning_date']) or ($r['rabbit_latest_weaning_date'] and (isset($r['rabbit_latest_culling_date']) and $r['rabbit_latest_culling_date'])))
+//				{
+//					if($r['rabbit_gender'] == 'Male')
+//					{
+//						$count[$product['product_id']][1][$wg['id']]++;
+//						$adult_male_count++;
+//					}
+//					else if($r['rabbit_gender'] == 'Female')
+//					{
+//						if(isset($r['rabbit_feeding_group']) and $r['rabbit_feeding_group'] == 'Pregnant/Lactating')
+//						{
+//							$count[$product['product_id']][3][$wg['id']]++;
+//							$pregnant_lactating_count++;
+//						}
+//						else
+//						{
+//							$count[$product['product_id']][2][$wg['id']]++;
+//							$adult_female_count++;
+//						}
+//
+//					}
+//				}
+//
+//
+//			}
+//
+//			$weaned_litters = (getModel('litter')->getWeanedLitters());
+//			$weaned_litters_count = count($weaned_litters);
+//			$unweaned_litters = (getModel('litter')->getUnweanedLitters());
+//			$unweaned_litters_count = count($unweaned_litters);
+//			// echo 'Male: '.$adult_male_count.'<br>';
+//			// echo 'Adult Female: '.$adult_female_count.'<br>';
+//			// echo 'Pregnant/Lactating Female: '.$pregnant_lactating_count.'<br>';
+//			// echo 'Weaned Litters: '.$weaned_litters_count.'<br>';
+//			// echo 'Unweaned Litters: '.$unweaned_litters_count.'<br>';
+//
+//			foreach($weaned_litters as $l)
+//			{
+//				$wl = getModel('rabbit')->load($l['rabbit_id']);
+//				if($wl['weight'] == 0) $w = 0.64;
+//				else $w = $wl['weight'];
+//				$wg = getModel('weightgroup')->getWeightGroupFromWeight($w); 
+//				if($wg['id'])
+//					$count[$product['product_id']][4][$wg['id']]++;
+//
+//			}
+//
+//			foreach($unweaned_litters as $l)
+//			{
+//				if($l['litter_weight'] == NULL or $l['litter_weight'] == 0) $w = 0.66;
+//				else $w = $l['litter_weight'];
+//				$wg = getModel('weightgroup')->getWeightGroupFromWeight($w);
+//				if($wg['id'])
+//					$count[$product['product_id']][4][$wg['id']]++;
+//			}
+//
+//
+//		}
+//
+//		foreach($count as $product_id => $fg)
+//		{
+//			if(!getModel('dailyfeed')->stockUsedOnDate(date('Y-m-d'), $product_id))
+//			{
+//				$product = getModel('purchaseproduct')->load($product_id);
+//				$unit = $product['product_weight_unit'];
+//				$total_usage = 0;
+//				foreach($fg as $fg_id => $wg)
+//				{
+//					foreach($wg as $wg_id => $c)
+//					{
+//						$quantity = getModel('dailyfeed')->getDailyFeedQuantity($product_id,$wg_id,$fg_id);
+//						$usage_quantity = $quantity * $c;
+//						$total_usage += $usage_quantity;
+//					}
+//				}
+//                                //var_dump($total_usage);
+//				getModel('dailyfeed')->useFeed($product_id, 125,$unit);
+//
+//			}
+//		}
+                
+                
+                
+                
+                
 		die;
 
 
