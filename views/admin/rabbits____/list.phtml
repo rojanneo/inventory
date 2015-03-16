@@ -66,37 +66,37 @@
 </thead>
 <tbody>
 <tr><td bgcolor="#37560d"></td>
-    <td>Available To Mate</td>
+	<td>Available To Mate</td>
 </tr>
-<tr><td bgcolor="#193E3E"></td>
-    <td>Wait For Pregnancy</td>
+<tr><td bgcolor="#33525c"></td>
+	<td>Wait For Pregnancy</td>
 </tr>
-<tr><td bgcolor="#213408"></td>
-    <td>Check For Pregnancy</td>
+<tr><td bgcolor="#233c44"></td>
+	<td>Check For Pregnancy</td>
 </tr>
-<tr><td bgcolor="#65777c"></td>
-    <td>wait for Birth</td>
+<tr><td bgcolor="#53837e"></td>
+	<td>wait for Birth</td>
 </tr>
-<tr><td bgcolor="#263034"></td>
-    <td>Add Litters</td>
+<tr><td bgcolor="#3f5056"></td>
+	<td>Add Litters</td>
 </tr>
 <tr><td bgcolor="#ae5495"></td>
-    <td>Wait For Weaning</td>
+	<td>Wait For Weaning</td>
 </tr>
-<tr><td bgcolor="#683259"></td>
-    <td>Time For Weaning</td>
+<tr><td bgcolor="#9b4b85"></td>
+	<td>Time For Weaning</td>
 </tr>
 <tr><td bgcolor="#438478"></td>
-    <td>Time For Grouping</td>
+	<td>Time For Grouping</td>
 </tr>
-<tr><td bgcolor="#284F48"></td>
-    <td>Wait For Grouping</td>
+<tr><td bgcolor="#3b766b"></td>
+	<td>Wait For Grouping</td>
 </tr>
 <tr><td bgcolor="#966902"></td>
-    <td>Wait For Culling</td>
+	<td>Wait For Culling</td>
 </tr>
-<tr><td bgcolor="#5A3F01"></td>
-    <td>Time For Culling</td>
+<tr><td bgcolor="#865d01"></td>
+	<td>Time For Culling</td>
 </tr>
 </tbody>
 </table>
@@ -124,8 +124,15 @@
                                 <td><?php echo $products_to_beCount; ?></td>
                             </tr>
                             <tr>
+                            <?php
+                            $weaned_litters = (getModel('litter')->getWeanedLitters());
+            $weaned_litters_count = count($weaned_litters);
+            $unweaned_litters = (getModel('litter')->getUnweanedLitters());
+            $unweaned_litters_count = count($unweaned_litters);
+            $lc = $weaned_litters_count + $unweaned_litters_count;
+                            ?>
                                 <td>Litters</td>
-                                <td><?php echo $littersCount; ?>	</td>
+                                <td><?php echo $lc; ?>	</td>
                             </tr>
                             <tr>
                                 <td><a href="<?php echo ADMIN_URL . 'rabbits/list/available_to_mate' ?>"><p>Available to Mate</p></a></td>
@@ -169,17 +176,6 @@
                             <h3><?php echo 'Family ' . $family; ?></h3>
                             <?php foreach ($rabbits as $rabbit_id): ?>
                                 <?php $rabbit = getModel('rabbit')->load($rabbit_id); ?>
-                                <?php if(isset($rabbit['rabbit_latest_birth_date'])) 
-                                      { $lastbirthdate=$rabbit['rabbit_latest_birth_date']; $lastbirthdate=strtotime($lastbirthdate);
-                                        $now=date("Y-m-d");  $now=strtotime($now);
-                                        $days_between = ceil(abs($lastbirthdate - $now) / 86400); 
-                                        if(isset($rabbit['rabbit_latest_mate_date']))
-                                        { 
-                                            $latestmatedate=strtotime($rabbit['rabbit_latest_mate_date']); 
-                                            $latestmatedate=ceil(abs($latestmatedate - $now) /86400);
-                                        }
-                                      }
-                                ?>
 
                                 <?php $dob = new DateTime($rabbit['rabbit_dob']); ?>
                                 <!--Parents-->
@@ -224,20 +220,9 @@
                                         <?php $status = "wait_for_birth" ?>
                                     <?php elseif ((!isset($rabbit['rabbit_latest_weaning_date']) or ! $rabbit['rabbit_latest_weaning_date']) and ( $wean_diff >= 21 and $wean_diff <= 28)): ?>
                                         <?php $status = "time_for_weaning" ?>
-                                        <?php if(isset($latestmatedate) and isset($days_between)):
-                                            if($latestmatedate<12){ }else{ if(($days_between>15) and (!( $mate_diff >= 12 and $mate_diff <= 25) ) ): $status.="_mate"; endif; }
-                                            if (( $mate_diff >= 12 and $mate_diff <= 25) and(!isset($rabbit['is_pregnant'])) ): $status.="_pregnant"; endif;
-                                            if($mate_diff<12): $status.="_waitforpregnancy"; endif;
-                                            endif; ?>
                                         <?php $available_to_weanCount++; ?>
                                     <?php elseif (!isset($rabbit['rabbit_latest_weaning_date']) or ! $rabbit['rabbit_latest_weaning_date'] and ( $wean_diff < 21 and $wean_diff > 28)): ?>
                                         <?php $status = "wait_for_weaning" ?>
-                                        <?php if(isset($latestmatedate) and isset($days_between)):
-                                                if($latestmatedate<12){ }else{ if(($days_between>15) and (!( $mate_diff >= 12 and $mate_diff <= 25) ) ): $status.="_mate"; endif; }
-                                                if (( $mate_diff >= 12 and $mate_diff <= 25) and(!isset($rabbit['is_pregnant'])) ): $status.="_pregnant"; endif;
-                                                if($mate_diff<12): $status.="_waitforpregnancy"; endif;
-                                              endif; 
-                                        ?>
                                         <?php $waiting_for_weaningCount++; ?>
                 <?php endif; ?>
             <?php endif; ?>

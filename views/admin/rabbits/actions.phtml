@@ -20,7 +20,20 @@
         <?php $diff = $today->diff($dob)->format("%a"); ?>
         <?php $wean_diff = $today->diff($wean_date)->format("%a"); ?>
     <?php endif; ?>
-
+<!--- Pregnancy during weaning variables------------>
+<?php  
+if(isset($rabbit['rabbit_latest_birth_date']))
+ {
+$lastbirthdate=$rabbit['rabbit_latest_birth_date']; $lastbirthdate=strtotime($lastbirthdate);
+$now=date("Y-m-d");  $now=strtotime($now);
+$days_between = ceil(abs($lastbirthdate - $now) / 86400); 
+if(isset($rabbit['rabbit_latest_mate_date']))
+{ 
+$latestmatedate=strtotime($rabbit['rabbit_latest_mate_date']); 
+$latestmatedate=ceil(abs($latestmatedate - $now) /86400);  }
+}
+ ?>
+<!--- End of pregnancy during weaning variables------------>
     <?php if ((isset($rabbit['rabbit_group']) and strtolower($rabbit['rabbit_group']) == 'parents to be') and ( !isset($rabbit['is_litter']) or strtolower($rabbit['is_litter']) == 'no')): ?>
         <div class="status"><h3>Parents To Be</h3></div>
         <p><?php echo $rabbit['rabbit_latest_culling_date']; ?></p>
@@ -65,7 +78,7 @@
                     <a href="<?php echo ADMIN_URL . 'rabbits/notpregnant/' . $rabbit_id ?>">No</a>
                     <!-- Add Not Pregnant Reason Script HERE -->
                 <?php elseif ((!isset($rabbit['rabbit_latest_pregnant_date']) or ! $rabbit['rabbit_latest_pregnant_date']) and $mate_diff < 12): ?>
-                    <div class="status"><h3>We have to wait <?php echo (12 - $mate_diff); ?> to <?php echo (25 - $mate_diff) ?> days to confirm pregnancy</h3></div>
+                    <div class="status"><h3>We have to wait <?php echo (12 - $mate_diff); ?> to <?php echo (25 - $mate_diff) ?> days to confirm pregnancy</h3></div> <?php //haha?>
                 <?php elseif ((!isset($rabbit['rabbit_latest_pregnant_date']) or ! $rabbit['rabbit_latest_pregnant_date']) and $mate_diff > 25): ?>
                     <div class="status"><h3>Rabbit did not get pregnant. The status will change to available to mate.</h3></div>
                     <!-- Add Not Pregnant Reason Script HERE -->
@@ -107,16 +120,35 @@
                     <?php getModel('rabbit')->resetDates($rabbit_id); ?>
 
                 <?php elseif ((!isset($rabbit['rabbit_latest_weaning_date']) or ! $rabbit['rabbit_latest_weaning_date'])and ( $wean_diff >= 21 and $wean_diff <= 28)): ?>
-                    <div class="status"><h3>Time For Weaning</h3></div>
-                    <p>Is the weaning done?</p>
+
+                    
+                   <?php // ----------- Available to Mate Case During Weaning period of mother Rabbit------------------- ?> 
+                   <?php if($latestmatedate<12){ }else{ ?>
+                   <?php if(($days_between>15) and (!( $mate_diff >= 12 and $mate_diff <= 25) ) ) : ?>
+                   <div class="status"><h3>Available To Mate</h3></div>
+                    <?php endif;?> 
+                    <?php } ?>                    
+                      <?php if (( $mate_diff >= 12 and $mate_diff <= 25) and(!isset($rabbit['is_pregnant'])) ){ ?>
+                    <div class="status"><h3>Is this rabbit pregnant?</h3></div>
+                    <a href="<?php echo ADMIN_URL . 'rabbits/pregnant/' . $rabbit_id ?>">Yes</a>
+                     <?php } ?>
+                     <?php if ($mate_diff < 12): ?>
+                    <div class="status"><h3>We have to wait <?php echo (12 - $mate_diff); ?> to <?php echo (25 - $mate_diff) ?> days to confirm pregnancy</h3></div> <?php //haha?>
+                    <?php endif; ?>                                      
+                    <?php // ----------- End of Condition For Available to Mate Case During Weaning period of mother Rabbit------------------- ?>
+                     <?php $littersalina = getModel('litter')->getCollection($rabbit['product_id']); //echo'<pre>'; var_dump($littersalina); echo'</pre>';?>
                     <?php $litters = getModel('litter')->getCollection($rabbit['product_id']); ?>
+                    <?php $chechnullweaningdate=array(); $count=0; ?>
                     <?php $litters_count = 0; ?>
-                    <?php foreach ($litters as $litter): ?>
+                    <?php foreach ($litters as $litter): ?> 
+                        <?php $chechnullweaningdate[$count]=$litter['litters_weaning_date']; $count++;?>
                         <?php if (!$litter['rabbit_id']): ?>
                             <?php $litters_count++; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
                     <ul>
+                    <?php  if(in_array('0000-00-00', $chechnullweaningdate)):?> <div class="status"><h3>Time For Weaning</h3></div> <p>Is the weaning done?</p>  <?php endif; ?>
+                    <?php $countsize=count($litters); $countnum=1; ?>
                         <?php foreach ($litters as $litter): ?>
                             <?php if ($litter['litters_weaning_date'] == '0000-00-00'): ?>
                                 <li><p><?php echo 'Litter ' . $litter['litter_id']; ?></p>
@@ -138,6 +170,7 @@
 
                                 </li>
                             <?php endif; ?>
+                            <?php $countnum++; ?>
                         <?php endforeach; ?>
                     </ul>
 
@@ -151,6 +184,22 @@
                 <!--	<a href="<?php echo ADMIN_URL . 'rabbits/wean/' . $rabbit['product_id'] ?>">Yes</a>
                         <a href="#">No</a>-->
                 <?php elseif (!isset($rabbit['rabbit_latest_weaning_date']) or ! $rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21): ?>
+
+                   <?php // ----------- Available to Mate Case During Weaning period of mother Rabbit------------------- ?>                   
+                   <?php if($latestmatedate<12){ }else{ ?>
+                   <?php if(($days_between>15) and (!( $mate_diff >= 12 and $mate_diff <= 25) ) ) : ?>
+                   <div class="status"><h3>Available To Mate</h3></div>
+                    <?php endif;?> 
+                    <?php } ?>                    
+                      <?php if (( $mate_diff >= 12 and $mate_diff <= 25) and(!isset($rabbit['is_pregnant'])) ){ ?>
+                    <div class="status"><h3>Is this rabbit pregnant?</h3></div>
+                    <a href="<?php echo ADMIN_URL . 'rabbits/pregnant/' . $rabbit_id ?>">Yes</a>
+                    <?php } ?>
+                    <?php if ($mate_diff < 12): ?>
+                    <div class="status"><h3>We have to wait <?php echo (12 - $mate_diff); ?> to <?php echo (25 - $mate_diff) ?> days to confirm pregnancy</h3></div> <?php //haha?>
+                    <?php endif; ?>            
+                    <?php // ----------- End of Condition For Available to Mate Case During Weaning period of mother Rabbit------------------- ?>
+
                     <div class="status"><h3>We have to wait for <?php echo (21 - $wean_diff) ?> to <?php echo (28 - $wean_diff) ?> days for weaning</h3></div>
                     <?php $litters = getModel('litter')->getWeaningCollection($rabbit['product_id']); ?>
                     <ul>
