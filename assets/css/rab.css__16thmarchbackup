@@ -417,110 +417,39 @@ margin: 10px 0;
 }
 
 .wait_for_pregnancy{
-  background:#193E3E;
+  background:#33525c;
 }
 .check_for_pregnancy{
-  background:#213408;
+  background:#233c44;
 }
 
 .wait_for_birth{
-  background:#65777c;
+  background:#53837e;
 }
 .add_litters{
-  background:#263034;
+  background:#3f5056;
 }
 
 .wait_for_weaning{
   background:#ae5495;
 }
 .time_for_weaning{
-  background:#683259;
+  background:#9b4b85;
 }
 
 .time_for_grouping{
   background:#438478;
 }
 .wait_for_grouping{
-  background:#284f48;
+  background:#3b766b;
 }
 
 .wait_for_culling{
   background:#966902;
 }
 .time_for_culling{
-  background: #5a3f01;
+  background: #865d01;
 }
-
-/*2071-12-02*/
-.wait_for_weaning_pregnant,
-.wait_for_weaning_mate,
-.wait_for_weaning_waitforpregnancy,
-.time_for_weaning_pregnant, 
-.time_for_weaning_mate,
-.time_for_weaning_waitforpregnancy
-{
-    position: relative;
-    overflow: hidden;
-    height:80px;
-}
-
-.wait_for_weaning_pregnant,
-.wait_for_weaning_mate,
-.wait_for_weaning_waitforpregnancy{
-    background: #ae5495;
-}
-
-.time_for_weaning_pregnant,
-.time_for_weaning_mate,
-.time_for_weaning_waitforpregnancy
-{
-  background: #683259;
-} 
-
-.wait_for_weaning_pregnant a,
-.wait_for_weaning_mate a,
-.wait_for_weaning_waitforpregnancy a,
-.time_for_weaning_pregnant a, 
-.time_for_weaning_mate a,
-.time_for_weaning_waitforpregnancy a{
-  position: relative;
-}
-
-.wait_for_weaning_mate:before,
-.wait_for_weaning_pregnant:before,
-.wait_for_weaning_waitforpregnancy:before,
-.time_for_weaning_mate:before,
-.time_for_weaning_pregnant:before,
-.time_for_weaning_waitforpregnancy:before
- { 
-    content: '';
-    position: absolute;
-    left: 7%;
-    width: 230%; 
-    height: 210%; 
-    -webkit-transform: rotate(150deg);
-    -moz-transform: rotate(150deg);
-    transform: rotate(150deg);
-}
-
-.wait_for_weaning_mate:before,
-.time_for_weaning_mate:before{
-  background: #37560d; /* fallback */
-  background: rgb(55,86,13 0.5);
-}
-
-.wait_for_weaning_pregnant:before,
-.time_for_weaning_pregnant:before{ 
-    background: #213408; /* fallback */
-    background: rgb(33,52,8 0.5);
-}
-
-.wait_for_weaning_waitforpregnancy:before,
-.time_for_weaning_waitforpregnancy:before {
-  background: #193e3e;
-  background: rgb(25,62,62 0.5);
-}
-
 
 /*Navigation menu*/
 .navbar {

@@ -54,6 +54,12 @@ class RabbitModel extends Model {
         getModel('product')->updateAttribute($rabbit_id, 'is_pregnant', '15');
     }
 
+    public function notpregnantduringweaning($rabbit_id) {
+        getModel('product')->deleteAttribute($rabbit_id, 'is_pregnant');
+        getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_pregnant_date');
+        //getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_mate_date');
+    }
+
     public function notPregnant($rabbit_id) {
         getModel('product')->deleteAttribute($rabbit_id, 'is_pregnant');
         getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_pregnant_date');
@@ -71,6 +77,14 @@ class RabbitModel extends Model {
 
     public function resetDates($rabbit_id) {
         getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_mate_date');
+        getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_pregnant_date');
+        getModel('product')->deleteAttribute($rabbit_id, 'is_pregnant');
+        getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_birth_date');
+        getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_weaning_date');
+    }
+
+     public function newresetDates($rabbit_id) {
+        //getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_mate_date');
         getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_pregnant_date');
         getModel('product')->deleteAttribute($rabbit_id, 'is_pregnant');
         getModel('product')->deleteAttribute($rabbit_id, 'rabbit_latest_birth_date');
