@@ -85,6 +85,7 @@ class PurchaseproductModel extends Model{
         else return false;
     }
     
+    
     public function getDailyFeeds()
     {
         $sql = "SELECT * FROM purchase_products WHERE is_used_daily = '1'";
@@ -184,5 +185,39 @@ class PurchaseproductModel extends Model{
             return $supps_array;
         }
         else return false;
+    }
+    
+    public function getCategoryProducts($category_id)
+    {
+        $sql = "SELECT * FROM purchase_products_categories JOIN purchase_products ON purchase_products.product_id = purchase_products_categories.product_id WHERE category_id = ".$category_id;
+        $products = $this->connection->Query($sql);
+        if($products) return $products;
+        else return false;
+    }
+    
+    public function getSupplierProducts($supplier_id)
+    {
+        $sql = "SELECT * FROM purchase_products_suppliers JOIN purchase_products ON purchase_products.product_id = purchase_products_suppliers.product_id WHERE supplier_id = ".$supplier_id;
+        $products = $this->connection->Query($sql);
+        if($products) return $products;
+        else return false;
+        
+    }
+    
+    public function getProductsWithCategories()
+    {
+       $sql = "SELECT product.product_id, product_sku,purchase_categories.category_id,category_sku,name FROM `purchase_products` AS product JOIN purchase_products_categories ON product.product_id = purchase_products_categories.product_id JOIN purchase_categories ON purchase_categories.category_id = purchase_products_categories.category_id ORDER BY purchase_products_categories.category_id ASC";
+       $p = $this->connection->Query($sql);
+       $products = array();
+       if($p)
+       {
+           foreach($p as $product)
+           {
+               if(!isset($products[$product['name']])) $products[$product['name']] = array();
+               array_push($products[$product['name']], $product['product_sku']);
+           }
+           var_dump($products);die;
+       }
+       else return false;
     }
 }

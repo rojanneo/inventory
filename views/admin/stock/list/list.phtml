@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <div class="page-header">
+            <h3>Stock List</h3>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-lg-1'>
+        <label>Filter By</label>
+        <select id='stock-list-filter' class='form-control' style='margin:0' onchange='LoadStockList(this.value)'>
+            <option value='0'>All</option>
+            <option value='1'>Categories</option>
+            <option value='2'>Suppliers</option>
+        </select>
+    </div>
+</div>
+<div class="row">
+<div class='col-lg-4' id='stock-list'>
+
+</div>
+</div>
+<script>
+    function LoadStockList(val)
+    {
+       if(val == 1)
+       {
+           $('#stock-list').load('<?php echo ADMIN_URL.'stock/getCategoryList/'?>');
+       }
+       else if(val == 2)
+       {
+           $('#stock-list').load('<?php echo ADMIN_URL.'stock/getSupplierList/'?>');
+       }
+       else
+       {
+           $('#stock-list').load('<?php echo ADMIN_URL.'stock/getCompleteList/'?>');
+       }
+
+    }
+    
+    $(document).ready(function(){
+        LoadStockList(0);
+    });
+    
+</script>

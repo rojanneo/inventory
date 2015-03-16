@@ -23,4 +23,12 @@ class StockModel extends Model{
         if($balance) return $balance;
         else return false;
     }
+    
+    public function getTotalStock($product_id)
+    {
+        $sql = "SELECT SUM(quantity) AS total_quantity, unit_symbol FROM `stock_balance` JOIN units ON stock_balance.unit = units.weight_unit_id WHERE product_id = ".$product_id;
+        $total = $this->connection->Query($sql);
+        if($total) return $total[0];
+        else return false;
+    }
 }
