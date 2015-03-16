@@ -43,4 +43,10 @@ class StockController extends Controller{
         $data['suppliers'] = getModel('supplier')->getActiveCollection();
         $this->view->renderWithoutAnything('stock/list/supplierList.phtml',$data);
     }
+    
+    public function dailyStockCountAction()
+    {
+        $data['categories'] = getModel('purchasecategory')->getActiveCollection();
+        $this->view->renderAdmin('stock/daily/daily_stock_count.phtml',$data);
+    }
 }
