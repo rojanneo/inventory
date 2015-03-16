@@ -14,6 +14,7 @@
 class StockController extends Controller{
     public function __construct() {
         parent::__construct();
+        loadHelper('url');
     }
     
     public function indexAction()
@@ -47,6 +48,24 @@ class StockController extends Controller{
     public function dailyStockCountAction()
     {
         $data['categories'] = getModel('purchasecategory')->getActiveCollection();
+        $data['daily_stock'] = getModel('stock')->getCurrentDailyStock();
         $this->view->renderAdmin('stock/daily/daily_stock_count.phtml',$data);
+    }
+    
+    public function dailycountpostAction()
+    {
+        loadHelper('inputs');
+        $post_data = getPost();
+        if($post_data) extract ($post_data);
+        getModel('stock')->DeleteDailyStockCount(date('Y-m-d'));
+        foreach($daily_stock as $product_id => $ds)
+        {
+            $variance =$ds -  $calculated_quantity[$product_id];
+            if(!getModel('stock')->InsertDailyStockCount($product_id, $product_name[$product_id], $calculated_quantity[$product_id], $ds, $unit[$product_id], $variance, $date))
+            {
+                die('Error');
+            }
+        }
+        redirect('admin/stock/dailystockcount');
     }
 }
