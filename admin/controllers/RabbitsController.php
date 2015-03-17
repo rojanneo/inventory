@@ -550,4 +550,66 @@ class RabbitsController extends Controller
 		else redirect('admin/rabbits');
 	}
 
+
+	/*Lists all the rabbit that are about to be pregnant,birth,weaning  after and before 2 days
+	*/ 
+	public function notificationAction()
+	{
+
+			$mateddays10=array();
+			$mateddays23=array();
+			$pregnantday13=array();
+			$pregnantday18=array();
+			$weaning2days_before=array();
+			$weaning2days_after=array();
+			$today = new DateTime(date('Y-m-d'));
+		$rabbits = getModel('rabbit')->getcollection();
+			foreach($rabbits as $r)
+			{
+				$rabbit = getModel('rabbit')->load($r['product_id']); //var_dump($rabbit); die();
+				$is_not_litter = $rabbit['is_litter'] != 'yes';
+				$is_not_parents_to_be = (isset($rabbit['rabbit_group']))?$rabbit['rabbit_group'] != 'Parents to be':false;
+				$is_not_products_to_be = (isset($rabbit['rabbit_group']))?$rabbit['rabbit_group'] != 'Products to be ':false; 
+
+				//female check
+				if(($rabbit['rabbit_gender'] == 'Female')): 
+				if(isset($rabbit['rabbit_latest_mate_date']) and (!isset($rabbit['rabbit_latest_pregnant_date']))): // lateest mate date				
+				$mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);
+				$mate_diff = $today->diff($mate_date)->format("%a");
+				if(11>=$mate_diff and $mate_diff>=10 ) { array_push($mateddays10, $rabbit['product_id']); }
+				if(24>=$mate_diff and $mate_diff>=23) { array_push($mateddays23,$rabbit['product_id']);}
+				endif; // end latesst mate date	
+				//Birthcheck
+
+				if((!isset($rabbit['rabbit_latest_birth_date']) or !$rabbit['rabbit_latest_birth_date']) and (isset($rabbit['rabbit_latest_pregnant_date']))):
+				$mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);
+				$mate_diff = $today->diff($mate_date)->format("%a");
+					if(26>=$mate_diff and $mate_diff>=25) { array_push($pregnantday13,$rabbit['product_id']); }
+				if(31>=$mate_diff and $mate_diff>=30) { array_push($pregnantday18,$rabbit['product_id']); }
+				endif;//End Of Birthcheck
+
+											
+
+				//weaning
+				if(isset($rabbit['rabbit_latest_birth_date'])):
+				$birth_date=new DateTime($rabbit['rabbit_latest_birth_date']);
+				$birth_diff = $today->diff($birth_date)->format("%a");
+				if(20>=$birth_diff and $birth_diff>=19){ array_push($weaning2days_before,$rabbit['product_id']);}
+				if(27>=$birth_diff and $birth_diff>=26){ array_push($weaning2days_after,$rabbit['product_id']);}
+				endif;
+				//End of weaning
+
+				endif;	//female check end	
+				
+			}
+			if(isset($mateddays10)) { $data['mateddays10']=$mateddays10; }
+			if(isset($mateddays23)) { $data['mateddays23']=$mateddays23; }
+			if(isset($pregnantday13)) { $data['pregnantday13']=$pregnantday13; }
+			if(isset($pregnantday18)) { $data['pregnantday18']=$pregnantday18; }
+			if(isset($weaning2days_before)) { $data['weaning2days_before']=$weaning2days_before; }
+			if(isset($weaning2days_after)) { $data['weaning2days_after']=$weaning2days_after; }
+			$this->view->renderAdmin('rabbits/notification.phtml',$data); 
+		
+	}
+
 }

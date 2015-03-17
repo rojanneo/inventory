@@ -1,0 +1,272 @@
+<div class='row'>
+<div class='col-lg-12'>
+<div class='page-header text-center'>
+<h3>Rabbit Notification</h3>
+</div>
+</div>
+</div>
+<div class="row">
+<?php if(isset($mateddays10) and $mateddays10):?>
+	<div class='col-lg-2'>
+		<div class='panel panel-info'>
+			<div class='panel-heading'>
+				<h3 class='panel-title'>Almost Time To Check For Pregnancy</h3>
+			</div>
+			<div class='panel-body'>
+				<div class='table-responsive'>
+				<table class='table table-hover table-bordered'>
+					<thead style="background: #ddd; font-color: #fff;">
+						<th>Rabbit ID</th>
+					</thead>
+					<tbody>
+						<?php foreach($mateddays10 as $mateddays10):?>
+							<tr><td><?php echo$mateddays10; ?></td></tr>
+						<?php endforeach;?>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif;?>
+<?php if(isset($mateddays23) and $mateddays23):?>
+
+<div class='col-lg-2'>
+		<div class='panel panel-danger'>
+			<div class='panel-heading'>
+				<h3 class='panel-title'>Check For Pregnancy</h3>
+			</div>
+			<div class='panel-body'>
+				<div class='table-responsive'>
+				<table class='table table-hover table-bordered'>
+					<thead style="background: #ddd; font-color: #fff;">
+						<th>Rabbit ID</th>
+					</thead>
+					<tbody>
+						<?php foreach($mateddays23 as $mateddays23):?>
+							<tr><td><?php echo$mateddays23; ?></td></tr>
+						<?php endforeach;?>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif;?>
+
+<?php if(isset($pregnantday13) and $pregnantday13):?>
+
+<div class='col-lg-2'>
+		<div class='panel panel-info'>
+			<div class='panel-heading'>
+				<h3 class='panel-title'>Almost Time To Check For Birth</h3>
+			</div>
+			<div class='panel-body'>
+				<div class='table-responsive'>
+				<table class='table table-hover table-bordered'>
+					<thead style="background: #ddd; font-color: #fff;">
+						<th>Rabbit ID</th>
+					</thead>
+					<tbody>
+						<?php foreach($pregnantday13 as $matpregnantday13eddays10):?>
+							<tr><td><?php echo $matpregnantday13eddays10; ?></td></tr>
+						<?php endforeach;?>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif;?>
+
+<?php if(isset($pregnantday18) and $pregnantday18):?>
+
+<div class='col-lg-2'>
+		<div class='panel panel-danger'>
+			<div class='panel-heading'>
+				<h3 class='panel-title'>Check For Birth</h3>
+			</div>
+			<div class='panel-body'>
+				<div class='table-responsive'>
+				<table class='table table-hover table-bordered'>
+					<thead style="background: #ddd; font-color: #fff;">
+						<th>Rabbit ID</th>
+					</thead>
+					<tbody>
+						<?php foreach($pregnantday18 as $pregnantday18):?>
+							<tr><td><?php echo$pregnantday18; ?></td></tr>
+						<?php endforeach;?>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif;?>
+
+<?php if(isset($weaning2days_before) and $weaning2days_before):?>
+
+<div class='col-lg-2'>
+		<div class='panel panel-info'>
+			<div class='panel-heading'>
+				<h3 class='panel-title'>Almost Time For Weaning</h3>
+			</div>
+			<div class='panel-body'>
+				<div class='table-responsive'>
+				<table class='table table-hover table-bordered'>
+					<thead style="background: #ddd; font-color: #fff;">
+						<th>Rabbit ID</th>
+					</thead>
+					<tbody>
+						<?php foreach($weaning2days_before as $weaning2days_before):?>
+							<tr><td><?php echo$weaning2days_before; ?></td></tr>
+						<?php endforeach;?>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif;?>
+
+<?php if(isset($weaning2days_after) and $weaning2days_after):?>
+
+<div class='col-lg-2'>
+		<div class='panel panel-danger'>
+			<div class='panel-heading'>
+				<h3 class='panel-title'>Time For Weaning</h3>
+			</div>
+			<div class='panel-body'>
+				<div class='table-responsive'>
+				<table class='table table-hover table-bordered'>
+					<thead style="background: #ddd; font-color: #fff;">
+						<th>Rabbit ID</th>
+					</thead>
+					<tbody>
+						<?php foreach($weaning2days_after as $weaning2days_after):?>
+							<tr><td><?php echo$weaning2days_after; ?></td></tr>
+						<?php endforeach;?>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif;?>
+
+</div>
+
+<!-- <div class="row">
+	<div class='col-lg-12'>
+	</div>
+</div>
+
+<div class="row">
+	<div class='col-lg-12'>
+	</div>
+</div>
+
+<div class="row">
+	<div class='col-lg-12'>
+	</div>
+</div>
+
+<div class="row">
+	<div class='col-lg-12'>
+	</div>
+</div>
+
+<div class="row">
+	<div class='col-lg-12'>
+	</div>
+</div>
+
+<?php if(isset($mateddays10) and $mateddays10):?>
+<h1>Pregnant 2 days before</h1>
+<table border="1" style="margin:10px 0;">
+<thead style="background: #ddd; font-color: #fff;">
+<th>Rabbit ID</th>
+</thead>
+<tbody>
+<?php foreach($mateddays10 as $mateddays10):?>
+<tr><td><?php echo$mateddays10; ?></td></tr>
+<?php endforeach;?>
+</tbody>
+</table>
+<?php endif;?>
+
+
+<?php if(isset($mateddays23) and $mateddays23):?>
+<h1>Pregnant 2 days after</h1>
+<table border="1" style="margin:10px 0;">
+<thead style="background: #ddd; font-color: #fff;">
+<th>Rabbit ID</th>
+</thead>
+<tbody>
+<?php foreach($mateddays23 as $mateddays23):?>
+<tr><td><?php echo$mateddays23; ?></td></tr>
+<?php endforeach;?>
+</tbody>
+</table>
+<?php endif;?>
+
+
+<?php if(isset($pregnantday13) and $pregnantday13):?>
+<h1>Birth 2 days before</h1>
+<table border="1" style="margin:10px 0;">
+<thead style="background: #ddd; font-color: #fff;">
+<th>Rabbit ID</th>
+</thead>
+<tbody>
+<?php foreach($pregnantday13 as $matpregnantday13eddays10):?>
+<tr><td><?php echo $matpregnantday13eddays10; ?></td></tr>
+<?php endforeach;?>
+</tbody>
+</table>
+<?php endif;?>
+
+<?php if(isset($pregnantday18) and $pregnantday18):?>
+<h1>Birth 2 days after</h1>
+<table border="1" style="margin:10px 0;">
+<thead style="background: #ddd; font-color: #fff;">
+<th>Rabbit ID</th>
+</thead>
+<tbody>
+<?php foreach($pregnantday18 as $pregnantday18):?>
+<tr><td><?php echo$pregnantday18; ?></td></tr>
+<?php endforeach;?>
+</tbody>
+</table>
+<?php endif;?>
+
+
+<?php if(isset($weaning2days_before) and $weaning2days_before):?>
+<h1>Weaning 2 days before</h1>
+<table border="1" style="margin:10px 0;">
+<thead style="background: #ddd; font-color: #fff;">
+<th>Rabbit ID</th>
+</thead>
+<tbody>
+<?php foreach($weaning2days_before as $weaning2days_before):?>
+<tr><td><?php echo$weaning2days_before; ?></td></tr>
+<?php endforeach;?>
+</tbody>
+</table>
+<?php endif;?>
+
+
+<?php if(isset($weaning2days_after) and $weaning2days_after):?>
+<h1>Weaning 2 days after</h1>
+<table border="1" style="margin:10px 0;">
+<thead style="background: #ddd; font-color: #fff;">
+<th>Rabbit ID</th>
+</thead>
+<tbody>
+<?php foreach($weaning2days_after as $weaning2days_after):?>
+<tr><td><?php echo$weaning2days_after; ?></td></tr>
+<?php endforeach;?>
+</tbody>
+</table>
+<?php endif;?>
+
+ -->
