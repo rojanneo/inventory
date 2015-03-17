@@ -27,4 +27,12 @@ class StockperiodModel extends Model{
         $sql = "INSERT INTO stock_period(period_start_date,period_end_date,period_number) VALUES('$start_date', '$date', $no)";
         $this->connection->InsertQuery($sql);
     }
+    
+    public function getCurrentPeriod($date)
+    {
+        $sql = "SELECT * FROM stock_period WHERE period_start_date <= '$date' AND period_end_date >= '$date' LIMIT 1";
+        $period = $this->connection->Query($sql);
+        if($period) return $period[0]['period_number'];
+        else return false;
+    }
 }

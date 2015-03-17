@@ -18,7 +18,14 @@ class StockModel extends Model{
     
     public function getStockBalance($product_id,$date)
     {
-        $sql = "SELECT * FROM stock_balance WHERE product_id = $product_id order by date ASC";
+        if($product_id != 0)
+        {
+            $sql = "SELECT * FROM stock_balance WHERE product_id = $product_id order by date ASC";
+        }
+        else
+        {
+            $sql = "SELECT * FROM stock_balance group by product_id order by date ASC";
+        }
         $balance = $this->connection->Query($sql);
         if($balance) return $balance;
         else return false;
@@ -61,5 +68,22 @@ class StockModel extends Model{
         }
         else return false;
         
+    }
+    
+    public function getLatestStockData()
+    {
+        $year = date('Y');
+        $sql = $sql = "SELECT * FROM periodic_closing_stock_after_final_save WHERE period = (SELECT MAX(period) FROM `periodic_closing_stock_after_final_save` WHERE year = '$year') AND year = '$year'";
+        $stock = $this->connection->Query($sql);
+        if($stock) return $stock;
+        else return false;
+    }
+    
+    public function InsertFirstClosingStock($product_id, $product_name, $closing_stock, $unit, $period, $year)
+    {
+        $sql = "INSERT INTO periodic_closing_stock_after_final_save(product_id, product_name,opening_stock,purchased_stock,consumed_stock, calculated_balance, closing_stock, stock_variance, unit, reason, period, year)"
+                . "Values($product_id, '$product_name',0,0,0,0,$closing_stock,0,$unit,NULL,$period,$year)";
+        $this->connection->InsertQuery($sql);
+        return $this->connection->GetInsertID();
     }
 }

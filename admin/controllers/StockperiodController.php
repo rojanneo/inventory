@@ -31,6 +31,26 @@ class StockperiodController extends Controller{
             
         }
         
+        $current_year = date('Y');
+        $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'));
+        //echo $current_period;
+        
+        $closing_stocks = getModel('stock')->getLatestStockData();
+        if($closing_stocks)
+        {
+            echo 'here';
+        }
+        else 
+        {
+            $period = --$current_period;
+            $stock_balance = getModel('stock')->getStockBalance(0,date('Y-m-d'));
+            foreach($stock_balance as $sb)
+            {
+                $product = getModel('purchaseproduct')->load($sb['product_id']);
+                $total_stock = getModel('stock')->getTotalStock($sb['product_id'])['total_quantity'];
+                getModel('stock')->InsertFirstClosingStock($product['product_id'], $product['product_name'], $total_stock, $sb['unit'],$period, $current_year);
+            }
+        }
     }
 
 function getFridaysForYear($y) {
