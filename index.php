@@ -1,7 +1,7 @@
 <?php
 
 //require_once 'config/config.php';
-
+error_reporting(0);
 
 require_once 'system/controller.php';
 require_once 'system/model.php';

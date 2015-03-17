@@ -1,6 +1,6 @@
 <?php
 if (!defined('URL')) {
-	define('URL', 'http://neo/inventory/');
+	define('URL', 'http://localhost/inventory/');
 }
 
 if (!defined('ADMIN_URL')) {
