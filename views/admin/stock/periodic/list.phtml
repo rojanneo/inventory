@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <div class='page-header'>
+            <h3>Periodic Closing Stocks</h3>
+        </div>
+    </div>
+    <div class='col-lg-2 col-lg-offset-2'>
+        <a href='<?php echo ADMIN_URL.'stock/openperiodicstock'?>' class='btn btn-primary'>Close New Periodic Stock</a>
+    </div>
+    <div class='col-lg-8 col-lg-offset-2'>
+        <div class='table-responsive'>
+            <table class='table table-hover'>
+                <thead>
+                <th class='col-lg-1'>Year</th>
+                <th class='col-lg-1'>Period</th>
+                <th class='col-lg-4'>Date Range</th>
+                <th class='col-lg-2'>Status</th>
+                <th class='col-lg-2'>Action</th>
+                </thead>
+                <tbody>
+                    <?php if(isset($periodic_stocks) and $periodic_stocks):?>
+                    <?php foreach($periodic_stocks as $stock):?>
+                    <?php $stockPeriod = getModel('stockperiod')->loadbyPeriodNumber($stock['period']);?>
+                    <?php if($stockPeriod):?>
+                    <tr>
+                        <td><?php echo $stock['year'];?></td>
+                        <td><?php echo $stock['period'];?></td>
+                        <td><?php echo date('F d, Y',strtotime($stockPeriod['period_start_date'])).' to '.date('F d, Y',strtotime($stockPeriod['period_end_date']));?></td>
+                        <td><?php echo $stock['status'];?></td>
+                        <td><a href='<?php echo ADMIN_URL.'stock/periodicstock/'.$stock['id']?>'>View</a></td>
+                    </tr>
+                    <?php else:?>
+                    <tr>
+                        <td colspan='4'>No Periodic Closing Stock Found</td>
+                    </tr>
+                    <?php endif;?>
+                    <?php endforeach;?>
+                    <?php else:?>       
+                    <tr>
+                        <td colspan='4'>No Periodic Closing Stock Found</td>
+                    </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+                    
+        </div>
+    </div>
+</div>

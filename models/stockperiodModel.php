@@ -32,7 +32,15 @@ class StockperiodModel extends Model{
     {
         $sql = "SELECT * FROM stock_period WHERE period_start_date <= '$date' AND period_end_date >= '$date' LIMIT 1";
         $period = $this->connection->Query($sql);
-        if($period) return $period[0]['period_number'];
+        if($period) return $period[0];
+        else return false;
+    }
+    
+    public function loadbyPeriodNumber($period)
+    {
+        $sql = "SELECT * FROM stock_period WHERE period_number = $period LIMIT 1";
+        $period = $this->connection->Query($sql);
+        if($period) return $period[0];
         else return false;
     }
 }

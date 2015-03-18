@@ -81,9 +81,142 @@ class StockModel extends Model{
     
     public function InsertFirstClosingStock($product_id, $product_name, $closing_stock, $unit, $period, $year)
     {
-        $sql = "INSERT INTO periodic_closing_stock_after_final_save(product_id, product_name,opening_stock,purchased_stock,consumed_stock, calculated_balance, closing_stock, stock_variance, unit, reason, period, year)"
-                . "Values($product_id, '$product_name',0,0,0,0,$closing_stock,0,$unit,NULL,$period,$year)";
+        $sql = "INSERT INTO periodic_closing_stock_after_final_save(product_id, product_name,opening_stock,purchased_stock,consumed_stock, calculated_balance, closing_stock, stock_variance, unit, reason, period, year, status)"
+                . "Values($product_id, '$product_name',0,0,0,0,$closing_stock,0,$unit,NULL,$period,$year,'closed')";
         $this->connection->InsertQuery($sql);
         return $this->connection->GetInsertID();
+    }
+    
+    public function getPeriodicStockTitles()
+    {
+        $sql = "SELECT * FROM `periodic_closing_stock_after_final_save` Group by period,year";
+        $periods = $this->connection->Query($sql);
+        if($periods) return $periods;
+        else return false;
+    }
+    
+    public function getPeriodStatus($period, $year)
+    {
+        $sql = "SELECT status from periodic_closing_stock_after_final_save WHERE period = $period AND year = $year LIMIT 1";
+        $status = $this->connection->Query($sql);
+        if($status) return $status[0]['status'];
+        else return false;
+    }
+    
+    public function getOpeningStocks($period, $year)
+    {
+        $previous_period = $period - 1;
+         if(date('m') == '01') $previous_year = $year-1;
+         else $previous_year = $year;
+         
+         $sql = "SELECT product_id, closing_stock FROM periodic_closing_stock_after_final_save WHERE period = $previous_period AND year = $previous_year";
+         $closing_stocks = $this->connection->Query($sql);
+         $stocks = array();
+         if($closing_stocks)
+         {
+             foreach($closing_stocks as $cs)
+             {
+                 $stocks[$cs['product_id']] = $cs['closing_stock'];
+             }
+             return $stocks;
+         }
+         else return false;
+    }
+    
+    public function getClosingStocks($period, $year)
+    {
+        $sql = "SELECT product_id, closing_stock FROM periodic_closing_stock_after_final_save WHERE period = $period AND year = $year";
+         $closing_stocks = $this->connection->Query($sql);
+         $stocks = array();
+         if($closing_stocks)
+         {
+             foreach($closing_stocks as $cs)
+             {
+                 $stocks[$cs['product_id']] = $cs['closing_stock'];
+             }
+             return $stocks;
+         }
+         else return false;
+    }
+    
+    
+    public function getUnits($period, $year)
+    {
+         $sql = "SELECT product_id, unit FROM periodic_closing_stock_after_final_save WHERE period = $period AND year = $year";
+         $units = $this->connection->Query($sql);
+         $units_array = array();
+         if($units)
+         {
+             foreach($units as $unit)
+             {
+                 $units_array[$unit['product_id']] = $unit['unit'];
+             }
+             return $units_array;
+         }
+         else return false;
+    }
+    public function DeleteClosingStock($p, $y)
+    {
+        $sql = "DELETE FROM periodic_closing_stock_after_final_save WHERE period =$p AND year = $y";
+        $this->connection->DeleteQuery($sql);
+    }
+    
+    public function InsertClosingStock($pid, $pname, $os, $ps, $cos, $cb, $cs, $sv, $u, $r, $p, $y, $s)
+    {
+        $sql = "INSERT INTO `periodic_closing_stock_after_final_save`(`product_id`, `product_name`, `opening_stock`, `purchased_stock`, `consumed_stock`, `calculated_balance`, `closing_stock`, `stock_variance`, `unit`, `reason`, `period`, `year`, `status`) "
+                . "VALUES ($pid,'$pname',$os,$ps,$cos,$cb,".  mysql_escape_string($cs).",$sv,$u,'".  mysql_escape_string($r)."',$p,$y,'$s')";
+        $this->connection->InsertQuery($sql);
+    }
+    
+    public function InsertFinalSaveStock($pid, $pname, $os, $cs, $u, $p, $y)
+    {
+        $sql = "INSERT INTO `periodic_closing_stock_before_final_save`(`product_id`, `product_name`, `opening_stock`, `closing_stock`, `unit`, `period`, `year`) "
+                . "VALUES ($pid,'$pname',$os,".mysql_escape_string($cs).",$u,$p,$y)";
+        $this->connection->InsertQuery($sql);
+        
+    }
+    
+    public function DeleteFinalSaveStock($p, $y)
+    {
+        $sql = "DELETE FROM periodic_closing_stock_before_final_save WHERE period =$p AND year = $y";
+        $this->connection->DeleteQuery($sql);
+    }
+    
+    public function ChangeStatus($product_id, $p, $y, $cs, $status)
+    {
+        $purchase = $this->getPurchases($product_id, $p, $y);
+        $usage = $this->getConsumption($product_id, $p, $y);
+        if(!$usage) $usage = 0;
+        if(!$purchase) $purchase = 0;
+        $opening_stock = 0;
+        $sql = "SELECT opening_stock FROM periodic_closing_stock_after_final_save WHERE product_id = $product_id AND period = $p AND year = $y";
+        $temp = $this->connection->Query($sql);
+        if($temp) $opening_stock = $temp[0]['opening_stock'];
+        $balance = $opening_stock + $purchase - $usage;
+        $variance = $cs - $balance;
+        $sql = "UPDATE periodic_closing_stock_after_final_save SET status = '$status', purchased_stock = $purchase, consumed_stock = $usage, calculated_balance = $balance, closing_stock = $cs, stock_variance = $variance WHERE period = $p AND year = $y AND product_id  = $product_id";
+        $this->connection->UpdateQuery($sql);
+    }
+    
+    public function getPurchases($pid, $p, $y)
+    {
+        $period = getModel('stockperiod')->loadbyPeriodNumber($p);
+        $start_date = date($y.'-m-d',strtotime($period['period_start_date']));
+        $end_date = date($y.'-m-d',strtotime($period['period_end_date']));
+        $sql = "SELECT SUM(quantity) AS purchased_quantity FROM `periodic_transactions` WHERE product_id = $pid AND date>='$start_date' AND date<='$end_date' AND type='po'";
+        $purchase = $this->connection->Query($sql);
+        if($purchase) return $purchase[0]['purchased_quantity'];
+        else return false;
+    }
+    
+    public function getConsumption($pid, $p, $y)
+    {
+        $period = getModel('stockperiod')->loadbyPeriodNumber($p);
+        $start_date = date($y.'-m-d',strtotime($period['period_start_date']));
+        $end_date = date($y.'-m-d',strtotime($period['period_end_date']));
+        $sql = "SELECT SUM(quantity) AS used_quantity FROM `periodic_transactions` WHERE product_id = $pid AND date>='$start_date' AND date<='$end_date' AND type='usage'";
+        $consumption = $this->connection->Query($sql);
+        if($consumption) return $consumption[0]['used_quantity'];
+        else return false;
     }
 }
