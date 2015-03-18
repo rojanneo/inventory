@@ -97,7 +97,17 @@ class StockController extends Controller{
          }
          else if($current_period_status == 'final saved')
          {
-             echo 'here';
+             $data['current_period'] = $current_period;
+             $data['categories'] = getModel('purchasecategory')->getActiveCollection();
+             $data['opening_stocks'] = getModel('stock')->getOpeningStocks($current_period['period_number'], $year);
+             $data['closing_stocks'] = getModel('stock')->getClosingStocks($current_period['period_number'], $year);
+             $data['purchased_stocks']=getModel('stock')->getPurchasedStocks($current_period['period_number'], $year);
+             $data['consumed_stocks']=getModel('stock')->getConsumedStocks($current_period['period_number'], $year);
+             $data['balances']=getModel('stock')->getBalanceStocks($current_period['period_number'], $year);
+             $data['variances']=getModel('stock')->getVariances($current_period['period_number'], $year);
+             $data['units'] = getModel('stock')->getUnits($previous_period, $previous_year);
+             $this->view->renderAdmin('stock/periodic/form-after-final-save.phtml',$data);
+             //echo 'here';
          }
          else if($current_period_status == 'closed')
          {}
@@ -114,8 +124,8 @@ class StockController extends Controller{
             }
             else if($previous_period_status == 'open')
             {
-                $pv = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'),strtotime('2015-03-25'));
-                 $data['current_period'] = $pv;
+                $pv = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'),strtotime('2015-03-21'));
+                $data['current_period'] = $pv;
                 $data['opening_stocks'] = getModel('stock')->getOpeningStocks($previous_period, $previous_year);
                 $data['closing_stocks'] = getModel('stock')->getClosingStocks($previous_period, $previous_year);
                 $data['units'] = getModel('stock')->getUnits($previous_period, $previous_year);
@@ -126,7 +136,18 @@ class StockController extends Controller{
             }
             else if($previous_period_status == 'final saved')
             {
-                echo 'here';
+                $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'),strtotime('2015-03-21'));
+                $data['current_period'] = $current_period;
+             $data['categories'] = getModel('purchasecategory')->getActiveCollection();
+             $data['opening_stocks'] = getModel('stock')->getOpeningStocks($current_period['period_number'], $year);
+             $data['closing_stocks'] = getModel('stock')->getClosingStocks($current_period['period_number'], $year);
+             $data['purchased_stocks']=getModel('stock')->getPurchasedStocks($current_period['period_number'], $year);
+             $data['consumed_stocks']=getModel('stock')->getConsumedStocks($current_period['period_number'], $year);
+             $data['balances']=getModel('stock')->getBalanceStocks($current_period['period_number'], $year);
+             $data['variances']=getModel('stock')->getVariances($current_period['period_number'], $year);
+             $data['units'] = getModel('stock')->getUnits($previous_period, $previous_year);
+              AdminSession::addErrorMessage('Please close previous stock period first');
+             $this->view->renderAdmin('stock/periodic/form-after-final-save.phtml',$data);
             }
 
          }
@@ -148,6 +169,13 @@ class StockController extends Controller{
             getModel('stock')->InsertClosingStock($pid, $pname, $os, 0, 0, 0, $cs, 0, $u, NULL, $p, $y, 'open');
         }
         redirect('stock/periodicClosingStocks');
+    }
+    
+    public function saveperiodicstockafterfinalsaveAction()
+    {
+        loadHelper('inputs');
+        $data = getPost();
+        var_dump($data);die;
     }
     
     public function finalsaveperiodicstockAction()

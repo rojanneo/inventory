@@ -139,6 +139,70 @@ class StockModel extends Model{
          else return false;
     }
     
+    public function getPurchasedStocks($period, $year)
+    {
+        $sql = "SELECT product_id, purchased_stock FROM periodic_closing_stock_after_final_save WHERE period = $period AND year = $year";
+         $closing_stocks = $this->connection->Query($sql);
+         $stocks = array();
+         if($closing_stocks)
+         {
+             foreach($closing_stocks as $cs)
+             {
+                 $stocks[$cs['product_id']] = $cs['purchased_stock'];
+             }
+             return $stocks;
+         }
+         else return false;
+    }
+    
+     public function getConsumedStocks($period, $year)
+    {
+        $sql = "SELECT product_id, consumed_stock FROM periodic_closing_stock_after_final_save WHERE period = $period AND year = $year";
+         $closing_stocks = $this->connection->Query($sql);
+         $stocks = array();
+         if($closing_stocks)
+         {
+             foreach($closing_stocks as $cs)
+             {
+                 $stocks[$cs['product_id']] = $cs['consumed_stock'];
+             }
+             return $stocks;
+         }
+         else return false;
+    }
+    
+    public function getBalanceStocks($period, $year)
+    {
+        $sql = "SELECT product_id, calculated_balance FROM periodic_closing_stock_after_final_save WHERE period = $period AND year = $year";
+         $closing_stocks = $this->connection->Query($sql);
+         $stocks = array();
+         if($closing_stocks)
+         {
+             foreach($closing_stocks as $cs)
+             {
+                 $stocks[$cs['product_id']] = $cs['calculated_balance'];
+             }
+             return $stocks;
+         }
+         else return false;
+    }
+    
+    public function getVariances($period, $year)
+    {
+        $sql = "SELECT product_id, stock_variance FROM periodic_closing_stock_after_final_save WHERE period = $period AND year = $year";
+         $closing_stocks = $this->connection->Query($sql);
+         $stocks = array();
+         if($closing_stocks)
+         {
+             foreach($closing_stocks as $cs)
+             {
+                 $stocks[$cs['product_id']] = $cs['stock_variance'];
+             }
+             return $stocks;
+         }
+         else return false;
+    }
+    
     
     public function getUnits($period, $year)
     {
