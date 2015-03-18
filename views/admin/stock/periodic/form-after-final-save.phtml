@@ -47,10 +47,14 @@
                         <input type='hidden' name='opening_stock[<?php echo $product['product_id']?>]' value='<?php echo $opening_stocks[$product['product_id']]?>'/>
                         <input type='hidden' name='unit[<?php echo $product['product_id']?>]' value='<?php echo $units[$product['product_id']]?>'/>
                         <td class='text-center'><?php echo $purchased_stocks[$product['product_id']];?></td>
+                        <input type='hidden' name='purchase[<?php echo $product['product_id']?>]' value='<?php echo $purchased_stocks[$product['product_id']];?>'/>
                         <td class='text-center'><?php echo $consumed_stocks[$product['product_id']];?></td>
+                        <input type='hidden' name='consumed[<?php echo $product['product_id']?>]' value='<?php echo $consumed_stocks[$product['product_id']];?>'/>
                         <td class='text-center'><?php echo $balances[$product['product_id']];?></td>
+                        <input type='hidden' name='balance[<?php echo $product['product_id']?>]' value='<?php echo $balances[$product['product_id']];?>'/>
                         <td class='text-center'><input type='text' name='closing_stock[<?php echo $product['product_id']?>]' value='<?php echo $closing_stocks[$product['product_id']]?>' onchange='CalculateVariance(this)'/></td>
                         <td class='text-center'><?php echo $variances[$product['product_id']];?></td>
+                        <input type='hidden' name='variance[<?php echo $product['product_id']?>]' value='<?php echo $variances[$product['product_id']];?>'/>
                         <td class='text-center'><textarea name='reason[<?php echo $product['product_id']?>]'>Reason</textarea></td>
                     </tr>
     <?php endforeach;?>

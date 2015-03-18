@@ -175,7 +175,23 @@ class StockController extends Controller{
     {
         loadHelper('inputs');
         $data = getPost();
-        var_dump($data);die;
+        extract($data);
+        $p = $period;
+        $y = $year;
+        getModel('stock')->DeleteClosingStock($p, $y);
+        foreach($closing_stock as $pid => $cs)
+        {
+            $pname = $product_name[$pid];
+            $os = $opening_stock[$pid];
+            $pur = $purchase[$pid];
+            $bal = $balance[$pid];
+            $con = $consumed[$pid];
+            $var = $bal-$cs;;
+            $u = $unit[$pid];
+            $r = $reason[$pid];
+            getModel('stock')->InsertClosingStock($pid, $pname, $os, $pur, $con, $bal, $cs, $var, $u, $r, $p, $y, 'final saved');
+        }
+        redirect('stock/periodicClosingStocks');
     }
     
     public function finalsaveperiodicstockAction()
