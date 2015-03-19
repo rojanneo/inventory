@@ -1,0 +1,66 @@
+<?php AdminSession::showErrorMessages()?>
+<?php AdminSession::showSuccessMessages();?>
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <div class="page-header">
+            <h3>Periodic Stock Count</h3>
+        </div>
+    </div>
+</div>
+<form method='post' action='<?php echo ADMIN_URL.'stock/saveperiodicstockafterfinalsave'?>' id='stock'>
+    <input type='hidden' name='date' value='<?php echo date('Y-m-d');?>'/>
+    <input type='hidden' name='period' value='<?php echo $current_period['period_number'];?>'/>
+    <input type='hidden' name='year' value='<?php echo date('Y', strtotime($current_period['period_start_date']));?>'/>
+    <div class="stock-count">
+<div class='row'>
+    <div class='col-lg-2 col-lg-offset-1'>
+        <p><?php echo 'Period '.$current_period['period_number'].': '.date('F d, '.$year, strtotime($current_period['period_start_date'])).' - '.date('F d, '.$year, strtotime($current_period['period_end_date']))?></p>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-lg-12">
+   <?php foreach($categories as $category):?>
+    <ul>
+    <?php $products = getModel('purchaseproduct')->getCategoryProducts($category['category_id']);?>
+    <?php if($products):?>
+    <li>
+        <h4><?php echo $category['name'];?></h4>
+        <div class='table-responsive'>
+            <table class="table table-hover table-bordered">
+                <thead>
+                <th class='col-lg-1 text-center'>Item Code</th>
+                <th class='col-lg-2 text-center'>Item Name</th>
+                <th class='col-lg-1 text-center'>Opening Stock</th>
+                <th class='col-lg-1 text-center'>Purchase</th>
+                <th class='col-lg-1 text-center'>Consumed Stock</th>
+                <th class='col-lg-1 text-center'>Calculated Stock</th>
+                <th class='col-lg-1 text-center'>Closing Stock</th>
+                <th class='col-lg-1 text-center'>Variance Stock</th>
+                <th class='col-lg-1 text-center'>Reason</th>
+                </thead>
+                <tbody>
+    <?php foreach($products as $product):?>
+                    <tr>
+                        <?php $u = getModel('uom')->load($units[$product['product_id']]);?>
+                        <td class='text-center'><?php echo $product['product_id'];?></td>
+                        <td class='text-center'><?php echo $product['product_name'];?><input type="hidden" name="product_name[<?php echo $product['product_id']?>]" value='<?php echo $product['product_name']?>'/></td>
+                        <td class='text-center'><?php echo $opening_stocks[$product['product_id']].' '.$u['unit_symbol'];?></td>
+                        <td class='text-center'><?php echo $purchased_stocks[$product['product_id']].' '.$u['unit_symbol'];?></td>
+                        <td class='text-center'><?php echo $consumed_stocks[$product['product_id']].' '.$u['unit_symbol'];?></td>
+                        <td class='text-center'><?php echo $balances[$product['product_id']].' '.$u['unit_symbol'];?></td>
+                        <td class='text-center'><?php echo $closing_stocks[$product['product_id']].' '.$u['unit_symbol']?></td>
+                        <td class='text-center'><?php echo $variances[$product['product_id']].' '.$u['unit_symbol'];?></td>
+                        <td class='text-center'><?php echo $reasons[$product['product_id']]?></td>
+                    </tr>
+    <?php endforeach;?>
+                </tbody>
+            </table>
+        </div>
+    </li>
+    <?php endif;?>
+</ul>
+    <?php endforeach;?>
+        </div>
+    </div>
+    </div>
+    </div>

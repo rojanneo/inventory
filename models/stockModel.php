@@ -95,6 +95,14 @@ class StockModel extends Model{
         else return false;
     }
     
+//    public function getClosingStocks($period, $year)
+//    {
+//        $sql = "SELECT * FROM periodic_closing_stock_after_final_save WHERE period = $period AND year = $year";
+//        $stock = $this->connection->Query($sql);
+//        if($stock) return $stock;
+//        else return false;
+//    }
+    
     public function getPeriodStatus($period, $year)
     {
         $sql = "SELECT status from periodic_closing_stock_after_final_save WHERE period = $period AND year = $year LIMIT 1";
@@ -118,6 +126,23 @@ class StockModel extends Model{
              foreach($closing_stocks as $cs)
              {
                  $stocks[$cs['product_id']] = $cs['closing_stock'];
+             }
+             return $stocks;
+         }
+         else return false;
+    }
+    
+    public function getCurrentOpeningStocks($period, $year)
+    {
+         
+         $sql = "SELECT product_id, opening_stock FROM periodic_closing_stock_after_final_save WHERE period = $period AND year = $year";
+         $closing_stocks = $this->connection->Query($sql);
+         $stocks = array();
+         if($closing_stocks)
+         {
+             foreach($closing_stocks as $cs)
+             {
+                 $stocks[$cs['product_id']] = $cs['opening_stock'];
              }
              return $stocks;
          }
@@ -182,6 +207,21 @@ class StockModel extends Model{
              foreach($closing_stocks as $cs)
              {
                  $stocks[$cs['product_id']] = $cs['calculated_balance'];
+             }
+             return $stocks;
+         }
+         else return false;
+    }
+    public function getReasons($period, $year)
+    {
+        $sql = "SELECT product_id, reason FROM periodic_closing_stock_after_final_save WHERE period = $period AND year = $year";
+         $closing_stocks = $this->connection->Query($sql);
+         $stocks = array();
+         if($closing_stocks)
+         {
+             foreach($closing_stocks as $cs)
+             {
+                 $stocks[$cs['product_id']] = $cs['reason'];
              }
              return $stocks;
          }

@@ -36,12 +36,23 @@
                 <tbody>
     <?php foreach($products as $product):?>
                     <tr>
+                        <?php if(isset($units[$product['product_id']])):?>
+                         <?php $u = getModel('uom')->load($units[$product['product_id']]);?>
                         <td class='text-center'><?php echo $product['product_id'];?></td>
                         <td class='text-center'><?php echo $product['product_name'];?><input type="hidden" name="product_name[<?php echo $product['product_id']?>]" value='<?php echo $product['product_name']?>'/></td>
-                        <td class='text-center'><?php echo $opening_stocks[$product['product_id']];?></td>
+                        <td class='text-center'><?php echo $opening_stocks[$product['product_id']].' '.$u['unit_symbol'];?></td>
                         <input type='hidden' name='opening_stock[<?php echo $product['product_id']?>]' value='<?php echo $opening_stocks[$product['product_id']]?>'/>
                         <input type='hidden' name='unit[<?php echo $product['product_id']?>]' value='<?php echo $units[$product['product_id']]?>'/>
                         <td class='text-center'><input type='text' name='closing_stock[<?php echo $product['product_id']?>]' value='<?php echo $closing_stocks[$product['product_id']]?>'/></td>
+                        <?php else:?>
+                        <td class='text-center'><?php echo $product['product_id'];?></td>
+                        <td class='text-center'><?php echo $product['product_name'];?><input type="hidden" name="product_name[<?php echo $product['product_id']?>]" value='<?php echo $product['product_name']?>'/></td>
+                        <td class='text-center'>0</td>
+                        <input type='hidden' name='opening_stock[<?php echo $product['product_id']?>]' value='0'/>
+                        <input type='hidden' name='unit[<?php echo $product['product_id']?>]' value='<?php echo $product['product_weight_unit']?>'/>
+                        <td class='text-center'><input type='text' name='closing_stock[<?php echo $product['product_id']?>]' value='0'/></td>
+
+                        <?php endif;?>
                     </tr>
     <?php endforeach;?>
                 </tbody>

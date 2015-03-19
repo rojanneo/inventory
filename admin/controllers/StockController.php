@@ -27,6 +27,29 @@ class StockController extends Controller{
         $this->view->renderAdmin('stock/list/list.phtml');
     }
     
+    public function viewAction()
+    {
+        loadHelper('inputs');
+        $period = getParam('period');
+        $year = getParam('year');
+        
+//        $data['stocks'] = getModel('stock')->getClosingStocks($period, $year);
+        $data['current_period'] = getModel('stockperiod')->loadbyPeriodNumber($period);
+        $data['year'] = $year;
+        $data['categories'] = getModel('purchasecategory')->getActiveCollection();
+        $data['opening_stocks'] = getModel('stock')->getCurrentOpeningStocks($period, $year);
+        $data['closing_stocks'] = getModel('stock')->getClosingStocks($period, $year);
+        $data['purchased_stocks']=getModel('stock')->getPurchasedStocks($period, $year);
+        $data['consumed_stocks']=getModel('stock')->getConsumedStocks($period, $year);
+        $data['balances']=getModel('stock')->getBalanceStocks($period, $year);
+        $data['variances']=getModel('stock')->getVariances($period, $year);
+        $data['units'] = getModel('stock')->getUnits($period, $year);
+        $data['reasons'] = getModel('stock')->getReasons($period,$year);
+        
+        
+        $this->view->renderAdmin('stock/periodic/view.phtml',$data);
+    }
+    
     public function getCategoryListAction()
     {
         $data['categories'] = getModel('purchasecategory')->getActiveCollection();
@@ -93,6 +116,8 @@ class StockController extends Controller{
                 $data['closing_stocks'] = getModel('stock')->getClosingStocks($current_period['period_number'], $year);
                 $data['units'] = getModel('stock')->getUnits($previous_period, $previous_year);
                 $data['categories'] = getModel('purchasecategory')->getActiveCollection();
+                //echo '<pre>';
+                //var_dump($data);die;
                 $this->view->renderAdmin('stock/periodic/form-before-final-save-with-data.phtml',$data);
          }
          else if($current_period_status == 'final saved')
@@ -205,6 +230,7 @@ class StockController extends Controller{
         $p = $period;
         $y = $year;
         getModel('stock')->DeleteFinalSaveStock($p,$y);
+        getModel('stock')->DeleteClosingStock($p, $y);
         foreach($closing_stock as $pid => $cs)
         {
             $pname = $product_name[$pid];

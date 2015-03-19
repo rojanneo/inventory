@@ -29,7 +29,7 @@
                         <td><?php echo $stock['period'];?></td>
                         <td><?php echo date('F d, Y',strtotime($stockPeriod['period_start_date'])).' to '.date('F d, Y',strtotime($stockPeriod['period_end_date']));?></td>
                         <td><?php echo $stock['status'];?></td>
-                        <td><a href='<?php echo ADMIN_URL.'stock/periodicstock/'.$stock['id']?>'>View</a></td>
+                        <td><a href='<?php echo ADMIN_URL.'stock/view/?period='.$stock['period'].'&year='.$stock['year']?>'>View</a></td>
                     </tr>
                     <?php else:?>
                     <tr>
