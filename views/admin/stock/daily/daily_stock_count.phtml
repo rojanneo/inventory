@@ -35,7 +35,7 @@
                         <td class='text-center'><?php echo $product['product_id'];?></td>
                         <td class='text-center'><?php echo $product['product_name'];?><input type="hidden" name="product_name[<?php echo $product['product_id']?>]" value="<?php echo $product['product_name']?>"/></td>
                         <?php $quantity = getModel('stock')->getTotalStock($product['product_id']);?>
-                        <?php if(!$quantity):?>
+                        <?php if(!$quantity['total_quantity']):?>
                         <td class='text-center' class='text-center'>0<input type="hidden" name="calculated_quantity[<?php echo $product['product_id']?>]" value="0"/></td>
                         <?php else:?>
                         <td class='text-center'><?php echo $quantity['total_quantity'].' '.$quantity['unit_symbol']?>

@@ -125,6 +125,14 @@
                             </tr>
                             <tr>
                                 <td>Litters</td>
+                                <?php
+                            $weaned_litters = (getModel('litter')->getWeanedLitters());
+                            $weaned_litters_count = count($weaned_litters);
+                            $unweaned_litters = (getModel('litter')->getUnweanedLitters());
+                            $unweaned_litters_count = count($unweaned_litters);
+                            $lc = $weaned_litters_count + $unweaned_litters_count;
+                            ?>
+                                <td><?php echo $lc; ?>	</td>
                                 <td><?php echo $littersCount; ?>	</td>
                             </tr>
                             <tr>

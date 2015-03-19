@@ -32,7 +32,7 @@ class StockperiodController extends Controller{
         }
         
         $current_year = date('Y');
-        $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'));
+        $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'))['period_number'];
         //echo $current_period;
         
         $closing_stocks = getModel('stock')->getLatestStockData();

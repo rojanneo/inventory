@@ -77,7 +77,7 @@ class StockController extends Controller{
     
     public function openperiodicstockAction()
     {
-         $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'));
+         $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'), strtotime('2015-03-25'));
          if($current_period == 1) $previous_period = 52;
          else $previous_period = $current_period['period_number'] - 1;
          $month = date('m');
@@ -110,7 +110,10 @@ class StockController extends Controller{
              //echo 'here';
          }
          else if($current_period_status == 'closed')
-         {}
+         {
+             AdminSession::addErrorMessage('Stock For Period 12 has already been closed');
+             redirect('admin/stock/periodicClosingStocks');
+         }
          else if(!$current_period_status)
          {
              $previous_period_status = getModel('stock')->getPeriodStatus($previous_period,$previous_year);
@@ -168,7 +171,7 @@ class StockController extends Controller{
             $u = $unit[$pid];
             getModel('stock')->InsertClosingStock($pid, $pname, $os, 0, 0, 0, $cs, 0, $u, NULL, $p, $y, 'open');
         }
-        redirect('stock/periodicClosingStocks');
+        redirect('admin/stock/periodicClosingStocks');
     }
     
     public function saveperiodicstockafterfinalsaveAction()
@@ -186,12 +189,12 @@ class StockController extends Controller{
             $pur = $purchase[$pid];
             $bal = $balance[$pid];
             $con = $consumed[$pid];
-            $var = $bal-$cs;;
+            $var = $cs - $bal;
             $u = $unit[$pid];
             $r = $reason[$pid];
             getModel('stock')->InsertClosingStock($pid, $pname, $os, $pur, $con, $bal, $cs, $var, $u, $r, $p, $y, 'final saved');
         }
-        redirect('stock/periodicClosingStocks');
+        redirect('admin/stock/periodicClosingStocks');
     }
     
     public function finalsaveperiodicstockAction()
@@ -210,6 +213,30 @@ class StockController extends Controller{
             getModel('stock')->InsertFinalSaveStock($pid, $pname, $os, $cs,$u, $p, $y);
             getModel('stock')->ChangeStatus($pid, $p, $y, $cs, 'final saved');
         }
+        redirect('admin/stock/periodicClosingStocks');
+    }
+    
+    public function closeperiodicstockAction()
+    {
+        loadHelper('inputs');
+        $data = getPost();
+        extract($data);
+        $p = $period;
+        $y = $year;
+        getModel('stock')->DeleteClosingStock($p, $y);
+        foreach($closing_stock as $pid => $cs)
+        {
+            $pname = $product_name[$pid];
+            $os = $opening_stock[$pid];
+            $pur = $purchase[$pid];
+            $bal = $balance[$pid];
+            $con = $consumed[$pid];
+            $var = $cs - $bal;
+            $u = $unit[$pid];
+            $r = $reason[$pid];
+            getModel('stock')->InsertClosingStock($pid, $pname, $os, $pur, $con, $bal, $cs, $var, $u, $r, $p, $y, 'closed');
+        }
+        redirect('admin/stock/periodicClosingStocks');
     }
     
     public function testAction()

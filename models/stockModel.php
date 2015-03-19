@@ -246,6 +246,7 @@ class StockModel extends Model{
         $this->connection->DeleteQuery($sql);
     }
     
+    
     public function ChangeStatus($product_id, $p, $y, $cs, $status)
     {
         $purchase = $this->getPurchases($product_id, $p, $y);
