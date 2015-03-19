@@ -1,121 +1,121 @@
 
 <div id="attributes-add" class="main-body">
-<h1>Add New Attribute</h1>
-<form method="post" action="<?php echo ADMIN_URL.'attributes/newpost/'?>">
-	<div class="input-box">
-		<label>Attribute Code: </label>
-		<input type="text" name="attribute_code"/>
-	</div>
+    <h1>Add New Attribute</h1>
+    <form method="post" action="<?php echo ADMIN_URL . 'attributes/newpost/' ?>">
+        <div class="input-box">
+            <label>Attribute Code: </label>
+            <input type="text" name="attribute_code"/>
+        </div>
 
-	<div class="input-box">
-		<label>Attribute Default Value: </label>
-		<input type="text" name="attribute_default_value"/>
-	</div>
+        <div class="input-box">
+            <label>Attribute Default Value: </label>
+            <input type="text" name="attribute_default_value"/>
+        </div>
 
-	<div class="input-box">
-		<label>Attribute Type: </label>
-		<select name="attribute_type">
-			<option value="number">Number</option>
-			<option value="text">Text</option>
-			<option value="date">Date</option>
-			<option value="select">Select</option>
-			<option value="multiselect">Multiple Select</option>
-		</select>
-	</div>
-	<div class="input-box">
-		<label>Attribute Requires Editor: </label>
-		<select name="attribute_requires_editor">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</select>
-	</div>
+        <div class="input-box">
+            <label>Attribute Type: </label>
+            <select name="attribute_type">
+                <option value="number">Number</option>
+                <option value="text">Text</option>
+                <option value="date">Date</option>
+                <option value="select">Select</option>
+                <option value="multiselect">Multiple Select</option>
+            </select>
+        </div>
+        <div class="input-box">
+            <label>Attribute Requires Editor: </label>
+            <select name="attribute_requires_editor">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
 
-	<div class="input-box">
-		<label>Is Hidden: </label>
-		<select name="is_hidden">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</select>
-	</div>
+        <div class="input-box">
+            <label>Is Hidden: </label>
+            <select name="is_hidden">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
 
-	<div class="input-box">
-		<label>Attribute Admin Label: </label>
-		<input type="text" name="attribute_admin_label"/>
-	</div>
+        <div class="input-box">
+            <label>Attribute Admin Label: </label>
+            <input type="text" name="attribute_admin_label"/>
+        </div>
 
-	<div class="input-box">
-		<label>Attribute Frontend Label: </label>
-		<input type="text" name="attribute_frontend_label"/>
-	</div>
+        <div class="input-box">
+            <label>Attribute Frontend Label: </label>
+            <input type="text" name="attribute_frontend_label"/>
+        </div>
 
-	<div class="input-box">
-		<label>Attribute Unique: </label>
-		<select name="is_unique">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</select>
-	</div>
+        <div class="input-box">
+            <label>Attribute Unique: </label>
+            <select name="is_unique">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
 
-	<div class="input-box">
-		<label>Attribute Is Required: </label>
-		<select name="is_required">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</select>
-	</div>
+        <div class="input-box">
+            <label>Attribute Is Required: </label>
+            <select name="is_required">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
 
 
-	<div class="input-box">
-		<label>Attribute Is Used For Variation: </label>
-		<select name="is_used_for_variation">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</select>
-	</div>
+        <div class="input-box">
+            <label>Attribute Is Used For Variation: </label>
+            <select name="is_used_for_variation">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
 
-	<div class="value_form" style="display:none">
-		<h2>Add values</h2>
-		<div class="value">
-			<input name="value[]"/>
-			<input name="sort_order[]"/>
-			<input type="button" value="X" onclick="deleteValue(this)"/>
-		</div>
-		<input type="button" value="Add Value" onclick="addValue(this)"/>
-	</div>
-	<input type="submit" value="Save"/>
-</form>
+        <div class="value_form" style="display:none">
+            <h2>Add values</h2>
+            <div class="value">
+                <input name="value[]"/>
+                <input name="sort_order[]"/>
+                <input type="button" value="X" onclick="deleteValue(this)"/>
+            </div>
+            <input type="button" value="Add Value" onclick="addValue(this)"/>
+        </div>
+        <input type="submit" value="Save"/>
+    </form>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){
-	$('select[name=attribute_type]').change(function(){
-		var type = $(this).val();
-		if(type == 'select' || type == 'multiselect')
-		{
-			$('.value_form').show();
-		}
-		else
-		{
-			$('.value_form').hide();			
-		}
-	});
+    $(document).ready(function () {
+        $('select[name=attribute_type]').change(function () {
+            var type = $(this).val();
+            if (type == 'select' || type == 'multiselect')
+            {
+                $('.value_form').show();
+            }
+            else
+            {
+                $('.value_form').hide();
+            }
+        });
 
-	if($('select[name=attribute_type]').val() == 'select' || $('select[name=attribute_type]').val() == 'multiselect')
-	{
-		$('.value_form').show();
-	}
-	else
-	{
-		$('.value_form').hide();
-	}
-});
+        if ($('select[name=attribute_type]').val() == 'select' || $('select[name=attribute_type]').val() == 'multiselect')
+        {
+            $('.value_form').show();
+        }
+        else
+        {
+            $('.value_form').hide();
+        }
+    });
 
-function deleteValue(btn)
-{
-	$(btn).parent().remove();
-}
+    function deleteValue(btn)
+    {
+        $(btn).parent().remove();
+    }
 
-function addValue(btn)
-{
-	$(btn).before('<div class="value"><input name="value[]"/><input name="sort_order[]"/><input type="button" value="X" onclick="deleteValue(this)"/></div>');
-}
+    function addValue(btn)
+    {
+        $(btn).before('<div class="value"><input name="value[]"/><input name="sort_order[]"/><input type="button" value="X" onclick="deleteValue(this)"/></div>');
+    }
 </script>

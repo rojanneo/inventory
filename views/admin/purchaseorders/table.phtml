@@ -1,52 +1,53 @@
 <table class="table table-hover table-bordered">
-                            <thead>
-                            <th class="col-lg-1 text-center">Item ID</th>
-                            <th class="col-lg-2 text-center">Item Name</th>
-                            <th class="col-lg-3 text-center">Supplier</th>
-                            <th class="col-lg-1 text-center">Unit Price</th>
-                            <th class="col-lg-1 text-center">Quantity</th>
-                            <th class="col-lg-2 text-center">Unit of Measure</th>
-                            <th class="col-lg-3 text-center"class="col-lg-1 text-center">Total Price</th>
-                            </thead>
-                            <tbody>
-                                <?php if (isset($products) and $products): ?>                   
-                                    <?php foreach ($products as $product): ?>
-                                        <?php $p_suppliers = getModel('supplier')->getProductSuppliers($product['product_id']);?>
-                                        <?php $base_unit = $product['product_weight_unit'];
-                                              $units = getModel('uom')->getConvertibleUnits($base_unit);
-                                              $u = getModel('uom')->load($product['product_weight_unit']);
-                                              ?>
-                                        <tr>
-                                            <td class="text-center"><?php echo $product['product_id'] ?></td>
-                                            <td class="text-center"><?php echo $product['product_name'] ?></td>
-                                            <td class="text-center">
-                                                <select name="suppliers[<?php echo $product['product_id']?>]" class="form-control" style="margin:0;">
-                                                    <?php foreach($p_suppliers as $s):?>
-                                                    <option class="text-center" value="<?php echo $s['supplier_id']?>"><?php echo $s['supplier_name'];?></option>
-                                                    <?php endforeach;?>
-                                                </select>
-                                            </td>
-                                            <td class="text-center"><input type="text" data-actual-price = "<?php echo $product['product_unit_price']?>" name="unit_prices[<?php echo $product['product_id'] ?>]" readonly="" class="form-control unit_price text-center" value="<?php echo $product['product_unit_price']?>" style="margin:0" /> per <span class="unit_name"><?php echo $u['unit_symbol']?></span></td>
-                                            <td class="text-center"><input type="text" name="quantities[<?php echo $product['product_id'] ?>]" class="form-control quantity text-center" style="margin:0" onchange="UpdateTotalPrice(this)" value="0"/></td>
-                                            <td class="text-center">
-                                                <select name="units[<?php echo $product['product_id']?>]" class='form-control unit' style='margin:0' onchange="ChangeUnitPrice(this)">
-                                                    <?php if($units):?>
-                                                    <?php foreach($units as $unit):?>
-                                                    <?php $mul_factor = getModel('uom')->getMultiplierFactor($product['product_weight_unit'],$unit['weight_unit_id']); ?>
-                                                    <?php $con_factor = getModel('uom')->getConstantFactor($product['product_weight_unit'],$unit['weight_unit_id']); ?>
-                                                    <?php $u_n = getModel('uom')->getUnitSymbol($unit['weight_unit_id']);?>
-                                                    <option data-unit-name = "<?php echo $u_n?>" data-mul_factor="<?php echo $mul_factor?>" data-con_factor="<?php echo $con_factor?>" value='<?php echo $unit['weight_unit_id']?>'><?php echo $unit['unit_name'].' ( '.$unit['unit_symbol'].' )'?></option>
-                                                    <?php endforeach;?>
-                                                    <?php endif;?>
-                                                </select>
-                                            </td>
-                                            <td class="text-center"><input type="text" name="total_prices[<?php echo $product['product_id']?>]" value="" class="form-control text-center total_price"  onchange="UpdateUnitPrice(this)"/></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else:?>
-                                        <tr>
-                                            <td colspan="7" class="text-center">No Data Found</td>
-                                        </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+    <thead>
+    <th class="col-lg-1 text-center">Item ID</th>
+    <th class="col-lg-2 text-center">Item Name</th>
+    <th class="col-lg-3 text-center">Supplier</th>
+    <th class="col-lg-1 text-center">Unit Price</th>
+    <th class="col-lg-1 text-center">Quantity</th>
+    <th class="col-lg-2 text-center">Unit of Measure</th>
+    <th class="col-lg-3 text-center"class="col-lg-1 text-center">Total Price</th>
+</thead>
+<tbody>
+    <?php if (isset($products) and $products): ?>                   
+        <?php foreach ($products as $product): ?>
+            <?php $p_suppliers = getModel('supplier')->getProductSuppliers($product['product_id']); ?>
+            <?php
+            $base_unit = $product['product_weight_unit'];
+            $units = getModel('uom')->getConvertibleUnits($base_unit);
+            $u = getModel('uom')->load($product['product_weight_unit']);
+            ?>
+            <tr>
+                <td class="text-center"><?php echo $product['product_id'] ?></td>
+                <td class="text-center"><?php echo $product['product_name'] ?></td>
+                <td class="text-center">
+                    <select name="suppliers[<?php echo $product['product_id'] ?>]" class="form-control" style="margin:0;">
+                        <?php foreach ($p_suppliers as $s): ?>
+                            <option class="text-center" value="<?php echo $s['supplier_id'] ?>"><?php echo $s['supplier_name']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+                <td class="text-center"><input type="text" data-actual-price = "<?php echo $product['product_unit_price'] ?>" name="unit_prices[<?php echo $product['product_id'] ?>]" readonly="" class="form-control unit_price text-center" value="<?php echo $product['product_unit_price'] ?>" style="margin:0" /> per <span class="unit_name"><?php echo $u['unit_symbol'] ?></span></td>
+                <td class="text-center"><input type="text" name="quantities[<?php echo $product['product_id'] ?>]" class="form-control quantity text-center" style="margin:0" onchange="UpdateTotalPrice(this)" value="0"/></td>
+                <td class="text-center">
+                    <select name="units[<?php echo $product['product_id'] ?>]" class='form-control unit' style='margin:0' onchange="ChangeUnitPrice(this)">
+                        <?php if ($units): ?>
+                            <?php foreach ($units as $unit): ?>
+                                <?php $mul_factor = getModel('uom')->getMultiplierFactor($product['product_weight_unit'], $unit['weight_unit_id']); ?>
+                                <?php $con_factor = getModel('uom')->getConstantFactor($product['product_weight_unit'], $unit['weight_unit_id']); ?>
+                                <?php $u_n = getModel('uom')->getUnitSymbol($unit['weight_unit_id']); ?>
+                                <option data-unit-name = "<?php echo $u_n ?>" data-mul_factor="<?php echo $mul_factor ?>" data-con_factor="<?php echo $con_factor ?>" value='<?php echo $unit['weight_unit_id'] ?>'><?php echo $unit['unit_name'] . ' ( ' . $unit['unit_symbol'] . ' )' ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </td>
+                <td class="text-center"><input type="text" name="total_prices[<?php echo $product['product_id'] ?>]" value="" class="form-control text-center total_price"  onchange="UpdateUnitPrice(this)"/></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="7" class="text-center">No Data Found</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
+</table>

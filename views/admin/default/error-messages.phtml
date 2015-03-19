@@ -1,13 +1,12 @@
 <div class="row">
-<?php
-foreach($_SESSION['error'] as $key => $msg):?>
-<div class="col-lg-12">
-<div class="alert alert-danger alert-dismissable">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-	<i class="glyphicon glyphicon-remove"></i>
-	<?php echo $msg;?>
-</div>
-</div>
-<?php unset($_SESSION['error'][$key]);?>
-<?php endforeach;?>
+    <?php foreach ($_SESSION['error'] as $key => $msg): ?>
+        <div class="col-lg-12">
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <i class="glyphicon glyphicon-remove"></i>
+                <?php echo $msg; ?>
+            </div>
+        </div>
+        <?php unset($_SESSION['error'][$key]); ?>
+    <?php endforeach; ?>
 </div>

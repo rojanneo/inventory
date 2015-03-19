@@ -1,4 +1,5 @@
 <?php
+
 class StockController extends Controller
 {
 	public function __construct()

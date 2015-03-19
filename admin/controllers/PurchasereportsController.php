@@ -36,39 +36,24 @@ class PurchasereportsController extends Controller {
                 $dates = $this->getThisWeekDateRange();
             } else if ($period == 2) {
                 $dates = $this->getLastWeekDateRange();
-            }
-            else if($period == 3)
-            {
+            } else if ($period == 3) {
                 $dates = $this->getThisMonthDateRange();
-            }
-            else if($period == 4)
-            {
+            } else if ($period == 4) {
                 $dates = $this->getLastMonthDateRange();
-            }
-            else if($period == 5)
-            {
+            } else if ($period == 5) {
                 $dates = $this->getThreeMonthsDateRange();
-            }
-            else if($period == 6)
-            {
+            } else if ($period == 6) {
                 $dates = $this->getSixMonthsDateRange();
-            }
-            else if($period == 7)
-            {
+            } else if ($period == 7) {
                 $dates = $this->getThisYearDateRange();
-            }
-            else if($period == 8)
-            {
+            } else if ($period == 8) {
                 $dates = $this->getLastYearDateRange();
-            }
-            else
-            {
+            } else {
                 $dates['start'] = '1992-02-19';
                 $dates['end'] = '3000-01-01';
             }
             $data['start_date'] = $dates['start'];
             $data['end_date'] = $dates['end'];
-            
         } else if (isset($post_data['date_from']) and $post_data['date_to']) {
             $data['start_date'] = $post_data['date_from'];
             $data['end_date'] = $post_data['date_to'];
@@ -77,8 +62,8 @@ class PurchasereportsController extends Controller {
             $data['end_date'] = '3000-01-01';
         }
         $report_data['reports'] = getModel('purchasereport')->generateReport($data);
-        
-        $this->view->renderAdmin('reports/purchase/report.phtml',$report_data);
+
+        $this->view->renderAdmin('reports/purchase/report.phtml', $report_data);
     }
 
     function getThisYearDateRange() {
@@ -123,7 +108,7 @@ class PurchasereportsController extends Controller {
 
     public function getThisMonthDateRange() {
         $data['start'] = date("Y-m-01");
-        $data['end'] = date('Y-m-d',strtotime('last day of this month'));
+        $data['end'] = date('Y-m-d', strtotime('last day of this month'));
         return $data;
     }
 

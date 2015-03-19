@@ -1,3 +1,3 @@
-		 $(window).load(function(){
-      $("#top-wrap").sticky();
-    });
+$(window).load(function () {
+    $("#top-wrap").sticky();
+});

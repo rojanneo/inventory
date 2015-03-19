@@ -141,15 +141,15 @@
                         <?php endforeach; ?>
                     </ul>
 
-                <!-- 				<form method="post" action = "<?php echo ADMIN_URL . 'rabbits/wean/' . $rabbit['product_id'] ?>">
-                                                        <div class="input-box">
-                                                                <label>Number of Bucks</label>
-                                                                <input type="number" name="no_of_bucks"/>
-                                                                <input type="submit" value="Wean"/>	
-                                                        </div>
-                                                </form>
-                <!--	<a href="<?php echo ADMIN_URL . 'rabbits/wean/' . $rabbit['product_id'] ?>">Yes</a>
-                        <a href="#">No</a>-->
+                                                <!-- 				<form method="post" action = "<?php echo ADMIN_URL . 'rabbits/wean/' . $rabbit['product_id'] ?>">
+                                                                                        <div class="input-box">
+                                                                                                <label>Number of Bucks</label>
+                                                                                                <input type="number" name="no_of_bucks"/>
+                                                                                                <input type="submit" value="Wean"/>	
+                                                                                        </div>
+                                                                                </form>
+                                                <!--	<a href="<?php echo ADMIN_URL . 'rabbits/wean/' . $rabbit['product_id'] ?>">Yes</a>
+                                                        <a href="#">No</a>-->
                 <?php elseif (!isset($rabbit['rabbit_latest_weaning_date']) or ! $rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21): ?>
                     <div class="status"><h3>We have to wait for <?php echo (21 - $wean_diff) ?> to <?php echo (28 - $wean_diff) ?> days for weaning</h3></div>
                     <?php $litters = getModel('litter')->getWeaningCollection($rabbit['product_id']); ?>
@@ -244,14 +244,14 @@
                     <ul>
                         <?php foreach ($rabbits as $r_id): ?>
                             <?php $ra = getModel('rabbit')->load($r_id['rabbit_id']); ?>
-                            <?php if($ra['is_dead'] != 1):?>
-                            <li>
-                                <p><?php echo $ra['product_name']; ?></p>
-                            </li>
-                                                     <div class="death" id="<?php echo $ra['product_id'];?>">
-        <p>Is rabbit Dead:</p><input type="checkbox"/>
-    </div>
-<?php endif;?>
+                            <?php if ($ra['is_dead'] != 1): ?>
+                                <li>
+                                    <p><?php echo $ra['product_name']; ?></p>
+                                </li>
+                                <div class="death" id="<?php echo $ra['product_id']; ?>">
+                                    <p>Is rabbit Dead:</p><input type="checkbox"/>
+                                </div>
+                            <?php endif; ?>
                         <?php endforeach; ?>
 
                     </ul>
@@ -326,11 +326,11 @@
             <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>
-    <?php if(!isset($cull_diff)):?>
-    <div class="death">
-        <p>Is rabbit Dead:</p><input type="checkbox"/>
-    </div>
-<?php endif;?>
+    <?php if (!isset($cull_diff)): ?>
+        <div class="death">
+            <p>Is rabbit Dead:</p><input type="checkbox"/>
+        </div>
+    <?php endif; ?>
     <a class='ajax' href="<?php echo ADMIN_URL . 'rabbits/deathActions/' . $rabbit_id ?>" style="display:none">Actions</a>
     <a class='still_birth_ajax' href="<?php echo ADMIN_URL . 'rabbits/stillbirth/' . $rabbit_id ?>" style="display:none">Actions</a>
     <script type="text/javascript">
@@ -339,13 +339,13 @@
             $('.still_birth_ajax').colorbox({width: "50%", height: "auto"});
             $('.death').click(function () {
                 var id = $(this).attr('id');
-                if(id)
+                if (id)
                 {
-                var qr = '?id='+id;
-                //alert(qr);
-                var href = '<?php echo ADMIN_URL.'rabbits/deathActions/'?>'+qr;
-                $(this).parent().parent().find('a.ajax').attr('href',href);
-            }
+                    var qr = '?id=' + id;
+                    //alert(qr);
+                    var href = '<?php echo ADMIN_URL . 'rabbits/deathActions/' ?>' + qr;
+                    $(this).parent().parent().find('a.ajax').attr('href', href);
+                }
                 $(this).parent().parent().find('a.ajax').trigger("click");
             });
 

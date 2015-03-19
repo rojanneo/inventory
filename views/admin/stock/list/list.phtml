@@ -16,30 +16,30 @@
     </div>
 </div>
 <div class="row">
-<div class='col-lg-4' id='stock-list'>
+    <div class='col-lg-4' id='stock-list'>
 
-</div>
+    </div>
 </div>
 <script>
     function LoadStockList(val)
     {
-       if(val == 1)
-       {
-           $('#stock-list').load('<?php echo ADMIN_URL.'stock/getCategoryList/'?>');
-       }
-       else if(val == 2)
-       {
-           $('#stock-list').load('<?php echo ADMIN_URL.'stock/getSupplierList/'?>');
-       }
-       else
-       {
-           $('#stock-list').load('<?php echo ADMIN_URL.'stock/getCompleteList/'?>');
-       }
+        if (val == 1)
+        {
+            $('#stock-list').load('<?php echo ADMIN_URL . 'stock/getCategoryList/' ?>');
+        }
+        else if (val == 2)
+        {
+            $('#stock-list').load('<?php echo ADMIN_URL . 'stock/getSupplierList/' ?>');
+        }
+        else
+        {
+            $('#stock-list').load('<?php echo ADMIN_URL . 'stock/getCompleteList/' ?>');
+        }
 
     }
-    
-    $(document).ready(function(){
+
+    $(document).ready(function () {
         LoadStockList(0);
     });
-    
+
 </script>

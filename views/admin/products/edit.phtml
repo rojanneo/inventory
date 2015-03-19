@@ -1,176 +1,176 @@
-<?php addJS('jquery.ui.js');?>
+<?php addJS('jquery.ui.js'); ?>
 <div id="edit" class="main-body">
-	<h3>Edit Product</h3>
-	<?php if($product['daily_use_quantity']):?>
-	<?php $dq = $product['daily_use_quantity'];?>
-	<?php else:?>
-	<?php $dq = null;?>
-	<?php endif;?>
-<div id="tabs">
-	<ul>
-		<li><a href="#General">General</a></li>
-		<li><a href="#Attribute">Attribute</a></li>
-		<li><a href="#Categories">Categories</a></li>
-	</ul>
+    <h3>Edit Product</h3>
+    <?php if ($product['daily_use_quantity']): ?>
+        <?php $dq = $product['daily_use_quantity']; ?>
+    <?php else: ?>
+        <?php $dq = null; ?>
+    <?php endif; ?>
+    <div id="tabs">
+        <ul>
+            <li><a href="#General">General</a></li>
+            <li><a href="#Attribute">Attribute</a></li>
+            <li><a href="#Categories">Categories</a></li>
+        </ul>
 
-	<form class="tabContainer" method="post" action="<?php echo ADMIN_URL.'products/editpost'?>">
-	<div id="General">
-		<input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
+        <form class="tabContainer" method="post" action="<?php echo ADMIN_URL . 'products/editpost' ?>">
+            <div id="General">
+                <input type="hidden" name="product_id" value="<?php echo $product['product_id'] ?>"/>
 
-		<div class="input-box">
-		<label>Product Name</label>
-		<input type="text" name="product_name" value="<?php echo $product['product_name']?>"/>
-		</div>
+                <div class="input-box">
+                    <label>Product Name</label>
+                    <input type="text" name="product_name" value="<?php echo $product['product_name'] ?>"/>
+                </div>
 
 
-		<div class="input-box">
-		<label>SKU</label>
-		<input type="text" name="product_sku" value="<?php echo $product['product_sku']?>"/>
-		</div>
-		<div class="input-box">
-		<label>Quantity</label>
-		<input type="number" name="product_quantity" value="<?php echo $product['product_quantity']?>"/>
-		</div>
+                <div class="input-box">
+                    <label>SKU</label>
+                    <input type="text" name="product_sku" value="<?php echo $product['product_sku'] ?>"/>
+                </div>
+                <div class="input-box">
+                    <label>Quantity</label>
+                    <input type="number" name="product_quantity" value="<?php echo $product['product_quantity'] ?>"/>
+                </div>
 
-		<div class="input-box">
-		<label>In Stock</label>
-		<select name="in_stock">
-			<option value="0" <?php echo ($product['in_stock'] == 0)?'selected':null?>>No</option>
-			<option value="1" <?php echo ($product['in_stock'] == 1)?'selected':null?>>Yes</option>
-		</select>
-		</div>
+                <div class="input-box">
+                    <label>In Stock</label>
+                    <select name="in_stock">
+                        <option value="0" <?php echo ($product['in_stock'] == 0) ? 'selected' : null ?>>No</option>
+                        <option value="1" <?php echo ($product['in_stock'] == 1) ? 'selected' : null ?>>Yes</option>
+                    </select>
+                </div>
 
-		<div class="input-box">
-		<label>Unit Price</label>
-		<input type="text" name="unit_price" value="<?php echo $product['unit_price']?>"/>
-		</div>
+                <div class="input-box">
+                    <label>Unit Price</label>
+                    <input type="text" name="unit_price" value="<?php echo $product['unit_price'] ?>"/>
+                </div>
 
-		<div class="input-box">
-		<label>Status</label>
-		<select name="status">
-			<option value="0" <?php echo ($product['status'] == 0)?'selected':null?>>Disabled</option>
-			<option value="1" <?php echo ($product['status'] == 1)?'selected':null?>>Enabled</option>
-		</select>
-		</div>
-		<!-- Only for simple products. TO CHANGE When you need configurable products-->
-		<input type="hidden" name="is_variation" value="0"/>
-		<div class="input-box">
-		<label>Created Date</label>
-		<input type="date" name="created_date" value="<?php echo date('Y-m-d')?>" value="<?php echo $product['created_date']?>"/>	
-		</div>
+                <div class="input-box">
+                    <label>Status</label>
+                    <select name="status">
+                        <option value="0" <?php echo ($product['status'] == 0) ? 'selected' : null ?>>Disabled</option>
+                        <option value="1" <?php echo ($product['status'] == 1) ? 'selected' : null ?>>Enabled</option>
+                    </select>
+                </div>
+                <!-- Only for simple products. TO CHANGE When you need configurable products-->
+                <input type="hidden" name="is_variation" value="0"/>
+                <div class="input-box">
+                    <label>Created Date</label>
+                    <input type="date" name="created_date" value="<?php echo date('Y-m-d') ?>" value="<?php echo $product['created_date'] ?>"/>	
+                </div>
 
-		<div class="input-box">
-		<label>Last Updated Date</label>
-		<input type="date" name="updated_date" value="<?php echo date('Y-m-d')?>" value="<?php echo $product['updated_date']?>" readonly/>
-		</div>
+                <div class="input-box">
+                    <label>Last Updated Date</label>
+                    <input type="date" name="updated_date" value="<?php echo date('Y-m-d') ?>" value="<?php echo $product['updated_date'] ?>" readonly/>
+                </div>
 
-		<div class="input-box">
-		<label>Product Type</label>
-		<select name="product_type">
-			<option value="in" <?php echo ($product['product_type'] == 'in')?'selected':null?>>In</option>
-			<option value="out" <?php echo ($product['product_type'] == 'out')?'selected':null?>>Out</option>
-		</select>
-		</div>
+                <div class="input-box">
+                    <label>Product Type</label>
+                    <select name="product_type">
+                        <option value="in" <?php echo ($product['product_type'] == 'in') ? 'selected' : null ?>>In</option>
+                        <option value="out" <?php echo ($product['product_type'] == 'out') ? 'selected' : null ?>>Out</option>
+                    </select>
+                </div>
 
-		<div class="input-box">
-		<label>Enabled for Daily Use</label>
-		<select name="daily_use_status">
-			<option value="0" <?php echo ($product['daily_use_status'] == 0)?'selected':null?>>No</option>
-			<option value="1" <?php echo ($product['daily_use_status'] == 1)?'selected':null?>>Yes</option>
-		</select>
-		</div>
+                <div class="input-box">
+                    <label>Enabled for Daily Use</label>
+                    <select name="daily_use_status">
+                        <option value="0" <?php echo ($product['daily_use_status'] == 0) ? 'selected' : null ?>>No</option>
+                        <option value="1" <?php echo ($product['daily_use_status'] == 1) ? 'selected' : null ?>>Yes</option>
+                    </select>
+                </div>
 
-		<div class="input-box">
-		<div class="daily_quantity">
-			<label>Quantity for Daily Use</label>
-			<?php if($dq):?>
-				<input type="text" name="daily_use_quantity" value="<?php echo $dq?>"/>
-			<?php endif;?>
-		</div>
-	</div>
-	</div>
-	<div id="Attribute">
-			<?php if(isset($attributes) and $attributes):?>
-			<?php foreach($attributes as $attribute):?>
-			<?php $attr = getModel('attribute')->load(array('AND', 'attribute_id'=>$attribute));?>
-			<?php if($attr):?>
-			<?php extract($attr);?>
-			<div class="input-box">
-			<label  <?php echo ($is_hidden)?'style="display:none"':null?>><?php echo $attribute_admin_label?></label>
-			<?php switch($attribute_type):?><?php case 'select':?>
-					<select name="attributes[<?php echo $attribute_code?>]" <?php echo ($is_hidden)?'style="display:none"':null?>>
-						<?php $options = getModel('attribute')->getOptions($attribute_id);?>
-						<?php foreach($options as $option):?>
-							<option value="<?php echo $option['id']?>" <?php echo (isset($product['attributes'][$attribute_code]) and strtolower($product['attributes'][$attribute_code]) == strtolower($option['value']))?'selected':null?>><?php echo $option['value']?></option>
-						<?php endforeach;?>
-					</select>
-					<?php break;?>
-				<?php case 'multiselect':?>
-					<select name="attributes[<?php echo $attribute_code?>]" multiple <?php echo (strtolower($product['attributes'][$attribute_code]) == strtolower($option['value']))?'selected':null?> <?php echo ($is_hidden)?'style="display:none"':null?>>
-						<?php $options = getModel('attribute')->getOptions($attribute_id);?>
-						<?php foreach($options as $option):?>
-							<option value="<?php echo $option['id']?>"><?php echo $option['value']?></option>
-						<?php endforeach;?>
-					</select>
-					<?php break;?>
-				<?php case 'date':?>
-					<input style="width:175px;" type="date" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>" <?php echo ($is_hidden)?'style="display:none"':null?>/>
-					<?php break;?>
-				<?php case 'text':?>
-					<input type="text" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>" <?php echo ($is_hidden)?'style="display:none"':null?>/>
-					<?php break;?>
-				<?php case 'number':?>
-					<input type="text" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>" <?php echo ($is_hidden)?'style="display:none"':null?>/>
-					<?php break;?>
-				<?php case 'number':?>
-					<input type="number" name="attributes[<?php echo $attribute_code?>]" value="<?php echo isset($product['attributes'][$attribute_code])?$product['attributes'][$attribute_code]:null?>" <?php echo ($is_hidden)?'style="display:none"':null?>/>
-					<?php break;?>
-			<?php endswitch;?>
-	</div>
-		<?php endif;?>
-		<?php endforeach;?>
-	<?php endif;?>
-	</div>
-	<div id="Categories">
-			<?php if(isset($categories) and $categories):?>
-		<?php $count = 0;?>
-		<?php foreach($categories as $category):?>
-			<?php extract($category);?>
-			<div class="input-box">
+                <div class="input-box">
+                    <div class="daily_quantity">
+                        <label>Quantity for Daily Use</label>
+                        <?php if ($dq): ?>
+                            <input type="text" name="daily_use_quantity" value="<?php echo $dq ?>"/>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <div id="Attribute">
+                <?php if (isset($attributes) and $attributes): ?>
+                    <?php foreach ($attributes as $attribute): ?>
+                        <?php $attr = getModel('attribute')->load(array('AND', 'attribute_id' => $attribute)); ?>
+                        <?php if ($attr): ?>
+                            <?php extract($attr); ?>
+                            <div class="input-box">
+                                <label  <?php echo ($is_hidden) ? 'style="display:none"' : null ?>><?php echo $attribute_admin_label ?></label>
+                                <?php switch ($attribute_type): ?><?php case 'select': ?>
+                                        <select name="attributes[<?php echo $attribute_code ?>]" <?php echo ($is_hidden) ? 'style="display:none"' : null ?>>
+                                            <?php $options = getModel('attribute')->getOptions($attribute_id); ?>
+                                            <?php foreach ($options as $option): ?>
+                                                <option value="<?php echo $option['id'] ?>" <?php echo (isset($product['attributes'][$attribute_code]) and strtolower($product['attributes'][$attribute_code]) == strtolower($option['value'])) ? 'selected' : null ?>><?php echo $option['value'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <?php break; ?>
+                                    <?php case 'multiselect': ?>
+                                        <select name="attributes[<?php echo $attribute_code ?>]" multiple <?php echo (strtolower($product['attributes'][$attribute_code]) == strtolower($option['value'])) ? 'selected' : null ?> <?php echo ($is_hidden) ? 'style="display:none"' : null ?>>
+                                            <?php $options = getModel('attribute')->getOptions($attribute_id); ?>
+                                            <?php foreach ($options as $option): ?>
+                                                <option value="<?php echo $option['id'] ?>"><?php echo $option['value'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <?php break; ?>
+                                    <?php case 'date': ?>
+                                        <input style="width:175px;" type="date" name="attributes[<?php echo $attribute_code ?>]" value="<?php echo isset($product['attributes'][$attribute_code]) ? $product['attributes'][$attribute_code] : null ?>" <?php echo ($is_hidden) ? 'style="display:none"' : null ?>/>
+                                        <?php break; ?>
+                                    <?php case 'text': ?>
+                                        <input type="text" name="attributes[<?php echo $attribute_code ?>]" value="<?php echo isset($product['attributes'][$attribute_code]) ? $product['attributes'][$attribute_code] : null ?>" <?php echo ($is_hidden) ? 'style="display:none"' : null ?>/>
+                                        <?php break; ?>
+                                    <?php case 'number': ?>
+                                        <input type="text" name="attributes[<?php echo $attribute_code ?>]" value="<?php echo isset($product['attributes'][$attribute_code]) ? $product['attributes'][$attribute_code] : null ?>" <?php echo ($is_hidden) ? 'style="display:none"' : null ?>/>
+                                        <?php break; ?>
+                                    <?php case 'number': ?>
+                                        <input type="number" name="attributes[<?php echo $attribute_code ?>]" value="<?php echo isset($product['attributes'][$attribute_code]) ? $product['attributes'][$attribute_code] : null ?>" <?php echo ($is_hidden) ? 'style="display:none"' : null ?>/>
+                                        <?php break; ?>
+                                <?php endswitch; ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            <div id="Categories">
+                <?php if (isset($categories) and $categories): ?>
+                    <?php $count = 0; ?>
+                    <?php foreach ($categories as $category): ?>
+                        <?php extract($category); ?>
+                        <div class="input-box">
 
-			<input type="checkbox" name="categories[<?php echo $count++?>]" value="<?php echo $category_id?>" <?php echo (isset($product['categories']) and in_array($category_id, $product['categories']))?'checked':null?>/>
-			<label><?php echo $category_name?></label>
-			</div>
-		<?php endforeach;?>
-	<?php endif;?>
-	</div>
-	<input class="save" type="submit" value="Save"/>
-	</form>
-</div>
+                            <input type="checkbox" name="categories[<?php echo $count++ ?>]" value="<?php echo $category_id ?>" <?php echo (isset($product['categories']) and in_array($category_id, $product['categories'])) ? 'checked' : null ?>/>
+                            <label><?php echo $category_name ?></label>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            <input class="save" type="submit" value="Save"/>
+        </form>
+    </div>
 </div><!--End edit-->
 
 
 <script>
-	$(function() {
-		$( "#tabs" ).tabs();
-	});
+    $(function () {
+        $("#tabs").tabs();
+    });
 </script>
 
 <script type="text/javascript">
-$('select[name=daily_use_status]').change(function(){
-	var value = $(this).val();
-	if(value == 1)
-	{
-		$('.daily_quantity').append('<input type="text" name="daily_use_quantity" value="<?php echo $dq?>"></input>');
-		$('.daily_quantity').show();
-	}
-	else
-	{
-		$('.daily_quantity').hide();
-		$('.daily_quantity input[name=daily_use_quantity]').remove();
-	}
-});
-var dq = <?php echo json_encode($dq)?>;
-if(dq == null)
-	$('.daily_quantity').hide();
+    $('select[name=daily_use_status]').change(function () {
+        var value = $(this).val();
+        if (value == 1)
+        {
+            $('.daily_quantity').append('<input type="text" name="daily_use_quantity" value="<?php echo $dq ?>"></input>');
+            $('.daily_quantity').show();
+        }
+        else
+        {
+            $('.daily_quantity').hide();
+            $('.daily_quantity input[name=daily_use_quantity]').remove();
+        }
+    });
+    var dq = <?php echo json_encode($dq) ?>;
+    if (dq == null)
+        $('.daily_quantity').hide();
 </script>

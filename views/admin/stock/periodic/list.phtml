@@ -1,5 +1,5 @@
-<?php AdminSession::showErrorMessages()?>
-<?php AdminSession::showSuccessMessages()?>
+<?php AdminSession::showErrorMessages() ?>
+<?php AdminSession::showSuccessMessages() ?>
 <div class="row">
     <div class="col-lg-12 text-center">
         <div class='page-header'>
@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class='col-lg-2 col-lg-offset-2'>
-        <a href='<?php echo ADMIN_URL.'stock/openperiodicstock'?>' class='btn btn-primary'>Close New Periodic Stock</a>
+        <a href='<?php echo ADMIN_URL . 'stock/openperiodicstock' ?>' class='btn btn-primary'>Close New Periodic Stock</a>
     </div>
     <div class='col-lg-8 col-lg-offset-2'>
         <div class='table-responsive'>
@@ -20,31 +20,31 @@
                 <th class='col-lg-2'>Action</th>
                 </thead>
                 <tbody>
-                    <?php if(isset($periodic_stocks) and $periodic_stocks):?>
-                    <?php foreach($periodic_stocks as $stock):?>
-                    <?php $stockPeriod = getModel('stockperiod')->loadbyPeriodNumber($stock['period']);?>
-                    <?php if($stockPeriod):?>
-                    <tr>
-                        <td><?php echo $stock['year'];?></td>
-                        <td><?php echo $stock['period'];?></td>
-                        <td><?php echo date('F d, Y',strtotime($stockPeriod['period_start_date'])).' to '.date('F d, Y',strtotime($stockPeriod['period_end_date']));?></td>
-                        <td><?php echo $stock['status'];?></td>
-                        <td><a href='<?php echo ADMIN_URL.'stock/view/?period='.$stock['period'].'&year='.$stock['year']?>'>View</a></td>
-                    </tr>
-                    <?php else:?>
-                    <tr>
-                        <td colspan='4'>No Periodic Closing Stock Found</td>
-                    </tr>
-                    <?php endif;?>
-                    <?php endforeach;?>
-                    <?php else:?>       
-                    <tr>
-                        <td colspan='4'>No Periodic Closing Stock Found</td>
-                    </tr>
+                    <?php if (isset($periodic_stocks) and $periodic_stocks): ?>
+                        <?php foreach ($periodic_stocks as $stock): ?>
+                            <?php $stockPeriod = getModel('stockperiod')->loadbyPeriodNumber($stock['period']); ?>
+                            <?php if ($stockPeriod): ?>
+                                <tr>
+                                    <td><?php echo $stock['year']; ?></td>
+                                    <td><?php echo $stock['period']; ?></td>
+                                    <td><?php echo date('F d, Y', strtotime($stockPeriod['period_start_date'])) . ' to ' . date('F d, Y', strtotime($stockPeriod['period_end_date'])); ?></td>
+                                    <td><?php echo $stock['status']; ?></td>
+                                    <td><a href='<?php echo ADMIN_URL . 'stock/view/?period=' . $stock['period'] . '&year=' . $stock['year'] ?>'>View</a></td>
+                                </tr>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan='4'>No Periodic Closing Stock Found</td>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>       
+                        <tr>
+                            <td colspan='4'>No Periodic Closing Stock Found</td>
+                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
-                    
+
         </div>
     </div>
 </div>

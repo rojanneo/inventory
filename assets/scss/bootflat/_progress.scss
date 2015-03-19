@@ -12,31 +12,31 @@ $progress-background-color:        $lightgray-dark !default;
 //------------------------------------------------------
 @include exports("progress") {
 
-  /**
-   * progress
-   * --------------------------------------------------
-   */
-  .progress {
-      background-color: $progress-background-color;
-      @include box-shadow($value: none);
-
-      &-bar {
-        background-color: $progress-primary;
+    /**
+     * progress
+     * --------------------------------------------------
+     */
+    .progress {
+        background-color: $progress-background-color;
         @include box-shadow($value: none);
-      }
-      &-bar-success {
-        background-color: $progress-success;
-      }
-      &-bar-info {
-        background-color: $progress-info;
-      }
-      &-bar-warning {
-        background-color: $progress-warning;
-      }
-      &-bar-danger {
-        background-color: $progress-danger;
-      }
-  }
+
+        &-bar {
+            background-color: $progress-primary;
+            @include box-shadow($value: none);
+        }
+        &-bar-success {
+            background-color: $progress-success;
+        }
+        &-bar-info {
+            background-color: $progress-info;
+        }
+        &-bar-warning {
+            background-color: $progress-warning;
+        }
+        &-bar-danger {
+            background-color: $progress-danger;
+        }
+    }
 }
 
 

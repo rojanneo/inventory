@@ -1,51 +1,51 @@
 <div class="row">
-<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-<div class="well">
-<form method="post" action="<?php echo (isset($supplier) and $supplier)?ADMIN_URL.'suppliers/editpost':ADMIN_URL.'suppliers/newpost'?>">
-<?php if(isset($supplier) and $supplier):?>
-    <input type="hidden" name="supplier_id" value="<?php echo $supplier['supplier_id']?>"/>
-<?php endif;?>
-    <fieldset>
-	<div class="row">
-		<div class="col-lg-12">
-		<label for="supplier_name">Supplier Name</label>
-                <input type="text" name="supplier_name" class="form-control required" value="<?php echo (isset($supplier) and $supplier)?$supplier['supplier_name']:null?>"/>
-		</div>
-	</div>
-        <div class="row">
-		<div class="col-lg-12">
-		<label for="supplier_status">Status</label>
-                    <select name="supplier_status" class="required" style="width: 100%;height: 35px;border-radius: 5px;width: 100%;margin:0">
-                        <option value="0"  <?php echo (isset($supplier) and $supplier and $supplier['is_active'] == 0)?'selected':null?>>InActive</option>
-                        <option value="1" <?php echo (isset($supplier) and $supplier and $supplier['is_active'] == 1)?'selected':null?>>Active</option>
-                    </select>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12">
-		<label for="supplier_address">Supplier Address</label>
-		<input type="text" class="form-control required" name="supplier_address" value="<?php echo (isset($supplier) and $supplier)?$supplier['supplier_address']:null?>"/>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12">
-		<label for="supplier_email">Supplier Email</label>
-		<input type="text" class="form-control required" name="supplier_email" value="<?php echo (isset($supplier) and $supplier)?$supplier['supplier_email']:null?>"/>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12">
-		<label for="supplier_phone">Supplier Phone</label>
-		<input type="text" class="form-control required" name="supplier_phone" value="<?php echo (isset($supplier) and $supplier)?$supplier['supplier_phone']:null?>"/>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12 text-right">
-		<input type="submit" class="btn btn-primary" value="Save Supplier"/>
-		</div>
-	</div>
-</fieldset>
-</form>
-</div>
-</div>
+    <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="well">
+            <form method="post" action="<?php echo (isset($supplier) and $supplier) ? ADMIN_URL . 'suppliers/editpost' : ADMIN_URL . 'suppliers/newpost' ?>">
+                <?php if (isset($supplier) and $supplier): ?>
+                    <input type="hidden" name="supplier_id" value="<?php echo $supplier['supplier_id'] ?>"/>
+                <?php endif; ?>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="supplier_name">Supplier Name</label>
+                            <input type="text" name="supplier_name" class="form-control required" value="<?php echo (isset($supplier) and $supplier) ? $supplier['supplier_name'] : null ?>"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="supplier_status">Status</label>
+                            <select name="supplier_status" class="required" style="width: 100%;height: 35px;border-radius: 5px;width: 100%;margin:0">
+                                <option value="0"  <?php echo (isset($supplier) and $supplier and $supplier['is_active'] == 0) ? 'selected' : null ?>>InActive</option>
+                                <option value="1" <?php echo (isset($supplier) and $supplier and $supplier['is_active'] == 1) ? 'selected' : null ?>>Active</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="supplier_address">Supplier Address</label>
+                            <input type="text" class="form-control required" name="supplier_address" value="<?php echo (isset($supplier) and $supplier) ? $supplier['supplier_address'] : null ?>"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="supplier_email">Supplier Email</label>
+                            <input type="text" class="form-control required" name="supplier_email" value="<?php echo (isset($supplier) and $supplier) ? $supplier['supplier_email'] : null ?>"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="supplier_phone">Supplier Phone</label>
+                            <input type="text" class="form-control required" name="supplier_phone" value="<?php echo (isset($supplier) and $supplier) ? $supplier['supplier_phone'] : null ?>"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 text-right">
+                            <input type="submit" class="btn btn-primary" value="Save Supplier"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>

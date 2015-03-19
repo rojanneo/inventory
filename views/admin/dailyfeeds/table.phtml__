@@ -1,72 +1,72 @@
 <style>
-td input{margin:0;}
+    td input{margin:0;}
 </style>
 
 
 	<?php $products = getModel('product')->getCollection(array('daily_use_status'=>'1'));?>
 	<?php $count = 0;?>
 	<?php foreach($products as $product):?>
-		<h3><?php echo $product['product_name'];?></h3>
+<h3><?php echo $product['product_name'];?></h3>
 		<?php $weight_groups = getModel('weightgroup')->getCollection();?>
 		<?php $count = 0;?>
 		<?php if(isset($dailyfeeds[$product['product_id']])):?>
 			<?php  //echo'<pre>';var_dump($dailyfeeds[$product['product_id']][1]);die;?>
-			<form method="post" action="<?php echo ADMIN_URL.'dailyfeeds/updateDailyFeed'?>">
-			<input type="hidden" name="update" value="update"/>
-			<input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
-			<table>
-			<thead>
-			<th></th>
+<form method="post" action="<?php echo ADMIN_URL.'dailyfeeds/updateDailyFeed'?>">
+    <input type="hidden" name="update" value="update"/>
+    <input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
+    <table>
+        <thead>
+        <th></th>
 			<?php foreach($weight_groups as $wg):?>
-				<th><?php echo $wg['name'];?></th>
+        <th><?php echo $wg['name'];?></th>
 			<?php endforeach;?>
-			</thead>
-			<tbody>
+        </thead>
+        <tbody>
 			<?php foreach($feeding_groups as $fg):?>
-			<tr>
-			<input type="hidden" name="feeding_group[]" value="<?php echo $fg['id']?>"/>
-			<th>
+            <tr>
+        <input type="hidden" name="feeding_group[]" value="<?php echo $fg['id']?>"/>
+        <th>
 			<?php echo $fg['value'];?>
-			</th>
+        </th>
 			<?php foreach($weight_groups as $wg):?>
-				<td>
-				<input type="hidden" name="daily_feed_id[<?php echo $fg['id']?>][<?php echo $wg['id']?>]" value="<?php echo $dailyfeeds[$product['product_id']][$count]['daily_feed_id']?>"/>
-				<input type="text" name="weight_group[<?php echo $fg['id']?>][<?php echo$wg['id']?>]" value="<?php echo $dailyfeeds[$product['product_id']][$count++]['quantity']?>"/>
-				</td>
+        <td>
+            <input type="hidden" name="daily_feed_id[<?php echo $fg['id']?>][<?php echo $wg['id']?>]" value="<?php echo $dailyfeeds[$product['product_id']][$count]['daily_feed_id']?>"/>
+            <input type="text" name="weight_group[<?php echo $fg['id']?>][<?php echo$wg['id']?>]" value="<?php echo $dailyfeeds[$product['product_id']][$count++]['quantity']?>"/>
+        </td>
 			<?php endforeach;?>
-			</tr>
+        </tr>
 			<?php endforeach;?>
-			</tbody>
-			</table>
-			<input type="submit" value="Save"/>
-			</form>
+        </tbody>
+    </table>
+    <input type="submit" value="Save"/>
+</form>
 		<?php else:?>
-			<form method="post" action="<?php echo ADMIN_URL.'dailyfeeds/updateDailyFeed'?>">
-			<input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
-			<table>
-			<thead>
-			<th></th>
+<form method="post" action="<?php echo ADMIN_URL.'dailyfeeds/updateDailyFeed'?>">
+    <input type="hidden" name="product_id" value="<?php echo $product['product_id']?>"/>
+    <table>
+        <thead>
+        <th></th>
 			<?php foreach($weight_groups as $wg):?>
-				<th><?php echo $wg['name'];?></th>
+        <th><?php echo $wg['name'];?></th>
 			<?php endforeach;?>
-			</thead>
-			<tbody>
+        </thead>
+        <tbody>
 			<?php foreach($feeding_groups as $fg):?>
-			<tr>
-			<input type="hidden" name="feeding_group[]" value="<?php echo $fg['id']?>"/>
-			<th>
+            <tr>
+        <input type="hidden" name="feeding_group[]" value="<?php echo $fg['id']?>"/>
+        <th>
 			<?php echo $fg['value'];?>
-			</th>
+        </th>
 			<?php foreach($weight_groups as $wg):?>
-				<td>
-				<input type="text" name="weight_group[<?php echo $fg['id']?>][<?php echo$wg['id']?>]"/>
-				</td>
+        <td>
+            <input type="text" name="weight_group[<?php echo $fg['id']?>][<?php echo$wg['id']?>]"/>
+        </td>
 			<?php endforeach;?>
-			</tr>
+        </tr>
 			<?php endforeach;?>
-			</tbody>
-			</table>
-			<input type="submit" value="Save"/>
-			</form>
+        </tbody>
+    </table>
+    <input type="submit" value="Save"/>
+</form>
 		<?php endif;?>
 	<?php endforeach;?>

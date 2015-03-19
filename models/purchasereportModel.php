@@ -11,21 +11,23 @@
  *
  * @author Neo
  */
-class purchasereportModel extends Model{
+class purchasereportModel extends Model {
+
     public function __construct() {
         parent::__construct();
     }
-    
-    public function generateReport($data = false)
-    {
-        if($data)
-        {
+
+    public function generateReport($data = false) {
+        if ($data) {
             extract($data);
-            $sql = "CALL po('".$category."','".$supplier."','".$start_date."','".$end_date."','".$realtime."', '".$status_code."')";            
+            $sql = "CALL po('" . $category . "','" . $supplier . "','" . $start_date . "','" . $end_date . "','" . $realtime . "', '" . $status_code . "')";
             $report = $this->connection->Query($sql);
-            if($report) return $report;
-            else return false;
-        }
-        else return false;
+            if ($report)
+                return $report;
+            else
+                return false;
+        } else
+            return false;
     }
+
 }

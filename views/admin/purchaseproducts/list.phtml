@@ -1,5 +1,5 @@
-<?php AdminSession::showSuccessMessages();?>
-<?php AdminSession::showSuccessMessages();?>
+<?php AdminSession::showSuccessMessages(); ?>
+<?php AdminSession::showSuccessMessages(); ?>
 <div class="row">
     <div class="col-lg-12 text-center">
         <div class="page-header">
@@ -14,22 +14,22 @@
                 <select id="suppliers" class="form-control" style="margin:0" onchange="FilterProducts()">
                     <option value="" selected disabled>Suppliers</option>
                     <option value="-1">All</option>
-                    <?php if(isset($suppliers) and $suppliers):?>
-                        <?php foreach($suppliers as $supplier):?>
-                    <option value="<?php echo $supplier['supplier_id']?>"><?php echo $supplier['supplier_name'];?></option>
-                        <?php endforeach;?>
-                    <?php endif;?>
+                    <?php if (isset($suppliers) and $suppliers): ?>
+                        <?php foreach ($suppliers as $supplier): ?>
+                            <option value="<?php echo $supplier['supplier_id'] ?>"><?php echo $supplier['supplier_name']; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="col-lg-3">
                 <select id="categories" class="form-control" style="margin:0" onchange="FilterProducts()"> 
                     <option value="" selected disabled>Categories</option>
                     <option value="-1">All</option>
-                    <?php if(isset($categories) and $categories):?>
-                        <?php foreach($categories as $category):?>
-                    <option value="<?php echo $category['category_id']?>"><?php echo $category['name'];?></option>
-                        <?php endforeach;?>
-                    <?php endif;?>
+                    <?php if (isset($categories) and $categories): ?>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?php echo $category['category_id'] ?>"><?php echo $category['name']; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="col-lg-3">
@@ -41,7 +41,7 @@
                 </select>
             </div>
             <div class="col-lg-3">
-                <a href="<?php echo ADMIN_URL.'purchaseproducts/new'?>" class="btn btn-primary">New Item</a>
+                <a href="<?php echo ADMIN_URL . 'purchaseproducts/new' ?>" class="btn btn-primary">New Item</a>
             </div>
         </div>
     </div>
@@ -55,21 +55,21 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-       $('#purchase-products').load('<?php echo ADMIN_URL.'purchaseproducts/getProducts'?>');
+    $(document).ready(function () {
+        $('#purchase-products').load('<?php echo ADMIN_URL . 'purchaseproducts/getProducts' ?>');
     });
-    
+
     function FilterProducts()
     {
         var supplier = $('#suppliers').val();
         var category = $('#categories').val();
         var status = $('#status').val();
-        
+
         $.ajax({
-            url:'<?php echo ADMIN_URL.'purchaseproducts/getProducts'?>',
-            method:'POST',
-            data:{'supplier':supplier,'category':category, 'status':status},
-            success:function(response){
+            url: '<?php echo ADMIN_URL . 'purchaseproducts/getProducts' ?>',
+            method: 'POST',
+            data: {'supplier': supplier, 'category': category, 'status': status},
+            success: function (response) {
                 $('#purchase-products').html(response);
             }
         });
@@ -84,7 +84,7 @@
 //        //console.log(filters);
 //        
 //        $.ajax({
-//            url:'<?php echo ADMIN_URL.'suppliers/filterSuppliers'?>',
+//            url:'<?php echo ADMIN_URL . 'suppliers/filterSuppliers' ?>',
 //            method:"post",
 //            data:filters,
 //            success:function(response)

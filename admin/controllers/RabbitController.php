@@ -1,152 +1,125 @@
 <?php
 
-class RabbitController extends Controller
-{
-	public function __construct()
-	{
-		parent::__construct();
-	}
+class RabbitController extends Controller {
 
-	public function indexAction()
-	{
-		$this->view->renderAdmin('rabbit/landing.phtml');
-	}
+    public function __construct() {
+        parent::__construct();
+    }
 
-	public function searchAction()
-	{
-		loadHelper('inputs');
-		$rabbit_id_query = getParam('query');
-		if(is_numeric($rabbit_id_query)) 
-		{
-			$rabbit = getModel("rabbit")->load($rabbit_id_query);
-			if($rabbit) 
-			{
-				$data['rabbit'] = $rabbit;
-                                $data['sick_reasons'] = getModel('rabbit')->getSickReasons();
-                                $data['death_reasons'] = getModel('rabbit')->getDeathReasons();
-                                $data['shifting_reasons'] = getModel('rabbit')->getShiftingReasons();
-				$this->view->renderAdmin('rabbit/rabbit.phtml', $data, false, false,false);
-			}
-			else echo 'No Rabbit with that ID exists';
-		}
-	}
-        
-        public function sickAction()
-        {
-            loadHelper('inputs');
-            $data = getPost();
-            if(!isset($data['sick_reason_id']))
-            {
-                echo '<p>Select a Reason</p>';
-            }
-            elseif(($data['sick_from'])== "")
-            {
-                echo '<p>Select Sick Date</p>';
-            }
-            else
-            {
-                $rabbit_id = $data['rabbit_id'];
-                $sick_reason_id = $data['sick_reason_id'];
-                $sick_from = $data['sick_from'];
-                if($sick_reason_id == -1)
-                {
-                    $reason = $data['sick_reason'];
-                    $reason_description = $data['sick_reason_desc'];
-                    $sick_reason_id = getModel('rabbit')->addSickReason($reason,$reason_description);
-                }
-                getModel('product')->updateDefaultAttribute($rabbit_id,'is_sick','1');
-                getModel('rabbit')->sick($rabbit_id,$sick_from,$sick_reason_id);
-                $arr = array();
-                $arr['identifier'] = '#sick_rabbit_count';
-                $arr['html'] = getModel('rabbit')->getSickRabbitCount();;
-                echo json_encode($arr);
-            }
-        }
-        
-        
-        public function deathAction()
-        {
-            loadHelper('inputs');
-            $data = getPost();
-            if(!isset($data['death_reason_id']))
-            {
-                echo '<p>Select a Reason</p>';
-            }
-            elseif(($data['dead_on'])== "")
-            {
-                echo '<p>Select Death Date</p>';
-            }
-            else
-            {
-                $rabbit_id = $data['rabbit_id'];
-                $death_reason_id = $data['death_reason_id'];
-                $death_on = $data['dead_on'];
-                if($death_reason_id == -1)
-                {
-                    $reason = $data['death_reason'];
-                    $reason_description = $data['death_reason_desc'];
-                    $death_reason_id = getModel('rabbit')->addDeathReason($reason,$reason_description);
-                }
-                getModel('product')->updateDefaultAttribute($rabbit_id,'is_dead','1');
-                getModel('rabbit')->dead($rabbit_id,$death_on,$death_reason_id);
-                $arr = array();
-                $arr['identifier'] = '#dead_rabbit_count';
-                $arr['html'] = getModel('rabbit')->getDeadRabbitCount();;
-                echo json_encode($arr);
-            }
-        }
-        
-        
-        public function shiftAction()
-        {
-            loadHelper('inputs');
-            $data = getPost();
-            $product=  getModel('product')->load($data['rabbit_id']);
-            if(!isset($data['shifting_reason_id']))
-            {
-                echo '<p>Select a Reason</p>';
-            }
-            elseif(($data['shifted_on'])== "")
-            {
-                echo '<p>Select Shiting Date</p>';
-            }
-            else
-            {
-                $rabbit_id = $data['rabbit_id'];
-                $shifting_reason_id = $data['shifting_reason_id'];
-                $shifted_to = $data['rabbit_group'];
-                $shifted_date = $data['shifted_on'];
-                if($shifting_reason_id == -1)
-                {
-                    $reason = $data['shifting_reason'];
-                    $reason_description = $data['shifting_reason_desc'];
-                    $shifting_reason_id = getModel('rabbit')->addShiftingReason($reason,$reason_description);
-                }
-                getModel('rabbit')->shift($rabbit_id,$shifted_date,$shifted_to,$shifting_reason_id);
-                $arr = array();
-                $arr['identifier'] = '#shifted_rabbit_count';
-                $arr['html'] = getModel('rabbit')->getShiftedRabbitCount();
-                echo json_encode($arr);
-            }
-        }
-        public function sicklistAction()
-        {
-            $sick_rabbits = getModel('rabbit')->getSickRabbits();
-            $data['sick_rabbits'] = $sick_rabbits;
-            $this->view->renderAdmin('rabbit/sick_list.phtml',$data);
-        }
-        
-        public function deathlistAction()
-        {
-            $dead_rabbits = getModel('rabbit')->getDeadRabbits();
-            $data['dead_rabbits'] = $dead_rabbits;
-            $this->view->renderAdmin('rabbit/death_list.phtml',$data);
-        }
+    public function indexAction() {
+        $this->view->renderAdmin('rabbit/landing.phtml');
+    }
 
-        public function shiftedlistAction()
-        {
-        	$shifted_rabbits = getModel('rabbit')->getShiftedRabbits();
-            $data['shifted_rabbits'] = $shifted_rabbits;
-            $this->view->renderAdmin('rabbit/shifted_list.phtml',$data);
+    public function searchAction() {
+        loadHelper('inputs');
+        $rabbit_id_query = getParam('query');
+        if (is_numeric($rabbit_id_query)) {
+            $rabbit = getModel("rabbit")->load($rabbit_id_query);
+            if ($rabbit) {
+                $data['rabbit'] = $rabbit;
+                $data['sick_reasons'] = getModel('rabbit')->getSickReasons();
+                $data['death_reasons'] = getModel('rabbit')->getDeathReasons();
+                $data['shifting_reasons'] = getModel('rabbit')->getShiftingReasons();
+                $this->view->renderAdmin('rabbit/rabbit.phtml', $data, false, false, false);
+            } else
+                echo 'No Rabbit with that ID exists';
         }
+    }
+
+    public function sickAction() {
+        loadHelper('inputs');
+        $data = getPost();
+        if (!isset($data['sick_reason_id'])) {
+            echo '<p>Select a Reason</p>';
+        } elseif (($data['sick_from']) == "") {
+            echo '<p>Select Sick Date</p>';
+        } else {
+            $rabbit_id = $data['rabbit_id'];
+            $sick_reason_id = $data['sick_reason_id'];
+            $sick_from = $data['sick_from'];
+            if ($sick_reason_id == -1) {
+                $reason = $data['sick_reason'];
+                $reason_description = $data['sick_reason_desc'];
+                $sick_reason_id = getModel('rabbit')->addSickReason($reason, $reason_description);
+            }
+            getModel('product')->updateDefaultAttribute($rabbit_id, 'is_sick', '1');
+            getModel('rabbit')->sick($rabbit_id, $sick_from, $sick_reason_id);
+            $arr = array();
+            $arr['identifier'] = '#sick_rabbit_count';
+            $arr['html'] = getModel('rabbit')->getSickRabbitCount();
+            ;
+            echo json_encode($arr);
+        }
+    }
+
+    public function deathAction() {
+        loadHelper('inputs');
+        $data = getPost();
+        if (!isset($data['death_reason_id'])) {
+            echo '<p>Select a Reason</p>';
+        } elseif (($data['dead_on']) == "") {
+            echo '<p>Select Death Date</p>';
+        } else {
+            $rabbit_id = $data['rabbit_id'];
+            $death_reason_id = $data['death_reason_id'];
+            $death_on = $data['dead_on'];
+            if ($death_reason_id == -1) {
+                $reason = $data['death_reason'];
+                $reason_description = $data['death_reason_desc'];
+                $death_reason_id = getModel('rabbit')->addDeathReason($reason, $reason_description);
+            }
+            getModel('product')->updateDefaultAttribute($rabbit_id, 'is_dead', '1');
+            getModel('rabbit')->dead($rabbit_id, $death_on, $death_reason_id);
+            $arr = array();
+            $arr['identifier'] = '#dead_rabbit_count';
+            $arr['html'] = getModel('rabbit')->getDeadRabbitCount();
+            ;
+            echo json_encode($arr);
+        }
+    }
+
+    public function shiftAction() {
+        loadHelper('inputs');
+        $data = getPost();
+        $product = getModel('product')->load($data['rabbit_id']);
+        if (!isset($data['shifting_reason_id'])) {
+            echo '<p>Select a Reason</p>';
+        } elseif (($data['shifted_on']) == "") {
+            echo '<p>Select Shiting Date</p>';
+        } else {
+            $rabbit_id = $data['rabbit_id'];
+            $shifting_reason_id = $data['shifting_reason_id'];
+            $shifted_to = $data['rabbit_group'];
+            $shifted_date = $data['shifted_on'];
+            if ($shifting_reason_id == -1) {
+                $reason = $data['shifting_reason'];
+                $reason_description = $data['shifting_reason_desc'];
+                $shifting_reason_id = getModel('rabbit')->addShiftingReason($reason, $reason_description);
+            }
+            getModel('rabbit')->shift($rabbit_id, $shifted_date, $shifted_to, $shifting_reason_id);
+            $arr = array();
+            $arr['identifier'] = '#shifted_rabbit_count';
+            $arr['html'] = getModel('rabbit')->getShiftedRabbitCount();
+            echo json_encode($arr);
+        }
+    }
+
+    public function sicklistAction() {
+        $sick_rabbits = getModel('rabbit')->getSickRabbits();
+        $data['sick_rabbits'] = $sick_rabbits;
+        $this->view->renderAdmin('rabbit/sick_list.phtml', $data);
+    }
+
+    public function deathlistAction() {
+        $dead_rabbits = getModel('rabbit')->getDeadRabbits();
+        $data['dead_rabbits'] = $dead_rabbits;
+        $this->view->renderAdmin('rabbit/death_list.phtml', $data);
+    }
+
+    public function shiftedlistAction() {
+        $shifted_rabbits = getModel('rabbit')->getShiftedRabbits();
+        $data['shifted_rabbits'] = $shifted_rabbits;
+        $this->view->renderAdmin('rabbit/shifted_list.phtml', $data);
+    }
+
 }

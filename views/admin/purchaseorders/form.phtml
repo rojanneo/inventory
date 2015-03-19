@@ -1,52 +1,52 @@
 <div class="row">
-    <form method="post" action="<?php echo ADMIN_URL.'purchaseorders/add'?>">
+    <form method="post" action="<?php echo ADMIN_URL . 'purchaseorders/add' ?>">
         <input type="hidden" name="is_realtime" value ="1" id="realtime"/>
         <div class="col-lg-8 col-lg-offset-2">
             <div class="row">
-    <div class="col-lg-6">
-        <div class="row">
-            <div class="col-lg-10">
-                
-                <div class="form-group">
-                <input type="date" name="po_date" class="form-control dp" onchange="CheckDate(this)" style="width:100%">
-                <input type="hidden" name="employee_id" value="0"/>
-                <!--<span class="glyphicon glyphicon-calendar form-control-feedback calendar-icon" style="right: 10px;"></span>-->
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-10">
+
+                            <div class="form-group">
+                                <input type="date" name="po_date" class="form-control dp" onchange="CheckDate(this)" style="width:100%">
+                                <input type="hidden" name="employee_id" value="0"/>
+                                <!--<span class="glyphicon glyphicon-calendar form-control-feedback calendar-icon" style="right: 10px;"></span>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <select id="suppliers" class="form-control" style="margin:0" onchange="FilterProducts()">
+                                <option value="" selected disabled>Suppliers</option>
+                                <option value="">All</option>
+                                <?php if (isset($suppliers) and $suppliers): ?>
+                                    <?php foreach ($suppliers as $supplier): ?>
+                                        <option value="<?php echo $supplier['supplier_id'] ?>"><?php echo $supplier['supplier_name']; ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                        <div class="col-lg-5">
+                            <select id="categories" class="form-control" style="margin:0" onchange="FilterProducts()"> 
+                                <option value="" selected disabled>Categories</option>
+                                <option value="">All</option>
+                                <?php if (isset($categories) and $categories): ?>
+                                    <?php foreach ($categories as $category): ?>
+                                        <option value="<?php echo $category['category_id'] ?>"><?php echo $category['name']; ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-5">
-                <select id="suppliers" class="form-control" style="margin:0" onchange="FilterProducts()">
-                    <option value="" selected disabled>Suppliers</option>
-                    <option value="">All</option>
-                    <?php if(isset($suppliers) and $suppliers):?>
-                        <?php foreach($suppliers as $supplier):?>
-                    <option value="<?php echo $supplier['supplier_id']?>"><?php echo $supplier['supplier_name'];?></option>
-                        <?php endforeach;?>
-                    <?php endif;?>
-                </select>
-            </div>
-            <div class="col-lg-5">
-                <select id="categories" class="form-control" style="margin:0" onchange="FilterProducts()"> 
-                    <option value="" selected disabled>Categories</option>
-                    <option value="">All</option>
-                    <?php if(isset($categories) and $categories):?>
-                        <?php foreach($categories as $category):?>
-                    <option value="<?php echo $category['category_id']?>"><?php echo $category['name'];?></option>
-                        <?php endforeach;?>
-                    <?php endif;?>
-                </select>
-            </div>
-        </div>
-    </div>
-</div>
 
             <div class="panel panel-primary">
-                
+
                 <div class="panel-heading text-center">
                     <h3 class="panel-title">Purchase Order</h3>
                 </div>
-                
+
                 <div class="panel-body">
 
                     <div class="table-responsive" id="purchase-order">
@@ -63,42 +63,43 @@
                             <tbody>
                                 <?php if (isset($products) and $products): ?>                   
                                     <?php foreach ($products as $product): ?>
-                                        <?php $p_suppliers = getModel('supplier')->getProductSuppliers($product['product_id']);?>
-                                        <?php $base_unit = $product['product_weight_unit'];
-                                              $units = getModel('uom')->getConvertibleUnits($base_unit);
-                                              $u = getModel('uom')->load($product['product_weight_unit']);
-                                              ?>
+                                        <?php $p_suppliers = getModel('supplier')->getProductSuppliers($product['product_id']); ?>
+                                        <?php
+                                        $base_unit = $product['product_weight_unit'];
+                                        $units = getModel('uom')->getConvertibleUnits($base_unit);
+                                        $u = getModel('uom')->load($product['product_weight_unit']);
+                                        ?>
                                         <tr>
                                             <td class="text-center"><?php echo $product['product_id'] ?></td>
                                             <td class="text-center"><?php echo $product['product_name'] ?></td>
                                             <td class="text-center">
-                                                <select name="suppliers[<?php echo $product['product_id']?>]" class="form-control" style="margin:0;">
-                                                    <?php foreach($p_suppliers as $s):?>
-                                                    <option class="text-center" value="<?php echo $s['supplier_id']?>"><?php echo $s['supplier_name'];?></option>
-                                                    <?php endforeach;?>
+                                                <select name="suppliers[<?php echo $product['product_id'] ?>]" class="form-control" style="margin:0;">
+                                                    <?php foreach ($p_suppliers as $s): ?>
+                                                        <option class="text-center" value="<?php echo $s['supplier_id'] ?>"><?php echo $s['supplier_name']; ?></option>
+                                                    <?php endforeach; ?>
                                                 </select>
                                             </td>
-                                            <td class="text-center"><input type="text" data-actual-price = "<?php echo $product['product_unit_price']?>" name="unit_prices[<?php echo $product['product_id'] ?>]" readonly="" class="form-control unit_price text-center" value="<?php echo $product['product_unit_price']?>" style="margin:0" /> per <span class="unit_name"><?php echo $u['unit_symbol']?></span></td>
+                                            <td class="text-center"><input type="text" data-actual-price = "<?php echo $product['product_unit_price'] ?>" name="unit_prices[<?php echo $product['product_id'] ?>]" readonly="" class="form-control unit_price text-center" value="<?php echo $product['product_unit_price'] ?>" style="margin:0" /> per <span class="unit_name"><?php echo $u['unit_symbol'] ?></span></td>
                                             <td class="text-center"><input type="text" name="quantities[<?php echo $product['product_id'] ?>]" class="form-control quantity text-center" style="margin:0" onchange="UpdateTotalPrice(this)" value="0"/></td>
                                             <td class="text-center">
-                                                <select name="units[<?php echo $product['product_id']?>]" class='form-control unit' style='margin:0' onchange="ChangeUnitPrice(this)">
-                                                    <?php if($units):?>
-                                                    <?php foreach($units as $unit):?>
-                                                    <?php $mul_factor = getModel('uom')->getMultiplierFactor($product['product_weight_unit'],$unit['weight_unit_id']); ?>
-                                                    <?php $con_factor = getModel('uom')->getConstantFactor($product['product_weight_unit'],$unit['weight_unit_id']); ?>
-                                                    <?php $u_n = getModel('uom')->getUnitSymbol($unit['weight_unit_id']);?>
-                                                    <option data-unit-name = "<?php echo $u_n?>" data-mul_factor="<?php echo $mul_factor?>" data-con_factor="<?php echo $con_factor?>" value='<?php echo $unit['weight_unit_id']?>'><?php echo $unit['unit_name'].' ( '.$unit['unit_symbol'].' )'?></option>
-                                                    <?php endforeach;?>
-                                                    <?php endif;?>
+                                                <select name="units[<?php echo $product['product_id'] ?>]" class='form-control unit' style='margin:0' onchange="ChangeUnitPrice(this)">
+                                                    <?php if ($units): ?>
+                                                        <?php foreach ($units as $unit): ?>
+                                                            <?php $mul_factor = getModel('uom')->getMultiplierFactor($product['product_weight_unit'], $unit['weight_unit_id']); ?>
+                                                            <?php $con_factor = getModel('uom')->getConstantFactor($product['product_weight_unit'], $unit['weight_unit_id']); ?>
+                                                            <?php $u_n = getModel('uom')->getUnitSymbol($unit['weight_unit_id']); ?>
+                                                            <option data-unit-name = "<?php echo $u_n ?>" data-mul_factor="<?php echo $mul_factor ?>" data-con_factor="<?php echo $con_factor ?>" value='<?php echo $unit['weight_unit_id'] ?>'><?php echo $unit['unit_name'] . ' ( ' . $unit['unit_symbol'] . ' )' ?></option>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
                                                 </select>
                                             </td>
-                                            <td class="text-center"><input type="text" name="total_prices[<?php echo $product['product_id']?>]" value="" class="form-control text-center total_price"  onchange="UpdateUnitPrice(this)"/></td>
+                                            <td class="text-center"><input type="text" name="total_prices[<?php echo $product['product_id'] ?>]" value="" class="form-control text-center total_price"  onchange="UpdateUnitPrice(this)"/></td>
                                         </tr>
                                     <?php endforeach; ?>
-                                <?php else:?>
-                                        <tr>
-                                            <td colspan="7" class="text-center">No Data Found</td>
-                                        </tr>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="7" class="text-center">No Data Found</td>
+                                    </tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>
@@ -121,75 +122,75 @@
     {
         var supplier = $('#suppliers').val();
         var category = $('#categories').val();
-        
+
         $.ajax({
-            url:'<?php echo ADMIN_URL.'purchaseorders/getProducts'?>',
-            method:'POST',
-            data:{'supplier':supplier,'category':category},
-            success:function(response){
+            url: '<?php echo ADMIN_URL . 'purchaseorders/getProducts' ?>',
+            method: 'POST',
+            data: {'supplier': supplier, 'category': category},
+            success: function (response) {
                 $('#purchase-order').html(response);
             }
         });
     }
-    
+
     function UpdateUnitPrice(total_price)
     {
         var t = $(total_price).val();
         var q = $(total_price).parent().parent().find('input.quantity').val();
-        var u = t/q;
+        var u = t / q;
         $(total_price).parent().parent().find('.unit_price').val(u);
     }
-    
+
     function UpdateTotalPrice(quantity)
     {
         var q = $(quantity).val();
-    	var u = $(quantity).parent().parent().find('.unit_price').val();
-    	var t = q * u;
-    	$(quantity).parent().parent().find('.total_price').val(t);
+        var u = $(quantity).parent().parent().find('.unit_price').val();
+        var t = q * u;
+        $(quantity).parent().parent().find('.total_price').val(t);
     }
-    
-    $(document).ready(function(){
-        $('.quantity').each(function(){
-           UpdateTotalPrice(this); 
+
+    $(document).ready(function () {
+        $('.quantity').each(function () {
+            UpdateTotalPrice(this);
         });
-        
+
 //        $('.dp').datepicker({
 //            format:'yyyy-mm-dd',
 //            keepOpen:true
 //        });
 //        
         $('.dp').val(moment().format('YYYY-MM-DD'));
-        
-        $('.unit').each(function(){
-           ChangeUnitPrice(this); 
+
+        $('.unit').each(function () {
+            ChangeUnitPrice(this);
         });
     });
-    
+
     function CheckDate(po_date)
     {
         var date1 = new Date($(po_date).val());
         var date2 = new Date(moment().format('YYYY-MM-DD'));
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-        if(diffDays > 7)
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        if (diffDays > 7)
         {
             alert("Date Cannot be more than 7 days");
             $('.dp').val(moment().format('YYYY-MM-DD'));
         }
-        else if(diffDays > 0 && diffDays <= 7) 
+        else if (diffDays > 0 && diffDays <= 7)
         {
             //$('.dp').setDate(moment().format('YYYY-MM-DD'));
-           //$('.datepicker-dropdown').hide();
-           if(confirm("Not Real Time Data"))
-            $('#realtime').val(0);
-           else
-               $('.dp').val(moment().format('YYYY-MM-DD'));
+            //$('.datepicker-dropdown').hide();
+            if (confirm("Not Real Time Data"))
+                $('#realtime').val(0);
+            else
+                $('.dp').val(moment().format('YYYY-MM-DD'));
         }
-        else if(diffDays == 0)
+        else if (diffDays == 0)
             $('#realtime').val(1);
-       
+
     }
-    
+
     function ChangeUnitPrice(unit)
     {
         var option = ($(unit).find(':selected'));
@@ -199,10 +200,10 @@
         var unit_price = $(unit).parent().parent().find('.unit_price');
         var actual_unit_price = $(unit_price).attr('data-actual-price');
         var price = parseFloat(actual_unit_price) / parseFloat(mul_factor);
-        
+
         var quantity = $(unit).parent().parent().find('.quantity');
-       $(unit_price).val(price);
-       $(unit).parent().parent().find('.unit_name').text(unit_symbol);
-       UpdateTotalPrice(quantity);
+        $(unit_price).val(price);
+        $(unit).parent().parent().find('.unit_name').text(unit_symbol);
+        UpdateTotalPrice(quantity);
     }
 </script>

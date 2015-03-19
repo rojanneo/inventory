@@ -12,73 +12,62 @@
  * @author Neo
  */
 class PurchasecategoriesController extends Controller {
+
     public function __construct() {
         parent::__construct();
         loadHelper('url');
     }
-    
-    public function indexAction()
-    {
+
+    public function indexAction() {
         $data['categories'] = getModel('purchasecategory')->getSubCategories();
-        $this->view->renderAdmin('purchasecategories/list.phtml',$data);
-    }
-    
-    public function newAction()
-    {
-        $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active'=>'1'));
-        $this->view->renderAdmin('purchasecategories/form.phtml',$data);
+        $this->view->renderAdmin('purchasecategories/list.phtml', $data);
     }
 
-    public function editajaxAction($id)
-    {
-        $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active'=>'1'));
+    public function newAction() {
+        $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active' => '1'));
+        $this->view->renderAdmin('purchasecategories/form.phtml', $data);
+    }
+
+    public function editajaxAction($id) {
+        $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active' => '1'));
         $data['category'] = getModel('purchasecategory')->load($id);
-        $this->view->renderWithoutAnything('purchasecategories/editform.phtml',$data);
+        $this->view->renderWithoutAnything('purchasecategories/editform.phtml', $data);
     }
 
-    public function addAction()
-    {
-        $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active'=>'1'));
-        $this->view->renderWithoutAnything('purchasecategories/form_ajax.phtml',$data);
+    public function addAction() {
+        $data['p_categories'] = getModel('purchasecategory')->getCollection(array('is_active' => '1'));
+        $this->view->renderWithoutAnything('purchasecategories/form_ajax.phtml', $data);
     }
-    
-    public function newpostAction()
-    {
+
+    public function newpostAction() {
         loadHelper('inputs');
         $post_data = getPost();
-        if(getModel('purchasecategory')->insert($post_data))
-        {
+        if (getModel('purchasecategory')->insert($post_data)) {
             AdminSession::addSuccessMessage('Purchase Category Created');
-        }
-        else
-        {
+        } else {
             AdminSession::addErrorMessage('Failed to create Purchase Category');
         }
-        
+
         redirect('admin/purchasecategories');
     }
-    
-    public function editpostAction()
-    {
+
+    public function editpostAction() {
         loadHelper('inputs');
         $post_data = getPost();
         //var_dump($post_data);die;
-        if(getModel('purchasecategory')->update($post_data))
-        {
+        if (getModel('purchasecategory')->update($post_data)) {
             AdminSession::addSuccessMessage('Purchase Category Updated');
-        }
-        else
-        {
+        } else {
             AdminSession::addErrorMessage('Failed to update Purchase Category');
         }
-        
+
         redirect('admin/purchasecategories');
     }
-    
-    public function getSubCategoriesAction($parent_id)
-    {
+
+    public function getSubCategoriesAction($parent_id) {
         $data['sub_cats'] = getModel('purchasecategory')->getSubCategories($parent_id);
-        $html = $this->view->renderWithoutAnything('purchasecategories/sublist.phtml',$data);
+        $html = $this->view->renderWithoutAnything('purchasecategories/sublist.phtml', $data);
         echo $html;
     }
+
 }

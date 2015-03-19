@@ -1,135 +1,135 @@
-<?php if(isset($attribute)):?>
-	<?php extract($attribute);?>
-<div id="attributes-edit" class="main-body">
-	<form method="post" action="<?php echo ADMIN_URL.'attributes/editpost'?>">
-	<div class="input-box">
-		<input type="hidden" name="attribute_id" value="<?php echo $attribute_id?>"/>
-		<label>Attribute Code: </label>
-	<input type="text" name="attribute_code" value="<?php echo $attribute_code;?>"/>
-	</div>
+<?php if (isset($attribute)): ?>
+    <?php extract($attribute); ?>
+    <div id="attributes-edit" class="main-body">
+        <form method="post" action="<?php echo ADMIN_URL . 'attributes/editpost' ?>">
+            <div class="input-box">
+                <input type="hidden" name="attribute_id" value="<?php echo $attribute_id ?>"/>
+                <label>Attribute Code: </label>
+                <input type="text" name="attribute_code" value="<?php echo $attribute_code; ?>"/>
+            </div>
 
-	<div class="input-box">
-		<label>Attribute Default Value: </label>
-		<input type="text" name="attribute_default_value" value="<?php echo $attribute_default_value;?>"/>
-	</div>
+            <div class="input-box">
+                <label>Attribute Default Value: </label>
+                <input type="text" name="attribute_default_value" value="<?php echo $attribute_default_value; ?>"/>
+            </div>
 
-	<div class="input-box">
-		<label>Attribute Type: </label>
-		<select name="attribute_type">
-			<option value="number" <?php echo ($attribute_type == 'number')?'selected':null;?>>Number</option>
-			<option value="text" <?php echo ($attribute_type == 'text')?'selected':null;?>>Text</option>
-			<option value="date" <?php echo ($attribute_type == 'date')?'selected':null;?>>Date</option>
-			<option value="select" <?php echo ($attribute_type == 'select')?'selected':null;?>>Select</option>
-			<option value="multiselect" <?php echo ($attribute_type == 'multiselect')?'selected':null;?>>Multiple Select</option>
-		</select>
-	</div>
+            <div class="input-box">
+                <label>Attribute Type: </label>
+                <select name="attribute_type">
+                    <option value="number" <?php echo ($attribute_type == 'number') ? 'selected' : null; ?>>Number</option>
+                    <option value="text" <?php echo ($attribute_type == 'text') ? 'selected' : null; ?>>Text</option>
+                    <option value="date" <?php echo ($attribute_type == 'date') ? 'selected' : null; ?>>Date</option>
+                    <option value="select" <?php echo ($attribute_type == 'select') ? 'selected' : null; ?>>Select</option>
+                    <option value="multiselect" <?php echo ($attribute_type == 'multiselect') ? 'selected' : null; ?>>Multiple Select</option>
+                </select>
+            </div>
 
-	<div class="input-box">
-		<label>Attribute Requires Editor: </label>
-		<select name="attribute_requires_editor">
-			<option value="0" <?php echo ($attribute_requires_editor == 0)?'selected':null;?>>No</option>
-			<option value="1" <?php echo ($attribute_requires_editor == 1)?'selected':null;?>>Yes</option>
-		</select>
-	</div>
+            <div class="input-box">
+                <label>Attribute Requires Editor: </label>
+                <select name="attribute_requires_editor">
+                    <option value="0" <?php echo ($attribute_requires_editor == 0) ? 'selected' : null; ?>>No</option>
+                    <option value="1" <?php echo ($attribute_requires_editor == 1) ? 'selected' : null; ?>>Yes</option>
+                </select>
+            </div>
 
-	<div class="input-box">
-		<label>Is Hidden: </label>
-		<select name="is_hidden">
-			<option value="0" <?php echo ($is_hidden == 0)?'selected':null;?>>No</option>
-			<option value="1" <?php echo ($is_hidden == 1)?'selected':null;?>>Yes</option>
-		</select>
-	</div>
+            <div class="input-box">
+                <label>Is Hidden: </label>
+                <select name="is_hidden">
+                    <option value="0" <?php echo ($is_hidden == 0) ? 'selected' : null; ?>>No</option>
+                    <option value="1" <?php echo ($is_hidden == 1) ? 'selected' : null; ?>>Yes</option>
+                </select>
+            </div>
 
-	<div class="input-box">
-		<label>Attribute Admin Label: </label>
-		<input type="text" name="attribute_admin_label" value = "<?php echo $attribute_admin_label?>"/>
-	</div>
+            <div class="input-box">
+                <label>Attribute Admin Label: </label>
+                <input type="text" name="attribute_admin_label" value = "<?php echo $attribute_admin_label ?>"/>
+            </div>
 
-	<div class="input-box">
-		<label>Attribute Frontend Label: </label>
-		<input type="text" name="attribute_frontend_label" value="<?php echo $attribute_frontend_label?>"/>
-	</div>
+            <div class="input-box">
+                <label>Attribute Frontend Label: </label>
+                <input type="text" name="attribute_frontend_label" value="<?php echo $attribute_frontend_label ?>"/>
+            </div>
 
-	<div class="input-box">
-		<label>Attribute Unique: </label>
-		<select name="is_unique">
-			<option value="0" <?php echo ($is_unique == 0)?'selected':null;?>>No</option>
-			<option value="1" <?php echo ($is_unique == 1)?'selected':null;?>>Yes</option>
-		</select>
-	</div>
+            <div class="input-box">
+                <label>Attribute Unique: </label>
+                <select name="is_unique">
+                    <option value="0" <?php echo ($is_unique == 0) ? 'selected' : null; ?>>No</option>
+                    <option value="1" <?php echo ($is_unique == 1) ? 'selected' : null; ?>>Yes</option>
+                </select>
+            </div>
 
-	<div class="input-box">
-		<label>Attribute Is Required: </label>
-		<select name="is_required">
-			<option value="0" <?php echo ($is_required == 0)?'selected':null;?>>No</option>
-			<option value="1" <?php echo ($is_required == 1)?'selected':null;?>>Yes</option>
-		</select>
-	</div>
+            <div class="input-box">
+                <label>Attribute Is Required: </label>
+                <select name="is_required">
+                    <option value="0" <?php echo ($is_required == 0) ? 'selected' : null; ?>>No</option>
+                    <option value="1" <?php echo ($is_required == 1) ? 'selected' : null; ?>>Yes</option>
+                </select>
+            </div>
 
-	<div class="input-box">
-		<label>Attribute Is Used For Variation: </label>
-		<select name="is_used_for_variation">
-			<option value="0" <?php echo ($is_used_for_variation == 0)?'selected':null;?>>No</option>
-			<option value="1" <?php echo ($is_used_for_variation == 1)?'selected':null;?>>Yes</option>
-		</select>
-	</div>
-	<?php if($attribute_type == 'select' or $attribute_type == 'multiselect'):?>
-		<?php $options = getModel('attribute')->getOptions($attribute_id);?>
-		<?php if($options):?>
-			<div class="value_form" style="display:none">
-			<h2>Add values</h2>
-			<?php foreach($options as $option):?>
-				<?php extract($option);?>
-				<div class="value">
-					<input name="value[<?php echo $id?>]" value="<?php echo $value?>" class="values"/>
-					<input name="sort_order[<?php echo $id?>]" value="<?php echo $sort_order?>"/>
-					<input type="button" value="X" onclick="deleteValue(this)"/>
-				</div>
-			<?php endforeach;?>
-				<input type="button" value="Add Value" onclick="addValue(this)"/>
-		</div>
-		<?php endif;?>
-	<?php endif;?>
+            <div class="input-box">
+                <label>Attribute Is Used For Variation: </label>
+                <select name="is_used_for_variation">
+                    <option value="0" <?php echo ($is_used_for_variation == 0) ? 'selected' : null; ?>>No</option>
+                    <option value="1" <?php echo ($is_used_for_variation == 1) ? 'selected' : null; ?>>Yes</option>
+                </select>
+            </div>
+            <?php if ($attribute_type == 'select' or $attribute_type == 'multiselect'): ?>
+                <?php $options = getModel('attribute')->getOptions($attribute_id); ?>
+                <?php if ($options): ?>
+                    <div class="value_form" style="display:none">
+                        <h2>Add values</h2>
+                        <?php foreach ($options as $option): ?>
+                            <?php extract($option); ?>
+                            <div class="value">
+                                <input name="value[<?php echo $id ?>]" value="<?php echo $value ?>" class="values"/>
+                                <input name="sort_order[<?php echo $id ?>]" value="<?php echo $sort_order ?>"/>
+                                <input type="button" value="X" onclick="deleteValue(this)"/>
+                            </div>
+                        <?php endforeach; ?>
+                        <input type="button" value="Add Value" onclick="addValue(this)"/>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
 
-	<input class="save" type="submit" value="save"/>
-	</form>
-</div>
-<?php else:?>
-	<h3>Invalid Attribute</h3>
-<?php endif;?>
+            <input class="save" type="submit" value="save"/>
+        </form>
+    </div>
+<?php else: ?>
+    <h3>Invalid Attribute</h3>
+<?php endif; ?>
 
 <script type="text/javascript">
-$(document).ready(function(){
-	$('select[name=attribute_type]').change(function(){
-		var type = $(this).val();
-		if(type == 'select' || type == 'multiselect')
-		{
-			$('.value_form').show();
-		}
-		else
-		{
-			$('.value_form').hide();			
-		}
-	});
+    $(document).ready(function () {
+        $('select[name=attribute_type]').change(function () {
+            var type = $(this).val();
+            if (type == 'select' || type == 'multiselect')
+            {
+                $('.value_form').show();
+            }
+            else
+            {
+                $('.value_form').hide();
+            }
+        });
 
-	if($('select[name=attribute_type]').val() == 'select' || $('select[name=attribute_type]').val() == 'multiselect')
-	{
-		$('.value_form').show();
-	}
-	else
-	{
-		$('.value_form').hide();
-	}
-});
+        if ($('select[name=attribute_type]').val() == 'select' || $('select[name=attribute_type]').val() == 'multiselect')
+        {
+            $('.value_form').show();
+        }
+        else
+        {
+            $('.value_form').hide();
+        }
+    });
 
-function deleteValue(btn)
-{
-	//$(btn).parent().parent().find('.values').attr('name','delete');
-	$(btn).parent().remove();
-}
+    function deleteValue(btn)
+    {
+        //$(btn).parent().parent().find('.values').attr('name','delete');
+        $(btn).parent().remove();
+    }
 
-function addValue(btn)
-{
-	$(btn).before('<div class="value"><input name="value[]" class="values"/><input name="sort_order[]"/><input type="button" value="X" onclick="deleteValue(this)"/></div>');
-}
+    function addValue(btn)
+    {
+        $(btn).before('<div class="value"><input name="value[]" class="values"/><input name="sort_order[]"/><input type="button" value="X" onclick="deleteValue(this)"/></div>');
+    }
 </script>

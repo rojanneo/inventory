@@ -1,17 +1,17 @@
-<?php if(isset($suppliers) and $suppliers):?>
- <?php foreach($suppliers as $supplier):?>
+<?php if (isset($suppliers) and $suppliers): ?>
+    <?php foreach ($suppliers as $supplier): ?>
         <tr class="data">
-            <td class="text-center"><?php echo $supplier['supplier_id'];?></td>
-            <td class="text-center"><?php echo $supplier['supplier_name'];?></td>
-            <td class="text-center"><?php echo $supplier['supplier_email'];?></td>
-            <td class="text-center"><?php echo $supplier['supplier_phone'];?></td>
-            <td class="text-center"><?php echo $supplier['supplier_address'];?></td>
-            <td class="text-center"><?php echo convertStatusIdToText($supplier['is_active']);?></td>
-            <td class="text-center"><a href="<?php echo ADMIN_URL.'suppliers/edit/'.$supplier['supplier_id']?>">Edit</a></td>
+            <td class="text-center"><?php echo $supplier['supplier_id']; ?></td>
+            <td class="text-center"><?php echo $supplier['supplier_name']; ?></td>
+            <td class="text-center"><?php echo $supplier['supplier_email']; ?></td>
+            <td class="text-center"><?php echo $supplier['supplier_phone']; ?></td>
+            <td class="text-center"><?php echo $supplier['supplier_address']; ?></td>
+            <td class="text-center"><?php echo convertStatusIdToText($supplier['is_active']); ?></td>
+            <td class="text-center"><a href="<?php echo ADMIN_URL . 'suppliers/edit/' . $supplier['supplier_id'] ?>">Edit</a></td>
         </tr>
-        <?php endforeach;?>
-<?php else:?>
-        <tr class="data">
-            <td colspan="7" class="text-center">No Data Found</td>
-        </tr>
+    <?php endforeach; ?>
+<?php else: ?>
+    <tr class="data">
+        <td colspan="7" class="text-center">No Data Found</td>
+    </tr>
 <?php endif; ?>

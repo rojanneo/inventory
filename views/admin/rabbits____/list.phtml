@@ -54,53 +54,53 @@
             <?php else: ?>
                 <?php $parents_array[$r['attributes']['rabbit_family_id']][] = $r['product_id']; ?>
             <?php endif; ?>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
         <div class="row no-gutter">
             <div class="col-md-2 col-lg-2">
                 <div class="sidebar-nav-fixed">
                     <div class="colorchart" style="text-align:center;">
-<table border="1" style="margin:5px 0;" class="table table-hover table-condensed table-responsive">
-<thead style="background: #ddd; font-color: #fff;">
-<th>Color Chart</th>
-<th>Meaning</th>
-</thead>
-<tbody>
-<tr><td bgcolor="#37560d"></td>
-	<td>Available To Mate</td>
-</tr>
-<tr><td bgcolor="#33525c"></td>
-	<td>Wait For Pregnancy</td>
-</tr>
-<tr><td bgcolor="#233c44"></td>
-	<td>Check For Pregnancy</td>
-</tr>
-<tr><td bgcolor="#53837e"></td>
-	<td>wait for Birth</td>
-</tr>
-<tr><td bgcolor="#3f5056"></td>
-	<td>Add Litters</td>
-</tr>
-<tr><td bgcolor="#ae5495"></td>
-	<td>Wait For Weaning</td>
-</tr>
-<tr><td bgcolor="#9b4b85"></td>
-	<td>Time For Weaning</td>
-</tr>
-<tr><td bgcolor="#438478"></td>
-	<td>Time For Grouping</td>
-</tr>
-<tr><td bgcolor="#3b766b"></td>
-	<td>Wait For Grouping</td>
-</tr>
-<tr><td bgcolor="#966902"></td>
-	<td>Wait For Culling</td>
-</tr>
-<tr><td bgcolor="#865d01"></td>
-	<td>Time For Culling</td>
-</tr>
-</tbody>
-</table>
-</div>
+                        <table border="1" style="margin:5px 0;" class="table table-hover table-condensed table-responsive">
+                            <thead style="background: #ddd; font-color: #fff;">
+                            <th>Color Chart</th>
+                            <th>Meaning</th>
+                            </thead>
+                            <tbody>
+                                <tr><td bgcolor="#37560d"></td>
+                                    <td>Available To Mate</td>
+                                </tr>
+                                <tr><td bgcolor="#33525c"></td>
+                                    <td>Wait For Pregnancy</td>
+                                </tr>
+                                <tr><td bgcolor="#233c44"></td>
+                                    <td>Check For Pregnancy</td>
+                                </tr>
+                                <tr><td bgcolor="#53837e"></td>
+                                    <td>wait for Birth</td>
+                                </tr>
+                                <tr><td bgcolor="#3f5056"></td>
+                                    <td>Add Litters</td>
+                                </tr>
+                                <tr><td bgcolor="#ae5495"></td>
+                                    <td>Wait For Weaning</td>
+                                </tr>
+                                <tr><td bgcolor="#9b4b85"></td>
+                                    <td>Time For Weaning</td>
+                                </tr>
+                                <tr><td bgcolor="#438478"></td>
+                                    <td>Time For Grouping</td>
+                                </tr>
+                                <tr><td bgcolor="#3b766b"></td>
+                                    <td>Wait For Grouping</td>
+                                </tr>
+                                <tr><td bgcolor="#966902"></td>
+                                    <td>Wait For Culling</td>
+                                </tr>
+                                <tr><td bgcolor="#865d01"></td>
+                                    <td>Time For Culling</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <table border="1" style="margin:10px 0;" class="table table-hover table-condensed table-responsive">
                         <thead style="background: #ddd; font-color: #fff;">
                         <th>Title</th>
@@ -124,13 +124,13 @@
                                 <td><?php echo $products_to_beCount; ?></td>
                             </tr>
                             <tr>
-                            <?php
-                            $weaned_litters = (getModel('litter')->getWeanedLitters());
-            $weaned_litters_count = count($weaned_litters);
-            $unweaned_litters = (getModel('litter')->getUnweanedLitters());
-            $unweaned_litters_count = count($unweaned_litters);
-            $lc = $weaned_litters_count + $unweaned_litters_count;
-                            ?>
+                                <?php
+                                $weaned_litters = (getModel('litter')->getWeanedLitters());
+                                $weaned_litters_count = count($weaned_litters);
+                                $unweaned_litters = (getModel('litter')->getUnweanedLitters());
+                                $unweaned_litters_count = count($unweaned_litters);
+                                $lc = $weaned_litters_count + $unweaned_litters_count;
+                                ?>
                                 <td>Litters</td>
                                 <td><?php echo $lc; ?>	</td>
                             </tr>
@@ -171,7 +171,7 @@
             </div>
             <div class="col-md-10 col-lg-10">
                 <form method="post" action="<?php echo ADMIN_URL . 'rabbits/performMating' ?>">
-    <?php foreach ($parents_array as $family => $rabbits): ?>
+                    <?php foreach ($parents_array as $family => $rabbits): ?>
                         <ul>
                             <h3><?php echo 'Family ' . $family; ?></h3>
                             <?php foreach ($rabbits as $rabbit_id): ?>
@@ -179,7 +179,8 @@
 
                                 <?php $dob = new DateTime($rabbit['rabbit_dob']); ?>
                                 <!--Parents-->
-                                <?php $today = new DateTime(date('Y-m-d'));
+                                <?php
+                                $today = new DateTime(date('Y-m-d'));
                                 $preg_diff = null
                                 ?>
                                 <?php if (isset($rabbit['rabbit_latest_mate_date'])): ?>
@@ -224,8 +225,8 @@
                                     <?php elseif (!isset($rabbit['rabbit_latest_weaning_date']) or ! $rabbit['rabbit_latest_weaning_date'] and ( $wean_diff < 21 and $wean_diff > 28)): ?>
                                         <?php $status = "wait_for_weaning" ?>
                                         <?php $waiting_for_weaningCount++; ?>
-                <?php endif; ?>
-            <?php endif; ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
 
 
                                 <li>
@@ -239,7 +240,7 @@
                                     </div>
                                     <a class='ajax' href="<?php echo ADMIN_URL . 'rabbits/listActions/' . $rabbit_id ?>" style="display:none">Actions</a>
                                 </li>
-        <?php endforeach; ?>
+                            <?php endforeach; ?>
                             <div class="input-box">
                                 <input type="submit" value="Mate" disabled class="submit"/>
                             </div>
@@ -254,8 +255,8 @@
                                         <?php $waiting_for_cullingCount+= count($litters); ?>
                                     <?php else: ?>
                                         <?php $status = "time_for_culling" ?>
-                    <?php $available_to_cullCount++; ?>
-                <?php endif; ?>
+                                        <?php $available_to_cullCount++; ?>
+                                    <?php endif; ?>
                                     <li>
                                         <div class="rabbit <?php echo $status ?>">
                                             <div class="rabbit_click">
@@ -268,7 +269,7 @@
                             <?php endif; ?>
                             <?php if (isset($parents_to_be_array[$family])): ?>
                                 <h4>Parents to be</h4>
-                                    <?php foreach ($parents_to_be_array[$family] as $rabbits): ?>
+                                <?php foreach ($parents_to_be_array[$family] as $rabbits): ?>
                                     <li>
                                         <?php $rabbit = getModel('rabbit')->load($rabbits); ?>
                                         <?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a"); ?>
@@ -276,8 +277,8 @@
                                         <?php if ($group_diff >= 90 and $group_diff <= 120): ?>
                                             <?php $status = 'time_for_grouping'; ?>
                                         <?php else: ?>
-                    <?php $status = 'wait_for_grouping'; ?>
-                <?php endif; ?>
+                                            <?php $status = 'wait_for_grouping'; ?>
+                                        <?php endif; ?>
                                         <div class="rabbit <?php echo $status ?>">
                                             <div class="rabbit_click">
 
@@ -291,7 +292,7 @@
 
                             <?php if (isset($products_to_be_array[$family])): ?>
                                 <h4>Product to be</h4>
-                                    <?php foreach ($products_to_be_array[$family] as $rabbits): ?>
+                                <?php foreach ($products_to_be_array[$family] as $rabbits): ?>
                                     <li>
                                         <?php $rabbit = getModel('rabbit')->load($rabbits); ?>
                                         <?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a"); ?>
@@ -299,8 +300,8 @@
                                         <?php if ($group_diff >= 60 and $group_diff <= 90): ?>
                                             <?php $status = 'time_for_grouping'; ?>
                                         <?php else: ?>
-                    <?php $status = 'wait_for_grouping'; ?>
-                <?php endif; ?>
+                                            <?php $status = 'wait_for_grouping'; ?>
+                                        <?php endif; ?>
                                         <div class="rabbit <?php echo $status ?>">
                                             <div class="rabbit_click">
 
@@ -309,10 +310,10 @@
                                         </div>
                                         <a class='ajax' href="<?php echo ADMIN_URL . 'rabbits/listActions/' . $rabbit['product_id'] ?>" style="display:none">Actions</a>
                                     </li>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </ul>
-    <?php endforeach; ?>
+                    <?php endforeach; ?>
                 </form>
             </div>
 
@@ -320,7 +321,7 @@
         </div>
     <?php else: ?>
         <h2>No Rabbit Found</h2>
-<?php endif; ?>
+    <?php endif; ?>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {

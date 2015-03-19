@@ -12,11 +12,11 @@
                     <?php foreach ($dead_rabbits as $dead_rabbit): ?>
                         <tr>
                             <td><?php echo $dead_rabbit['death_id']; ?></td>
-                            <?php if($dead_rabbit['rabbit_id']):?>
+                            <?php if ($dead_rabbit['rabbit_id']): ?>
                                 <td><?php echo $dead_rabbit['rabbit_id']; ?></td>
-                            <?php else:?>
+                            <?php else: ?>
                                 <td><?php echo $dead_rabbit['litter_id']; ?></td>
-                            <?php endif;?>
+                            <?php endif; ?>
                             <td><?php echo $dead_rabbit['death_date']; ?></td>
                             <td><?php echo $dead_rabbit['reason']; ?></td>
                         </tr>
@@ -25,4 +25,4 @@
             </table>
         </div>
     </div>
-<?php endif;?>
+<?php endif; ?>

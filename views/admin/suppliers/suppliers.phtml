@@ -1,5 +1,5 @@
-<?php AdminSession::showSuccessMessages();?>
-<?php AdminSession::showSuccessMessages();?>
+<?php AdminSession::showSuccessMessages(); ?>
+<?php AdminSession::showSuccessMessages(); ?>
 <div class="row">
     <div class="col-lg-12 text-center">
         <div class="page-header">
@@ -8,58 +8,58 @@
     </div>
 </div>
 <div class="row">
-<div class="col-lg-3">
-<a href="<?php echo ADMIN_URL.'suppliers/new'?>" class="btn btn-primary">New Supplier</a>
-</div>
+    <div class="col-lg-3">
+        <a href="<?php echo ADMIN_URL . 'suppliers/new' ?>" class="btn btn-primary">New Supplier</a>
+    </div>
 </div>
 <div class="row">
     <div class="col-lg-12">
         <div class="table-responsive">
-<table class="table table-hover suppliers">
-    <thead>
-    <th class="col-lg-1 text-center">Supplier ID</th>
-    <th class="col-lg-2 text-center">Supplier Name</th>    
-    <th class="col-lg-2 text-center">Supplier Email</th>
-    <th class="col-lg-2 text-center">Supplier Contact Number</th>
-    <th class="col-lg-3 text-center">Supplier Address</th>
-    <th class="col-lg-1 text-center">Supplier Status</th>
-    <th class="col-lg-1 text-center">Actions</th>
-    </thead>
-    <tbody>
-        <tr>
-            <td class="text-center"><input type="text" id="supplier_id" class="form-control filter" onkeyup="SearchList(this)"/></td>
-            <td class="text-center"><input type="text" id="supplier_name" class="form-control filter" onkeyup="SearchList(this)"/></td>
-            <td class="text-center"><input type="text" id="supplier_email" class="form-control filter" onkeyup="SearchList(this)"/></td>
-            <td class="text-center"><input type="text" id="supplier_phone" class="form-control filter" onkeyup="SearchList(this)"/></td>
-            <td class="text-center"><input type="text" id="supplier_address" class="form-control filter" onkeyup="SearchList(this)"/></td>
-            <td class="text-center">
-                <select id="is_active" class="form-control filter" onchange="SearchList(this)" style="margin:0">
-                    <option value="" selected disabled></option>
-                    <option value="1">Enabled</option>
-                    <option value="0">Disabled</option>
-                </select>
-            </td>
-            <td></td>
-        </tr>
-<?php if(isset($suppliers) and $suppliers):?>
-        <?php foreach($suppliers as $supplier):?>
-        <tr class="data">
-            <td class="text-center"><?php echo $supplier['supplier_id'];?></td>
-            <td class="text-center"><?php echo $supplier['supplier_name'];?></td>
-            <td class="text-center"><?php echo $supplier['supplier_email'];?></td>
-            <td class="text-center"><?php echo $supplier['supplier_phone'];?></td>
-            <td class="text-center"><?php echo $supplier['supplier_address'];?></td>
-            <td class="text-center"><?php echo convertStatusIdToText($supplier['is_active']);?></td>
-            <td class="text-center"><a href="<?php echo ADMIN_URL.'suppliers/edit/'.$supplier['supplier_id']?>">Edit</a></td>
-        </tr>
-        <?php endforeach;?>
-        <?php else:?>
-        <tr class="data">
-            <td colspan="7" class="text-center">No data found</td>
-        </tr>
-<?php endif; ?>
-    </tbody>
-</table>
+            <table class="table table-hover suppliers">
+                <thead>
+                <th class="col-lg-1 text-center">Supplier ID</th>
+                <th class="col-lg-2 text-center">Supplier Name</th>    
+                <th class="col-lg-2 text-center">Supplier Email</th>
+                <th class="col-lg-2 text-center">Supplier Contact Number</th>
+                <th class="col-lg-3 text-center">Supplier Address</th>
+                <th class="col-lg-1 text-center">Supplier Status</th>
+                <th class="col-lg-1 text-center">Actions</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center"><input type="text" id="supplier_id" class="form-control filter" onkeyup="SearchList(this)"/></td>
+                        <td class="text-center"><input type="text" id="supplier_name" class="form-control filter" onkeyup="SearchList(this)"/></td>
+                        <td class="text-center"><input type="text" id="supplier_email" class="form-control filter" onkeyup="SearchList(this)"/></td>
+                        <td class="text-center"><input type="text" id="supplier_phone" class="form-control filter" onkeyup="SearchList(this)"/></td>
+                        <td class="text-center"><input type="text" id="supplier_address" class="form-control filter" onkeyup="SearchList(this)"/></td>
+                        <td class="text-center">
+                            <select id="is_active" class="form-control filter" onchange="SearchList(this)" style="margin:0">
+                                <option value="" selected disabled></option>
+                                <option value="1">Enabled</option>
+                                <option value="0">Disabled</option>
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <?php if (isset($suppliers) and $suppliers): ?>
+                        <?php foreach ($suppliers as $supplier): ?>
+                            <tr class="data">
+                                <td class="text-center"><?php echo $supplier['supplier_id']; ?></td>
+                                <td class="text-center"><?php echo $supplier['supplier_name']; ?></td>
+                                <td class="text-center"><?php echo $supplier['supplier_email']; ?></td>
+                                <td class="text-center"><?php echo $supplier['supplier_phone']; ?></td>
+                                <td class="text-center"><?php echo $supplier['supplier_address']; ?></td>
+                                <td class="text-center"><?php echo convertStatusIdToText($supplier['is_active']); ?></td>
+                                <td class="text-center"><a href="<?php echo ADMIN_URL . 'suppliers/edit/' . $supplier['supplier_id'] ?>">Edit</a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr class="data">
+                            <td colspan="7" class="text-center">No data found</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -68,17 +68,17 @@
     function SearchList(filter)
     {
         var filters = {};
-        $('.filter').each(function(index, value){
+        $('.filter').each(function (index, value) {
             filters[$(value).attr('id')] = $(value).val();
         });
-        
+
         //console.log(filters);
-        
+
         $.ajax({
-            url:'<?php echo ADMIN_URL.'suppliers/filterSuppliers'?>',
-            method:"post",
-            data:filters,
-            success:function(response)
+            url: '<?php echo ADMIN_URL . 'suppliers/filterSuppliers' ?>',
+            method: "post",
+            data: filters,
+            success: function (response)
             {
                 $('tr.data').remove();
                 $('table.suppliers tbody').append(response);

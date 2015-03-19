@@ -1,34 +1,34 @@
-<a href="<?php echo ADMIN_URL.'products/add'?>">Add Product</a>
-<a href="<?php echo ADMIN_URL.'products/addlitters'?>">Add Weaned Litters</a>
-<?php if(isset($products) and $products):?>
-	<table border="1" style="margin:10px 0;" class="table table-hover table-condensed">
-		<thead style="background: #ddd; font-color: #fff;">
-			<th>Product ID</th>
-			<th>Product Name</th>
-			<th>Product SKU</th>
-			<th>Unit Price</th>
-			<th>Product Status</th>
-			<th>Product Type</th>
-			<th>Actions</th>
-		</thead>
-		<tbody>
-			<?php foreach($products as $product):?>
-			<?php extract($product);?>
-				<tr>
-					<td><?php echo $product_id?></td>
-					<td><?php echo $product_name?></td>
-					<td><?php echo $product_sku?></td>
-					<td><?php echo $unit_price?></td>
-					<td><?php echo $status?></td>
-					<td><?php echo $product_type?></td>
-					<td>
-						<a href="<?php echo ADMIN_URL.'products/edit/'.$product_id?>">Edit</a>
-						<!-- <a href="<?php echo ADMIN_URL.'products/delete/'.$product_id?>">Delete</a> -->
-					</td>
-				</tr>
-			<?php endforeach;?>
-		</tbody>
-	</table>
-<?php else:?>
-	<h3>No Products</h3>
-<?php endif;?>
+<a href="<?php echo ADMIN_URL . 'products/add' ?>">Add Product</a>
+<a href="<?php echo ADMIN_URL . 'products/addlitters' ?>">Add Weaned Litters</a>
+<?php if (isset($products) and $products): ?>
+    <table border="1" style="margin:10px 0;" class="table table-hover table-condensed">
+        <thead style="background: #ddd; font-color: #fff;">
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Product SKU</th>
+        <th>Unit Price</th>
+        <th>Product Status</th>
+        <th>Product Type</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        <?php foreach ($products as $product): ?>
+            <?php extract($product); ?>
+            <tr>
+                <td><?php echo $product_id ?></td>
+                <td><?php echo $product_name ?></td>
+                <td><?php echo $product_sku ?></td>
+                <td><?php echo $unit_price ?></td>
+                <td><?php echo $status ?></td>
+                <td><?php echo $product_type ?></td>
+                <td>
+                    <a href="<?php echo ADMIN_URL . 'products/edit/' . $product_id ?>">Edit</a>
+                    <!-- <a href="<?php echo ADMIN_URL . 'products/delete/' . $product_id ?>">Delete</a> -->
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+    </table>
+<?php else: ?>
+    <h3>No Products</h3>
+<?php endif; ?>

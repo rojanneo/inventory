@@ -1,23 +1,23 @@
-<form method="get" action="<?php echo ADMIN_URL.'products/add'?>">
-	<?php if(isset($product_types)):?>
-		<label>Product Type: </label>
-		<select name="type">
-			<?php foreach($product_types as $type):?>
-			<?php extract($type);?>
-				<option value="<?php echo $id?>"><?php echo $product_type_name?></option>
-			<?php endforeach;?>
-		</select>
-	<?php endif;?>
+<form method="get" action="<?php echo ADMIN_URL . 'products/add' ?>">
+    <?php if (isset($product_types)): ?>
+        <label>Product Type: </label>
+        <select name="type">
+            <?php foreach ($product_types as $type): ?>
+                <?php extract($type); ?>
+                <option value="<?php echo $id ?>"><?php echo $product_type_name ?></option>
+            <?php endforeach; ?>
+        </select>
+    <?php endif; ?>
 
-	<?php if(isset($attribute_sets)):?>
-		<label>Attribute Set: </label>
-		<select name="set">
-		<?php foreach($attribute_sets as $set):?>
-		<?php extract($set);?>
-			<option value="<?php echo $attribute_set_id?>"><?php echo $attribute_set_name?></option>
-		<?php endforeach;?>
-		</select>
-	<?php endif;?>
+    <?php if (isset($attribute_sets)): ?>
+        <label>Attribute Set: </label>
+        <select name="set">
+            <?php foreach ($attribute_sets as $set): ?>
+                <?php extract($set); ?>
+                <option value="<?php echo $attribute_set_id ?>"><?php echo $attribute_set_name ?></option>
+            <?php endforeach; ?>
+        </select>
+    <?php endif; ?>
 
-	<input type="submit" value="Next"/>
+    <input type="submit" value="Next"/>
 </form>

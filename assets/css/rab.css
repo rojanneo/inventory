@@ -1,91 +1,91 @@
 /*pre-defined tag*/
 body{
-	color:#555;
-	/*background:#ddd;*/
+    color:#555;
+    /*background:#ddd;*/
 }
 
- h1{
-	color: #fff ! important;
-	margin: 10px 0 ! important;
-	background: #007d58;
-	padding: 5px 0 5px 20px;
-  clear: both;
-  width: 25%;
-  box-shadow: 0px 0px 3px 2px #a24032;
+h1{
+    color: #fff ! important;
+    margin: 10px 0 ! important;
+    background: #007d58;
+    padding: 5px 0 5px 20px;
+    clear: both;
+    width: 25%;
+    box-shadow: 0px 0px 3px 2px #a24032;
 }
 
 footer{
-	height:60px;
-	padding:5px 0;
-	background: #007d58;
-	color:#fff;
+    height:60px;
+    padding:5px 0;
+    background: #007d58;
+    color:#fff;
 }
 
 select{
-  margin: 0 0 10px 90px;
+    margin: 0 0 10px 90px;
 }
 
 form{
-  margin-bottom:10px;
+    margin-bottom:10px;
 }
 
 label {
-  float: left;
-  min-width: 150px;
-  line-height: 25px;
+    float: left;
+    min-width: 150px;
+    line-height: 25px;
 }
 
 #attributes-edit label {
-  min-width: 210px;
+    min-width: 210px;
 }
 
 #attributes-add label {
-  min-width: 210px;
+    min-width: 210px;
 }
 
 #attributeset-edit input {
-  width: 310px;
+    width: 310px;
 }
 
 
 #attributeset-edit select {
-  float: left;
-  margin-left: 90px;
+    float: left;
+    margin-left: 90px;
 }
 
 
 input{
-  margin: 0 10px 0 90px;
+    margin: 0 10px 0 90px;
 }
 
 #add-product label {
-min-width: 295px;
+    min-width: 295px;
 }
 
 /*div and classes*/
 #top-wrap{
-  min-height: 60px;
-  width: 100%;
-  float: left;
+    min-height: 60px;
+    width: 100%;
+    float: left;
 }
 
 #top-wrap .col-md-12 {
-  padding: 0;
+    padding: 0;
 }
 
 
 #logo{
-  height: 50px;
-  color: #fff;
-  margin-right: 0;
-  float: left;
-  background: #a24032;
-  padding: 20px 50px 20px 19%;
-  height: 61px;
+    height: 50px;
+    color: #fff;
+    margin-right: 0;
+    float: left;
+    background: #a24032;
+    padding: 20px 50px 20px 19%;
+    height: 61px;
 }
 
 #form3 input {
-  margin: 0 0 10px 0 ! important;
+    margin: 0 0 10px 0 ! important;
 }
 
 .f-nav{  /* To fix main menu container */
@@ -97,7 +97,7 @@ min-width: 295px;
 }
 
 #navigation{
-  margin-right: -15px;
+    margin-right: -15px;
 }
 
 #navigation-sticky-wrapper nav#navigation{
@@ -120,165 +120,165 @@ min-width: 295px;
 /*#main-menu-container ul li:hover ul li{ float:none; display:inline;}*/
 
 .input-box {
-  width: 66%;
-  line-height: 10px;
-  margin: 0 20px 10px 0;
-  height: auto;
-  overflow: hidden;
+    width: 66%;
+    line-height: 10px;
+    margin: 0 20px 10px 0;
+    height: auto;
+    overflow: hidden;
 }
 
 #edit, .main-body{
-  width:90%;
-  height: auto;
-  margin:0 auto;
-  overflow: hidden;
-  padding:10px;
+    width:90%;
+    height: auto;
+    margin:0 auto;
+    overflow: hidden;
+    padding:10px;
 }
 
 #edit h3, .main-body h3 {
-  color: #fff;
-  text-shadow: 1px 1px 3px #000;
-  font-weight: 700;
-  margin: 0 10px 15px 0;
-  padding: 5px 20px;
-  background: linear-gradient(to top, #007d58, #a24032);
-  width: 16%;
-  line-height: 25px;
-  box-shadow: 2px 1px 1px 1px #333;
-  font-size: 20px;
+    color: #fff;
+    text-shadow: 1px 1px 3px #000;
+    font-weight: 700;
+    margin: 0 10px 15px 0;
+    padding: 5px 20px;
+    background: linear-gradient(to top, #007d58, #a24032);
+    width: 16%;
+    line-height: 25px;
+    box-shadow: 2px 1px 1px 1px #333;
+    font-size: 20px;
 }
 
 
 .save{
-  padding:5px 10px;
-  margin: 0 0 0 330px ! important;
-  float: left;
-  width: auto ! important;
+    padding:5px 10px;
+    margin: 0 0 0 330px ! important;
+    float: left;
+    width: auto ! important;
 }
 
 
 /*Css for tabs*/
 #tabs {
-  margin: 10px 0;
-  /*border: 1px solid #a24032;*/
-  padding: 0 10px;
-  border-top: none;
-  /*width: 50%;*/
+    margin: 10px 0;
+    /*border: 1px solid #a24032;*/
+    padding: 0 10px;
+    border-top: none;
+    /*width: 50%;*/
 }
 #tabs ul {
-  clear: both;
-  min-height: 30px;
+    clear: both;
+    min-height: 30px;
 }
 
-  #tabs ul li {
-  list-style-type: none;
-  float: left;
-  margin-right: 10px;
-  padding: 5px 10px;
-  background: #007d58;
-  color: #fff;
-  font-weight: 600;
+#tabs ul li {
+    list-style-type: none;
+    float: left;
+    margin-right: 10px;
+    padding: 5px 10px;
+    background: #007d58;
+    color: #fff;
+    font-weight: 600;
 }
 
 #tabs ul li a{
-  color:#fff;
+    color:#fff;
 }
 
 #tabs ul li a:active {
-  text-decoration: none;
-  color: #ff0000;
-  font-weight: 700;
+    text-decoration: none;
+    color: #ff0000;
+    font-weight: 700;
 }
 
 /*css for popup*/
 
 #cboxOverlay{
-  width: 100%;
-  height: 100%;
-  border: 1px solid black;
-  position: absolute;
-  top: 0px;
-  display: none;
-  background-color: black;
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    position: absolute;
+    top: 0px;
+    display: none;
+    background-color: black;
 }
 
- .black_overlay{
-        display: none;
-        position: absolute;
-        top: 0%;
-        left: 0%;
-        width: 100%;
-        height: 100%;
-        background-color: black;
-        z-index:1001;
-        -moz-opacity: 0.8;
-        opacity:.80;
-        filter: alpha(opacity=80);
-    }
-    .white_content {
-        display: none;
-        position: absolute;
-        top: 25%;
-        left: 25%;
-        width: 50%;
-        height: 50%;
-        padding: 16px;
-        border: 10px solid #a24032;
-        background-color: white;
-        z-index:1002;
-        overflow: auto;
-    }
+.black_overlay{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index:1001;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+.white_content {
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    padding: 16px;
+    border: 10px solid #a24032;
+    background-color: white;
+    z-index:1002;
+    overflow: auto;
+}
 
-  #edit select {
-  margin: 0 0 10px 89px !important;
+#edit select {
+    margin: 0 0 10px 89px !important;
 }
 
 .rabbits{
-  margin: 10px 0 15px 0;
-  overflow:hidden;
+    margin: 10px 0 15px 0;
+    overflow:hidden;
 }
 
 .rabbits p{
-  color:#111;
-  font-weight:600;
+    color:#111;
+    font-weight:600;
 }
 
 .rabbits a{
-  color:#fff;
-  font-weight:600;
+    color:#fff;
+    font-weight:600;
 }
 
 
 .rabbits input{
-  padding:6px 10px;
-  margin-top:5px;
-  margin-bottom:5px;
-  background:#aaa;
-  color:#111;
-  font-weight:900;
+    padding:6px 10px;
+    margin-top:5px;
+    margin-bottom:5px;
+    background:#aaa;
+    color:#111;
+    font-weight:900;
 }
 
 
 .rabbits form{
-  margin:0;
+    margin:0;
 }
 
 
 .rabbits form ul {
-  float:left;
-  width: 24%;
-  overflow: hidden;
-  background:#ddd;
-  margin: 0 1% 0 0;
+    float:left;
+    width: 24%;
+    overflow: hidden;
+    background:#ddd;
+    margin: 0 1% 0 0;
 }
 
 .rabbits form ul li{
-  float:left;
-  /*border:1px solid #a24032;*/
-  margin: 3px 2px;
-  width: 132px;
-  list-style-type: none;
-  height: 80px;
+    float:left;
+    /*border:1px solid #a24032;*/
+    margin: 3px 2px;
+    width: 132px;
+    list-style-type: none;
+    height: 80px;
 }
 
 .rabbits form h3{
@@ -291,110 +291,110 @@ min-width: 295px;
 }
 
 .rabbits form h4{
-  clear: left;
-  line-height: 25px;
-  padding: 5px 10px;
-  background: #007d58;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 600;
-  margin: 10px 0;
+    clear: left;
+    line-height: 25px;
+    padding: 5px 10px;
+    background: #007d58;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 10px 0;
 }
 
 .status h3 {
-  margin: 0;
-  color: #007d58;
-  font-weight: 900;
-  min-width: 200px;
+    margin: 0;
+    color: #007d58;
+    font-weight: 900;
+    min-width: 200px;
 }
 
 
 #cboxLoadedContent{
-  overflow:visible !important;
-  height:auto !important;
+    overflow:visible !important;
+    height:auto !important;
 }
 
 #cboxContent{
-  height:auto !important;
-  border: 10px solid #a24032;  
-  background: #ccc;
+    height:auto !important;
+    border: 10px solid #a24032;  
+    background: #ccc;
 } 
 
 .rabbit_popup{
-  overflow: hidden;
-  height: auto;
-  border-top: none;
-  font-weight: 600;
-  -webkit-tranzition: all 0.3s;
-     -moz-tranzition: all 0.3s;
-          transition: all 0.3s;
+    overflow: hidden;
+    height: auto;
+    border-top: none;
+    font-weight: 600;
+    -webkit-tranzition: all 0.3s;
+    -moz-tranzition: all 0.3s;
+    transition: all 0.3s;
 }
 
 #cboxWrapper, #colorbox{
-  width:auto !important;
+    width:auto !important;
 }
 
 #cboxLoadedContent{
-  width:auto !important;
-  padding:10px;
+    width:auto !important;
+    padding:10px;
 }
 
 .status{
-  margin-bottom:15px;
+    margin-bottom:15px;
 }
 
 .rabbit_popup ul li{
-  float:left;
-  display: inline-block;
-  width: 98%;
-  margin: 10px 0;
-  line-height: 27px;
+    float:left;
+    display: inline-block;
+    width: 98%;
+    margin: 10px 0;
+    line-height: 27px;
 } 
 
 .rabbit_popup ul li p{
-  float:left;
-  margin: 0 15px 0 0;
+    float:left;
+    margin: 0 15px 0 0;
 }
 
 .rabbit_popup p{
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 20px;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
 }
 
 .rabbit_popup ul li .input-box {
-  float: left;
-  margin: 0;
-  overflow: hidden;
-  width: 60%;
+    float: left;
+    margin: 0;
+    overflow: hidden;
+    width: 60%;
 }
 
 .options {
-  line-height: 15px;
+    line-height: 15px;
 }
 
 .rabbit, .rabbit_click{
-  min-height: 45px;
+    min-height: 45px;
 }
 
 .wean {
-  float: right;
-  margin: -15px 0 0 0;
-  padding: 5px 10px;
+    float: right;
+    margin: -15px 0 0 0;
+    padding: 5px 10px;
 }
 
 .rabbit_popup select{
-  float:left;
-  margin: 0 15px 0 0;
+    float:left;
+    margin: 0 15px 0 0;
 }
 
 .death {
-  width: 98.6%;
-  margin: 0;
+    width: 98.6%;
+    margin: 0;
 }
 
 .birth-form select {
-margin: 10px 0;
+    margin: 10px 0;
 }
 
 .available_to_mate,
@@ -408,47 +408,47 @@ margin: 10px 0;
 .wait_for_grouping,
 .wait_for_culling,
 .time_for_culling{
-  padding:5px;
+    padding:5px;
 }
 
 
 .available_to_mate{
-  background:#37560d;
+    background:#37560d;
 }
 
 .wait_for_pregnancy{
-  background:#193E3E;
+    background:#193E3E;
 }
 .check_for_pregnancy{
-  background:#213408;
+    background:#213408;
 }
 
 .wait_for_birth{
-  background:#65777c;
+    background:#65777c;
 }
 .add_litters{
-  background:#263034;
+    background:#263034;
 }
 
 .wait_for_weaning{
-  background:#ae5495;
+    background:#ae5495;
 }
 .time_for_weaning{
-  background:#683259;
+    background:#683259;
 }
 
 .time_for_grouping{
-  background:#438478;
+    background:#438478;
 }
 .wait_for_grouping{
-  background:#284f48;
+    background:#284f48;
 }
 
 .wait_for_culling{
-  background:#966902;
+    background:#966902;
 }
 .time_for_culling{
-  background: #5a3f01;
+    background: #5a3f01;
 }
 
 /*2071-12-02*/
@@ -474,7 +474,7 @@ margin: 10px 0;
 .time_for_weaning_mate,
 .time_for_weaning_waitforpregnancy
 {
-  background: #683259;
+    background: #683259;
 } 
 
 .wait_for_weaning_pregnant a,
@@ -483,7 +483,7 @@ margin: 10px 0;
 .time_for_weaning_pregnant a, 
 .time_for_weaning_mate a,
 .time_for_weaning_waitforpregnancy a{
-  position: relative;
+    position: relative;
 }
 
 .wait_for_weaning_mate:before,
@@ -492,7 +492,7 @@ margin: 10px 0;
 .time_for_weaning_mate:before,
 .time_for_weaning_pregnant:before,
 .time_for_weaning_waitforpregnancy:before
- { 
+{ 
     content: '';
     position: absolute;
     left: 7%;
@@ -505,8 +505,8 @@ margin: 10px 0;
 
 .wait_for_weaning_mate:before,
 .time_for_weaning_mate:before{
-  background: #37560d; /* fallback */
-  background: rgb(55,86,13 0.5);
+    background: #37560d; /* fallback */
+    background: rgb(55,86,13 0.5);
 }
 
 .wait_for_weaning_pregnant:before,
@@ -517,46 +517,46 @@ margin: 10px 0;
 
 .wait_for_weaning_waitforpregnancy:before,
 .time_for_weaning_waitforpregnancy:before {
-  background: #193e3e;
-  background: rgb(25,62,62 0.5);
+    background: #193e3e;
+    background: rgb(25,62,62 0.5);
 }
 
 
 /*Navigation menu*/
 .navbar {
-background-color: #a24032;
-margin: 0;
+    background-color: #a24032;
+    margin: 0;
 }
 
 /*.navbar .nav-container{
   margin-left:90px;
 }*/
 .navbar-default .navbar-brand {
-color: #fff;
+    color: #fff;
 }
 .navbar ul.navbar-nav li a {
-height: 50px;
-line-height: 32px;
+    height: 50px;
+    line-height: 32px;
 }
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, 
 .navbar-default .navbar-nav>.open>a:focus,.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus{
-  background-color:#903b2e;
-  color:#fff;
+    background-color:#903b2e;
+    color:#fff;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
-  background-color:#903b2e;
-  color:#fff;
+    background-color:#903b2e;
+    color:#fff;
 }
 .navbar-default .navbar-nav>li>a{color:#fff;}
 .datepicker-days tr th, .datepicker-days tr td{color:#fff;}
 .main-container{margin-top:60px;}
 ul{list-style: none}
 ul .sub_categories ul {
-margin-left: 40px;
+    margin-left: 40px;
 }
 ul .sub_categories ul .sub_categories ul {
-margin-left: 60px;
+    margin-left: 60px;
 }
 
 /*body .container{

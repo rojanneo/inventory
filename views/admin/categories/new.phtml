@@ -1,27 +1,27 @@
-<form method="post" action = "<?php echo ADMIN_URL.'categories/addpost'?>">
-	<label>Category Code</label>
-	<input type="text" name="category_code"/>
-	<label>Name</label>
-	<input type="text" name="category_name"/>
-	<label>Display Name</label>
-	<input type="text" name="category_display_name"/>
-	<label>Description</label>
-	<textarea name="category_description"></textarea>
-	<label>Is Root</label>
-	<select name="is_root">
-		<option value="0">No</option>
-		<option value="1">Yes</option>
-	</select>
-	<?php if(isset($categories) and $categories):?>
-		<label>Parent</label>
-		<select name="parent_id">
-			<option value="0">No Parents</option>
-			<?php foreach($categories as $category):?>
-				<option value="<?php echo $category['category_id']?>"><?php echo $category['category_name']?></option>
-			<?php endforeach;?>
-		</select>
-	<?php endif;?>
-	<label>Sort Order</label>
-	<input type="text" name="sort_order"/>
-	<input type="submit" value="save"/>
+<form method="post" action = "<?php echo ADMIN_URL . 'categories/addpost' ?>">
+    <label>Category Code</label>
+    <input type="text" name="category_code"/>
+    <label>Name</label>
+    <input type="text" name="category_name"/>
+    <label>Display Name</label>
+    <input type="text" name="category_display_name"/>
+    <label>Description</label>
+    <textarea name="category_description"></textarea>
+    <label>Is Root</label>
+    <select name="is_root">
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+    </select>
+    <?php if (isset($categories) and $categories): ?>
+        <label>Parent</label>
+        <select name="parent_id">
+            <option value="0">No Parents</option>
+            <?php foreach ($categories as $category): ?>
+                <option value="<?php echo $category['category_id'] ?>"><?php echo $category['category_name'] ?></option>
+            <?php endforeach; ?>
+        </select>
+    <?php endif; ?>
+    <label>Sort Order</label>
+    <input type="text" name="sort_order"/>
+    <input type="submit" value="save"/>
 </form>

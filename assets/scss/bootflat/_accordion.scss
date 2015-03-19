@@ -17,59 +17,59 @@ $accordion-panel-background-color:             $white !default;
 
 @include exports("accordion") {
 
-  /**
-   * accordion
-   * --------------------------------------------------
-   */
-  .panel-group {
-    & .panel {
-      @include radius($type: border-radius, $value: 0);
-      background-color: transparent;
-      @include box-shadow($value: none);
+    /**
+     * accordion
+     * --------------------------------------------------
+     */
+    .panel-group {
+        & .panel {
+            @include radius($type: border-radius, $value: 0);
+            background-color: transparent;
+            @include box-shadow($value: none);
+        }
+        & .panel+.panel {
+            margin-top: 0;
+        }
+        & .panel-heading {
+            padding: 0;
+            border-bottom-color: transparent;
+        }
+        & .panel-heading+.panel-collapse .panel-body {
+            padding: 15px 0;
+            border-top-color: transparent;
+        }
+        & .panel-title a {
+            padding: 10px 0;
+            display: block;
+        }
     }
-    & .panel+.panel {
-      margin-top: 0;
+    .panel-group-lists {
+        & .panel {
+            border-bottom: 1px solid $accordion-border-color;
+            background-color: $accordion-panel-background-color;
+            @include box-shadow($value: $accordion-panel-shadow);
+        }
+        & .panel:first-child {
+            @include radius($type: border-radius, $value: $accordion-panel-radius $accordion-panel-radius 0 0);
+        }
+        & .panel:last-child {
+            @include radius($type: border-radius, $value: 0 0 $accordion-panel-radius $accordion-panel-radius);
+            border-bottom: none;
+        }
+        & .panel-heading+.panel-collapse .panel-body {
+            padding: 15px;
+            border-top-color: $accordion-border-color;
+        }
+        & .panel-title a {
+            padding: 10px 15px;
+            color: $accordion-panel-font-color;
+        }
+        & .panel-title a:hover,
+            & .panel-title a:focus,
+            & .panel-title a:active {
+            color: $accordion-panel-font-color-hover;
+        }
     }
-    & .panel-heading {
-      padding: 0;
-      border-bottom-color: transparent;
-    }
-    & .panel-heading+.panel-collapse .panel-body {
-      padding: 15px 0;
-      border-top-color: transparent;
-    }
-    & .panel-title a {
-      padding: 10px 0;
-      display: block;
-    }
-  }
-  .panel-group-lists {
-    & .panel {
-      border-bottom: 1px solid $accordion-border-color;
-      background-color: $accordion-panel-background-color;
-      @include box-shadow($value: $accordion-panel-shadow);
-    }
-    & .panel:first-child {
-      @include radius($type: border-radius, $value: $accordion-panel-radius $accordion-panel-radius 0 0);
-    }
-    & .panel:last-child {
-      @include radius($type: border-radius, $value: 0 0 $accordion-panel-radius $accordion-panel-radius);
-      border-bottom: none;
-    }
-    & .panel-heading+.panel-collapse .panel-body {
-      padding: 15px;
-      border-top-color: $accordion-border-color;
-    }
-    & .panel-title a {
-      padding: 10px 15px;
-      color: $accordion-panel-font-color;
-    }
-    & .panel-title a:hover,
-    & .panel-title a:focus,
-    & .panel-title a:active {
-      color: $accordion-panel-font-color-hover;
-    }
-  }
 
 }
 

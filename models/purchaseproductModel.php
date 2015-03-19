@@ -11,213 +11,193 @@
  *
  * @author Neo
  */
-class PurchaseproductModel extends Model{
+class PurchaseproductModel extends Model {
+
     public function __construct() {
         parent::__construct();
     }
-    
-    public function insert($data = false)
-    {
-        if($data)
-        {
+
+    public function insert($data = false) {
+        if ($data) {
             extract($data);
             $sql = "INSERT INTO `purchase_products`(`product_sku`, `product_name`, `product_description`, `product_weight_unit`, `product_quantity`, `product_unit_price`, `product_status`,`is_used_daily`) "
-                    . "VALUES ('".mysql_escape_string($product_sku)."','".mysql_escape_string($product_name)."','".mysql_escape_string($product_desc)."','".mysql_escape_string($product_weight_unit)."',"
-                    . "'".mysql_escape_string($product_quantity)."','".mysql_escape_string($product_unit_price)."','".mysql_escape_string($product_status)."','".mysql_escape_string($is_used_daily)."')";
-            
+                    . "VALUES ('" . mysql_escape_string($product_sku) . "','" . mysql_escape_string($product_name) . "','" . mysql_escape_string($product_desc) . "','" . mysql_escape_string($product_weight_unit) . "',"
+                    . "'" . mysql_escape_string($product_quantity) . "','" . mysql_escape_string($product_unit_price) . "','" . mysql_escape_string($product_status) . "','" . mysql_escape_string($is_used_daily) . "')";
+
             $this->connection->InsertQuery($sql);
             return $this->connection->GetInsertID();
-        }
-        else return false;
+        } else
+            return false;
     }
-    
-    public function update($data = false)
-    {
-        if($data)
-        {
+
+    public function update($data = false) {
+        if ($data) {
             extract($data);
-            $sql = "UPDATE `purchase_products` SET `product_sku`='".mysql_escape_string($product_sku)."',`product_name`='".mysql_escape_string($product_name)."',`product_description`='".mysql_escape_string($product_desc)."',`product_weight_unit`='".mysql_escape_string($product_weight_unit)."',`product_quantity`='".mysql_escape_string($product_quantity)."',`product_unit_price`='".mysql_escape_string($product_unit_price)."',`product_status`='".mysql_escape_string($product_status)."',`is_used_daily` = '".mysql_escape_string($is_used_daily)."' WHERE `product_id` = ".$product_id;
+            $sql = "UPDATE `purchase_products` SET `product_sku`='" . mysql_escape_string($product_sku) . "',`product_name`='" . mysql_escape_string($product_name) . "',`product_description`='" . mysql_escape_string($product_desc) . "',`product_weight_unit`='" . mysql_escape_string($product_weight_unit) . "',`product_quantity`='" . mysql_escape_string($product_quantity) . "',`product_unit_price`='" . mysql_escape_string($product_unit_price) . "',`product_status`='" . mysql_escape_string($product_status) . "',`is_used_daily` = '" . mysql_escape_string($is_used_daily) . "' WHERE `product_id` = " . $product_id;
             $this->connection->UpdateQuery($sql);
             return true;
-        }
-        else return false;
+        } else
+            return false;
     }
-    
-    public function updateCategories($categories, $product_id)
-    {
+
+    public function updateCategories($categories, $product_id) {
         $this->deleteCategories($product_id);
-        $this->insertCategories($categories,$product_id);
+        $this->insertCategories($categories, $product_id);
         return true;
     }
-    
-    public function deleteCategories($product_id)
-    {
-        $sql = "DELETE FROM purchase_products_categories WHERE product_id = ".$product_id;
+
+    public function deleteCategories($product_id) {
+        $sql = "DELETE FROM purchase_products_categories WHERE product_id = " . $product_id;
         $this->connection->DeleteQuery($sql);
     }
-    
-    public function updateSuppliers($suppliers, $product_id)
-    {
+
+    public function updateSuppliers($suppliers, $product_id) {
         $this->deleteSuppliers($product_id);
-        $this->insertsuppliers($suppliers,$product_id);
+        $this->insertsuppliers($suppliers, $product_id);
         return true;
     }
-    
-    public function deleteSuppliers($product_id)
-    {
-        $sql = "DELETE FROM purchase_products_suppliers WHERE product_id = ".$product_id;
+
+    public function deleteSuppliers($product_id) {
+        $sql = "DELETE FROM purchase_products_suppliers WHERE product_id = " . $product_id;
         $this->connection->DeleteQuery($sql);
     }
-    
-    public function load($id)
-    {
-        $sql = "SELECT * FROM purchase_products WHERE product_id = ".$id." LIMIT 1";
+
+    public function load($id) {
+        $sql = "SELECT * FROM purchase_products WHERE product_id = " . $id . " LIMIT 1";
         $product = $this->connection->Query($sql);
-        if($product)return $product[0];
-        else return false;
+        if ($product)
+            return $product[0];
+        else
+            return false;
     }
-    
-    public function getCollection()
-    {
+
+    public function getCollection() {
         $sql = "SELECT * FROM purchase_products";
         $products = $this->connection->Query($sql);
-        if($products) return $products;
-        else return false;
+        if ($products)
+            return $products;
+        else
+            return false;
     }
-    
-    
-    public function getDailyFeeds()
-    {
+
+    public function getDailyFeeds() {
         $sql = "SELECT * FROM purchase_products WHERE is_used_daily = '1'";
         $products = $this->connection->Query($sql);
-        if($products) return $products;
-        else return false;
+        if ($products)
+            return $products;
+        else
+            return false;
     }
-    
-    public function getActiveCollection()
-    {
+
+    public function getActiveCollection() {
         $sql = "SELECT * FROM purchase_products WHERE product_status = '1'";
         $products = $this->connection->Query($sql);
-        if($products) return $products;
-        else return false;
+        if ($products)
+            return $products;
+        else
+            return false;
     }
-    
-    public function getFilteredProducts($supplier, $category, $status)
-    {
-        $sql = "SELECT * FROM `purchase_products_suppliers` JOIN purchase_products_categories ON purchase_products_suppliers.product_id = purchase_products_categories.product_id WHERE purchase_products_suppliers.supplier_id LIKE '%".$supplier."%' AND purchase_products_categories.category_id LIKE '%".$category."%' GROUP BY purchase_products_suppliers.product_id";
-       // echo $sql;die;
+
+    public function getFilteredProducts($supplier, $category, $status) {
+        $sql = "SELECT * FROM `purchase_products_suppliers` JOIN purchase_products_categories ON purchase_products_suppliers.product_id = purchase_products_categories.product_id WHERE purchase_products_suppliers.supplier_id LIKE '%" . $supplier . "%' AND purchase_products_categories.category_id LIKE '%" . $category . "%' GROUP BY purchase_products_suppliers.product_id";
+        // echo $sql;die;
         $products = $this->connection->Query($sql);
         $products_array = array();
-        if($products)
-        {
-            foreach($products as $product)
-            {
+        if ($products) {
+            foreach ($products as $product) {
                 $p = $this->load($product['product_id']);
                 if ($p) {
-                    if($status == '')
+                    if ($status == '')
                         array_push($products_array, $p);
-                    else
-                    {
-                        if($status == $p['product_status'])
-                            array_push($products_array, $p);                             
+                    else {
+                        if ($status == $p['product_status'])
+                            array_push($products_array, $p);
                     }
                 }
             }
             return $products_array;
-        }
-        else return false;
-        
+        } else
+            return false;
     }
-    
-    public function insertCategories($categories = false, $product_id)
-    {
-        if($categories)
-        {
-            foreach($categories as $category)
-            {
-                $sql = "INSERT INTO `purchase_products_categories`(`product_id`, `category_id`) VALUES (".$product_id.",".$category.")";
+
+    public function insertCategories($categories = false, $product_id) {
+        if ($categories) {
+            foreach ($categories as $category) {
+                $sql = "INSERT INTO `purchase_products_categories`(`product_id`, `category_id`) VALUES (" . $product_id . "," . $category . ")";
                 $this->connection->InsertQuery($sql);
             }
-        }
-        else return false;
+        } else
+            return false;
     }
-    
-    public function insertSuppliers($suppliers = false, $product_id)
-    {
-        if($suppliers)
-        {
-            foreach($suppliers as $supplier)
-            {
-                $sql = "INSERT INTO `purchase_products_suppliers`(`product_id`, `supplier_id`) VALUES (".$product_id.",".$supplier.")";
+
+    public function insertSuppliers($suppliers = false, $product_id) {
+        if ($suppliers) {
+            foreach ($suppliers as $supplier) {
+                $sql = "INSERT INTO `purchase_products_suppliers`(`product_id`, `supplier_id`) VALUES (" . $product_id . "," . $supplier . ")";
                 $this->connection->InsertQuery($sql);
             }
-        }
-        else return false;
+        } else
+            return false;
     }
-    
-    public function getCategories($id)
-    {
-        $sql = "SELECT category_id FROM purchase_products_categories WHERE product_id = ".$id;
+
+    public function getCategories($id) {
+        $sql = "SELECT category_id FROM purchase_products_categories WHERE product_id = " . $id;
         $cats = $this->connection->Query($sql);
         $cats_array = array();
-        if($cats)
-        {
-            foreach($cats as $cat)
-            {
+        if ($cats) {
+            foreach ($cats as $cat) {
                 array_push($cats_array, $cat['category_id']);
             }
             return $cats_array;
-        }
-        else return false;
+        } else
+            return false;
     }
-    
-    public function getSuppliers($id)
-    {
-        $sql = "SELECT supplier_id FROM purchase_products_suppliers WHERE product_id = ".$id;
+
+    public function getSuppliers($id) {
+        $sql = "SELECT supplier_id FROM purchase_products_suppliers WHERE product_id = " . $id;
         $supps = $this->connection->Query($sql);
         $supps_array = array();
-        if($supps)
-        {
-            foreach($supps as $supp)
-            {
+        if ($supps) {
+            foreach ($supps as $supp) {
                 array_push($supps_array, $supp['supplier_id']);
             }
             return $supps_array;
-        }
-        else return false;
+        } else
+            return false;
     }
-    
-    public function getCategoryProducts($category_id)
-    {
-        $sql = "SELECT * FROM purchase_products_categories JOIN purchase_products ON purchase_products.product_id = purchase_products_categories.product_id WHERE category_id = ".$category_id;
+
+    public function getCategoryProducts($category_id) {
+        $sql = "SELECT * FROM purchase_products_categories JOIN purchase_products ON purchase_products.product_id = purchase_products_categories.product_id WHERE category_id = " . $category_id;
         $products = $this->connection->Query($sql);
-        if($products) return $products;
-        else return false;
+        if ($products)
+            return $products;
+        else
+            return false;
     }
-    
-    public function getSupplierProducts($supplier_id)
-    {
-        $sql = "SELECT * FROM purchase_products_suppliers JOIN purchase_products ON purchase_products.product_id = purchase_products_suppliers.product_id WHERE supplier_id = ".$supplier_id;
+
+    public function getSupplierProducts($supplier_id) {
+        $sql = "SELECT * FROM purchase_products_suppliers JOIN purchase_products ON purchase_products.product_id = purchase_products_suppliers.product_id WHERE supplier_id = " . $supplier_id;
         $products = $this->connection->Query($sql);
-        if($products) return $products;
-        else return false;
-        
+        if ($products)
+            return $products;
+        else
+            return false;
     }
-    
-    public function getProductsWithCategories()
-    {
-       $sql = "SELECT product.product_id, product_sku,purchase_categories.category_id,category_sku,name FROM `purchase_products` AS product JOIN purchase_products_categories ON product.product_id = purchase_products_categories.product_id JOIN purchase_categories ON purchase_categories.category_id = purchase_products_categories.category_id ORDER BY purchase_products_categories.category_id ASC";
-       $p = $this->connection->Query($sql);
-       $products = array();
-       if($p)
-       {
-           foreach($p as $product)
-           {
-               if(!isset($products[$product['name']])) $products[$product['name']] = array();
-               array_push($products[$product['name']], $product['product_sku']);
-           }
-           var_dump($products);die;
-       }
-       else return false;
+
+    public function getProductsWithCategories() {
+        $sql = "SELECT product.product_id, product_sku,purchase_categories.category_id,category_sku,name FROM `purchase_products` AS product JOIN purchase_products_categories ON product.product_id = purchase_products_categories.product_id JOIN purchase_categories ON purchase_categories.category_id = purchase_products_categories.category_id ORDER BY purchase_products_categories.category_id ASC";
+        $p = $this->connection->Query($sql);
+        $products = array();
+        if ($p) {
+            foreach ($p as $product) {
+                if (!isset($products[$product['name']]))
+                    $products[$product['name']] = array();
+                array_push($products[$product['name']], $product['product_sku']);
+            }
+            var_dump($products);
+            die;
+        } else
+            return false;
     }
+
 }

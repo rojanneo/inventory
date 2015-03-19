@@ -1,4 +1,5 @@
 <?php
+
 class RabbitsController extends Controller
 {
 	public function __construct()

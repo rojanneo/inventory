@@ -65,7 +65,7 @@
                     <a href="<?php echo ADMIN_URL . 'rabbits/notpregnant/' . $rabbit_id ?>">No</a>
                     <!-- Add Not Pregnant Reason Script HERE -->
                 <?php elseif ((!isset($rabbit['rabbit_latest_pregnant_date']) or ! $rabbit['rabbit_latest_pregnant_date']) and $mate_diff < 12): ?>
-                    <div class="status"><h3>We have to wait <?php echo (12 - $mate_diff); ?> to <?php echo (25 - $mate_diff) ?> days to confirm pregnancy</h3></div> <?php //haha?>
+                    <div class="status"><h3>We have to wait <?php echo (12 - $mate_diff); ?> to <?php echo (25 - $mate_diff) ?> days to confirm pregnancy</h3></div> <?php //haha  ?>
                 <?php elseif ((!isset($rabbit['rabbit_latest_pregnant_date']) or ! $rabbit['rabbit_latest_pregnant_date']) and $mate_diff > 25): ?>
                     <div class="status"><h3>Rabbit did not get pregnant. The status will change to available to mate.</h3></div>
                     <!-- Add Not Pregnant Reason Script HERE -->
@@ -143,41 +143,50 @@
                         <?php endforeach; ?>
                     </ul>
 
-                <!-- 				<form method="post" action = "<?php echo ADMIN_URL . 'rabbits/wean/' . $rabbit['product_id'] ?>">
-                                                        <div class="input-box">
-                                                                <label>Number of Bucks</label>
-                                                                <input type="number" name="no_of_bucks"/>
-                                                                <input type="submit" value="Wean"/>	
-                                                        </div>
-                                                </form>
-                <!--	<a href="<?php echo ADMIN_URL . 'rabbits/wean/' . $rabbit['product_id'] ?>">Yes</a>
-                        <a href="#">No</a>-->
+                                                <!-- 				<form method="post" action = "<?php echo ADMIN_URL . 'rabbits/wean/' . $rabbit['product_id'] ?>">
+                                                                                        <div class="input-box">
+                                                                                                <label>Number of Bucks</label>
+                                                                                                <input type="number" name="no_of_bucks"/>
+                                                                                                <input type="submit" value="Wean"/>	
+                                                                                        </div>
+                                                                                </form>
+                                                <!--	<a href="<?php echo ADMIN_URL . 'rabbits/wean/' . $rabbit['product_id'] ?>">Yes</a>
+                                                        <a href="#">No</a>-->
                 <?php elseif (!isset($rabbit['rabbit_latest_weaning_date']) or ! $rabbit['rabbit_latest_weaning_date'] or $wean_diff < 21): ?>
- 
 
-                   <?php // ----------- Available to Mate Case During Weaning period of mother Rabbit------------------- ?>
-                   <?php // if(isset($days_between)) {if ( ($days_between>15) and (isset($rabbit['is_litter'])or(!strtolower($rabbit['is_litter']) == 'no')) and ($latestmatedate>15)){ ?>
-                   <?php echo'<pre>'; var_dump($rabbit); echo'</pre>'; ?>
-                   <?php //if rabbit_latest_mate_date<12?>
-                   <?php if($latestmatedate<12){ }else{ ?>
-                   <?php if(($days_between>15) and (!( $mate_diff >= 12 and $mate_diff <= 25) ) ) : ?>
-                   <div class="status"><h3>Available To Mate</h3></div>
-                    <?php endif;?> 
+
+                    <?php // ----------- Available to Mate Case During Weaning period of mother Rabbit------------------- ?>
+                    <?php // if(isset($days_between)) {if ( ($days_between>15) and (isset($rabbit['is_litter'])or(!strtolower($rabbit['is_litter']) == 'no')) and ($latestmatedate>15)){ ?>
+                    <?php
+                    echo'<pre>';
+                    var_dump($rabbit);
+                    echo'</pre>';
+                    ?>
+                    <?php //if rabbit_latest_mate_date<12?>
+                    <?php if ($latestmatedate < 12) {
+                        
+                    } else {
+                        ?>
+                        <?php if (($days_between > 15) and ( !( $mate_diff >= 12 and $mate_diff <= 25) )) : ?>
+                            <div class="status"><h3>Available To Mate</h3></div>
+                        <?php endif; ?> 
                     <?php } ?>
                     <?php echo $mate_diff; ?> 
-                    <?php echo $rabbit['rabbit_latest_mate_date']; 
-                     //echo'<pre>'; var_dump($rabbit); echo'<pre>'; ?>
-                      <?php if (( $mate_diff >= 12 and $mate_diff <= 25) and(!isset($rabbit['is_pregnant'])) ){//if (( $mate_diff >= 12 and $mate_diff <= 25) and ($rabbit['is_pregnant']=='No')){ ?>
-                    <div class="status"><h3>Is this rabbit pregnant?</h3></div>
-                    <a href="<?php echo ADMIN_URL . 'rabbits/pregnant/' . $rabbit_id ?>">Yes</a>
-                    <!--<a href="<?php echo ADMIN_URL . 'rabbits/notpregnantduringweaning/' . $rabbit_id ?>">No</a> <?php } ?>-->
-                                     
-                    <?php // ----------- End of Condition For Available to Mate Case During Weaning period of mother Rabbit------------------- ?>
+                    <?php
+                    echo $rabbit['rabbit_latest_mate_date'];
+                    //echo'<pre>'; var_dump($rabbit); echo'<pre>'; 
+                    ?>
+                    <?php if (( $mate_diff >= 12 and $mate_diff <= 25) and ( !isset($rabbit['is_pregnant']))) {//if (( $mate_diff >= 12 and $mate_diff <= 25) and ($rabbit['is_pregnant']=='No')){  ?>
+                        <div class="status"><h3>Is this rabbit pregnant?</h3></div>
+                        <a href="<?php echo ADMIN_URL . 'rabbits/pregnant/' . $rabbit_id ?>">Yes</a>
+                        <!--<a href="<?php echo ADMIN_URL . 'rabbits/notpregnantduringweaning/' . $rabbit_id ?>">No</a> <?php } ?>-->
+
+                        <?php // ----------- End of Condition For Available to Mate Case During Weaning period of mother Rabbit-------------------  ?>
 
                     <div class="status"><h3>We have to wait for <?php echo (21 - $wean_diff) ?> to <?php echo (28 - $wean_diff) ?> days for weaning</h3></div>
-                    <?php $litters = getModel('litter')->getWeaningCollection($rabbit['product_id']); ?>
+                <?php $litters = getModel('litter')->getWeaningCollection($rabbit['product_id']); ?>
                     <ul>
-                        <?php foreach ($litters as $litter): ?>
+                <?php foreach ($litters as $litter): ?>
                             <li><p><?php echo 'Litter ' . $litter['litter_id']; ?></p>
                                 <form method="post" action ="<?php echo ADMIN_URL . 'rabbits/updateLitterWeight' ?>">
                                     <input type="hidden" name="litter_id" value="<?php echo $litter['litter_id'] ?>"/>
@@ -194,42 +203,42 @@
 
                             </li>
 
-                        <?php endforeach; ?>
+                    <?php endforeach; ?>
                     </ul>
                 <?php elseif (!isset($rabbit['rabbit_latest_weaning_date']) or ! $rabbit['rabbit_latest_weaning_date'] or $wean_diff > 28): ?>
                     <div class="status"><h3>Weaning Date exceeded. Rabbit will be available for mating</h3></div>
-                    <?php getModel('rabbit')->resetDates($rabbit_id); ?>
-                <?php endif; ?>
+                <?php getModel('rabbit')->resetDates($rabbit_id); ?>
+            <?php endif; ?>
             <?php else: ?>
                 <?php $rabbits = getModel('litter')->getSameParentRabbits($rabbit['parent_doe_id'], $rabbit['parent_buck_id']); ?>
 
                 <p>Parent Doe:<?php echo $rabbit['parent_doe_id']; ?></p>
                 <p>Parent Buck:<?php echo $rabbit['parent_buck_id']; ?></p>
-                <?php $wean_date = new DateTime($rabbit['rabbit_latest_weaning_date']); ?>
-                <?php $cull_diff = $today->diff($wean_date)->format("%a"); ?>
-                <?php if ($cull_diff <= 0): ?>
+                    <?php $wean_date = new DateTime($rabbit['rabbit_latest_weaning_date']); ?>
+                    <?php $cull_diff = $today->diff($wean_date)->format("%a"); ?>
+                    <?php if ($cull_diff <= 0): ?>
                     <p>We have to wait for <?php echo (60 - $cull_diff) ?> days to begin culling.</p>
                     <ul>
-                        <?php if ($rabbits): ?>
-                            <?php foreach ($rabbits as $r_id): ?>
+                <?php if ($rabbits): ?>
+                    <?php foreach ($rabbits as $r_id): ?>
                                 <?php $ra = getModel('rabbit')->load($r_id['rabbit_id']); ?>
 
                                 <li>
                                     <p><?php echo $ra['product_name']; ?></p>
                                 </li>
-                            <?php endforeach; ?>
+                    <?php endforeach; ?>
                         <?php endif; ?>
                     </ul>
-                <?php else: ?>
+                    <?php else: ?>
                     <p>Time for culling</p>
                     <ul>
-                        <?php foreach ($rabbits as $r_id): ?>
-                            <?php $ra = getModel('rabbit')->load($r_id['rabbit_id']); ?>		
-                            <?php $wean_date1 = new DateTime($ra['rabbit_latest_weaning_date']); ?>
-                            <?php $cull_diff1 = $today->diff($wean_date1)->format('%a'); ?>	
+                <?php foreach ($rabbits as $r_id): ?>
+                                    <?php $ra = getModel('rabbit')->load($r_id['rabbit_id']); ?>		
+                                    <?php $wean_date1 = new DateTime($ra['rabbit_latest_weaning_date']); ?>
+                    <?php $cull_diff1 = $today->diff($wean_date1)->format('%a'); ?>	
                             <li>
                                 <p><?php echo $ra['product_name']; ?>
-                                    <?php if ($cull_diff1 >= 60): ?>
+                    <?php if ($cull_diff1 >= 60): ?>
                                     <div class="options">
                                         <form method = "post" action="<?php echo ADMIN_URL . 'rabbits/cull/' . $ra['product_id'] ?>">
                                             <input type="hidden" name="rabbit_id" value="<?php echo $ra['product_id'] ?>"/>
@@ -241,9 +250,9 @@
                                             <input type="submit" value="Cull"/>
                                         </form>
                                     </div>
-                                <?php endif; ?>
+                        <?php endif; ?>
                             </li>
-                        <?php endforeach; ?>
+                    <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
             <?php endif; ?>
@@ -253,42 +262,42 @@
                     <div class="status"><h3>Available for Mating</h3></div>
                 <?php else: ?>
                     <div class="status"><h3>Rabbit was Mated <?php echo $mate_diff ?> days ago</h3></div>
-                <?php endif; ?>
+            <?php endif; ?>
             <?php else: ?>
                 <?php $rabbits = getModel('litter')->getSameParentRabbits($rabbit['parent_doe_id'], $rabbit['parent_buck_id']); ?>
 
                 <p>Parent Doe:<?php echo $rabbit['parent_doe_id']; ?></p>
                 <p>Parent Buck:<?php echo $rabbit['parent_buck_id']; ?></p>
                 <?php $wean_date = new DateTime($rabbit['rabbit_latest_weaning_date']); ?>
-                <?php $cull_diff = $today->diff($wean_date)->format("%a"); ?>
-                <?php if ($cull_diff <= 60): ?>
+                    <?php $cull_diff = $today->diff($wean_date)->format("%a"); ?>
+                    <?php if ($cull_diff <= 60): ?>
                     <div class="status"><h3>We have to wait for <?php echo (60 - $cull_diff) ?> days to begin culling.</h3></div>
-                    <?php //var_dump($rabbits);die;?>
+                        <?php //var_dump($rabbits);die; ?>
                     <ul>
-                        <?php foreach ($rabbits as $r_id): ?>
-                            <?php $ra = getModel('rabbit')->load($r_id['rabbit_id']); ?>
-                            <?php if($ra['is_dead'] != 1):?>
-                            <li>
-                                <p><?php echo $ra['product_name']; ?></p>
-                            </li>
-                                                     <div class="death" id="<?php echo $ra['product_id'];?>">
-        <p>Is rabbit Dead:</p><input type="checkbox"/>
-    </div>
-<?php endif;?>
-                        <?php endforeach; ?>
+                <?php foreach ($rabbits as $r_id): ?>
+                    <?php $ra = getModel('rabbit')->load($r_id['rabbit_id']); ?>
+                    <?php if ($ra['is_dead'] != 1): ?>
+                                <li>
+                                    <p><?php echo $ra['product_name']; ?></p>
+                                </li>
+                                <div class="death" id="<?php echo $ra['product_id']; ?>">
+                                    <p>Is rabbit Dead:</p><input type="checkbox"/>
+                                </div>
+                        <?php endif; ?>
+                <?php endforeach; ?>
 
                     </ul>
-                <?php else: ?>
+                    <?php else: ?>
                     <p>Time for culling</p>
                     <ul>
                         <?php if ($rabbits): ?>
-                            <?php foreach ($rabbits as $r_id): ?>
-                                <?php $ra = getModel('rabbit')->load($r_id['rabbit_id']); ?>			
-                                <?php $wean_date1 = new DateTime($ra['rabbit_latest_weaning_date']); ?>
-                                <?php $cull_diff1 = $today->diff($wean_date1)->format('%a'); ?>	
+                    <?php foreach ($rabbits as $r_id): ?>
+                                        <?php $ra = getModel('rabbit')->load($r_id['rabbit_id']); ?>			
+                                        <?php $wean_date1 = new DateTime($ra['rabbit_latest_weaning_date']); ?>
+                        <?php $cull_diff1 = $today->diff($wean_date1)->format('%a'); ?>	
                                 <li>
                                     <p><?php echo $ra['product_name']; ?>
-                                        <?php if ($cull_diff1 >= 60): ?>
+                        <?php if ($cull_diff1 >= 60): ?>
                                         <div class="options">
                                             <form method = "post" action="<?php echo ADMIN_URL . 'rabbits/cull/' . $ra['product_id'] ?>">
                                                 <input type="hidden" name="rabbit_id" value="<?php echo $ra['product_id'] ?>"/>
@@ -300,10 +309,10 @@
                                                 <input type="submit" value="Cull"/>
                                             </form>
                                         </div>
-                                    <?php endif; ?>
+                            <?php endif; ?>
                                 </li>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
                     </ul>
                 <?php endif; ?>
 
@@ -312,20 +321,20 @@
         <?php else: ?>
             <div class="status"><h3>Litters were born on <?php echo $rabbit['rabbit_dob'] ?></h3></div>
             <?php $litters = getModel('litter')->getCollection($rabbit['parent_id']); ?>
-            <?php echo $litters[0]['litters_weaning_date']; ?>
-            <?php $wean_date = new DateTime($litters[0]['litters_weaning_date']); ?>
-            <?php $cull_diff = $today->diff($wean_date)->format("%a"); ?>
-            <?php if ($cull_diff <= 0): ?>
+        <?php echo $litters[0]['litters_weaning_date']; ?>
+                <?php $wean_date = new DateTime($litters[0]['litters_weaning_date']); ?>
+                <?php $cull_diff = $today->diff($wean_date)->format("%a"); ?>
+                <?php if ($cull_diff <= 0): ?>
                 <div class="status"><h3>We have to wait for <?php echo (60 - $cull_diff) ?> days to begin culling.</h3></div>
                 <ul>
-                    <?php foreach ($litters as $litter): ?>
+                <?php foreach ($litters as $litter): ?>
                         <li><?php echo 'Litter ' . $litter['litter_id']; ?></li>
                     <?php endforeach; ?>
                 </ul>
-            <?php else: ?>
+        <?php else: ?>
                 <p>Time for culling</p>
                 <ul>
-                    <?php foreach ($litters as $litter): ?>
+            <?php foreach ($litters as $litter): ?>
 
                         <li><?php echo 'Litter ' . $litter['litter_id']; ?><a href="#">Cull</a></li>
                         <div class="options">
@@ -344,16 +353,16 @@
                                 <input type="submit" value="Cull"/>
                             </form>
                         </div>
-                    <?php endforeach; ?>
+                <?php endforeach; ?>
                 </ul>
-            <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>
-    <?php if(!isset($cull_diff)):?>
-    <div class="death">
-        <p>Is rabbit Dead:</p><input type="checkbox"/>
-    </div>
-<?php endif;?>
+    <?php endif; ?>
+    <?php if (!isset($cull_diff)): ?>
+        <div class="death">
+            <p>Is rabbit Dead:</p><input type="checkbox"/>
+        </div>
+<?php endif; ?>
     <a class='ajax' href="<?php echo ADMIN_URL . 'rabbits/deathActions/' . $rabbit_id ?>" style="display:none">Actions</a>
     <a class='still_birth_ajax' href="<?php echo ADMIN_URL . 'rabbits/stillbirth/' . $rabbit_id ?>" style="display:none">Actions</a>
     <script type="text/javascript">
@@ -362,13 +371,13 @@
             $('.still_birth_ajax').colorbox({width: "50%", height: "auto"});
             $('.death').click(function () {
                 var id = $(this).attr('id');
-                if(id)
+                if (id)
                 {
-                var qr = '?id='+id;
-                //alert(qr);
-                var href = '<?php echo ADMIN_URL.'rabbits/deathActions/'?>'+qr;
-                $(this).parent().parent().find('a.ajax').attr('href',href);
-            }
+                    var qr = '?id=' + id;
+                    //alert(qr);
+                    var href = '<?php echo ADMIN_URL . 'rabbits/deathActions/' ?>' + qr;
+                    $(this).parent().parent().find('a.ajax').attr('href', href);
+                }
                 $(this).parent().parent().find('a.ajax').trigger("click");
             });
 

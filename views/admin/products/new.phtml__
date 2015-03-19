@@ -1,180 +1,182 @@
-<?php addJS('jquery.ui.js');?>
+<?php
+
+addJS('jquery.ui.js');?>
 <div id="add-product" class="main-body">
-<div id="tabs">
-	<ul>
-		<li><a href="#General">General</a></li>
-		<li><a href="#Attribute">Attribute</a></li>
-		<li><a href="#Categories">Categories</a></li>
-	</ul>
+    <div id="tabs">
+        <ul>
+            <li><a href="#General">General</a></li>
+            <li><a href="#Attribute">Attribute</a></li>
+            <li><a href="#Categories">Categories</a></li>
+        </ul>
 
-	<form class="tabContainer" id="general" method="post" action="<?php echo ADMIN_URL.'products/addpost'?>">
-	<div id="General">
-			<input type="hidden" name="product_type_id" value="<?php echo $product_type?>"/>
-			<input type="hidden" name="attribute_set_id" value="<?php echo $attribute_set?>"/>
-		<div class="input-box">
-			<label>Product Name</label>
-			<input type="text" name="product_name"/>
-		</div>
-		<div class="input-box">
-			<label>SKU</label>
-			<input type="text" name="product_sku"/>
-		</div>
-		<div class="input-box">
-			<label>Quantity</label>
-			<input type="number" name="product_quantity"/>
-		</div>
-		<div class="input-box">
-			<label>In Stock</label>
-			<select name="in_stock">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</select>
-		</div>
-		<div class="input-box">
-			<label>Unit Price</label>
-			<input type="text" name="unit_price"/>
-		</div>
-		<div class="input-box">
-			<label>Status</label>
-			<select name="status">
-				<option value="0">Disabled</option>
-				<option value="1">Enabled</option>
-			</select>
-		</div>
+        <form class="tabContainer" id="general" method="post" action="<?php echo ADMIN_URL.'products/addpost'?>">
+            <div id="General">
+                <input type="hidden" name="product_type_id" value="<?php echo $product_type?>"/>
+                <input type="hidden" name="attribute_set_id" value="<?php echo $attribute_set?>"/>
+                <div class="input-box">
+                    <label>Product Name</label>
+                    <input type="text" name="product_name"/>
+                </div>
+                <div class="input-box">
+                    <label>SKU</label>
+                    <input type="text" name="product_sku"/>
+                </div>
+                <div class="input-box">
+                    <label>Quantity</label>
+                    <input type="number" name="product_quantity"/>
+                </div>
+                <div class="input-box">
+                    <label>In Stock</label>
+                    <select name="in_stock">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label>Unit Price</label>
+                    <input type="text" name="unit_price"/>
+                </div>
+                <div class="input-box">
+                    <label>Status</label>
+                    <select name="status">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                </div>
 
-			<!-- Only for simple products. TO CHANGE When you need configurable products-->
-			<input type="hidden" name="is_variation" value="0"/>
-			<input type="hidden" name="created_date" value="<?php echo date('Y-m-d')?>"/>	
-			<input type="hidden" name="updated_date" value="<?php echo date('Y-m-d')?>"/>
-			
-		<div class="input-box">
-			<label>Product Type</label>
-			<select name="product_type">
-				<option value="in">In</option>
-				<option value="out">Out</option>
-			</select>
-		</div>
-		<div class="input-box">
-			<label>Enabled for Daily Use</label>
-			<select name="daily_use_status">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</select>
-		</div>
-		<div class="input-box">
-			<div class="daily_quantity" style="display:none">
-				<label>Quantity for Daily Use</label>
-			</div>
-		</div>
+                <!-- Only for simple products. TO CHANGE When you need configurable products-->
+                <input type="hidden" name="is_variation" value="0"/>
+                <input type="hidden" name="created_date" value="<?php echo date('Y-m-d')?>"/>	
+                <input type="hidden" name="updated_date" value="<?php echo date('Y-m-d')?>"/>
+
+                <div class="input-box">
+                    <label>Product Type</label>
+                    <select name="product_type">
+                        <option value="in">In</option>
+                        <option value="out">Out</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label>Enabled for Daily Use</label>
+                    <select name="daily_use_status">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <div class="daily_quantity" style="display:none">
+                        <label>Quantity for Daily Use</label>
+                    </div>
+                </div>
 			<?php if($attribute_set == 4):?>
 				<?php $rabbits = getModel('product')->getCollection(array('AND','attribute_set_id'=>4));?>
-				
-			<div class="input-box">
-				<label>Parent Buck</label>
-				<select name="parent_buck_id">
-					<option value="0">Null</option>
+
+                <div class="input-box">
+                    <label>Parent Buck</label>
+                    <select name="parent_buck_id">
+                        <option value="0">Null</option>
 					<?php foreach($rabbits as $rabbit):?>
 						<?php $r = getModel('product')->load($rabbit['product_id']);?>
 						<?php if($r['attributes']['rabbit_gender'] == 'Male'):?>
-							<option value="<?php echo $rabbit['product_id']?>"><?php echo $rabbit['product_sku']?></option>
+                        <option value="<?php echo $rabbit['product_id']?>"><?php echo $rabbit['product_sku']?></option>
 						<?php endif;?>
 					<?php endforeach;?>
-				</select>
-			</div>
-			<div class="input-box">
-				<label>Parent Doe</label>
-				<select name="parent_doe_id">
-					<option value="0">Null</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label>Parent Doe</label>
+                    <select name="parent_doe_id">
+                        <option value="0">Null</option>
 					<?php foreach($rabbits as $rabbit):?>
 						<?php $r = getModel('product')->load($rabbit['product_id']);?>
 						<?php if($r['attributes']['rabbit_gender'] == 'Female'):?>
-							<option value="<?php echo $rabbit['product_id']?>"><?php echo $rabbit['product_sku']?></option>
+                        <option value="<?php echo $rabbit['product_id']?>"><?php echo $rabbit['product_sku']?></option>
 						<?php endif;?>
 					<?php endforeach;?>
-				</select>
-			</div>
+                    </select>
+                </div>
 
 			<?php endif;?>
-	</div>
-	<div id="Attribute">
+            </div>
+            <div id="Attribute">
 				<?php if(isset($attributes) and $attributes):?>
 		<?php foreach($attributes as $attribute):?>
 			<?php $attr = getModel('attribute')->load(array('AND', 'attribute_id'=>$attribute));?>
 			<?php if($attr):?>
 				<?php extract($attr);?>
-			<div class="input-box">
-				<label><?php echo $attribute_admin_label?></label>
+                <div class="input-box">
+                    <label><?php echo $attribute_admin_label?></label>
 				<?php switch($attribute_type):?><?php case 'select':?>
-				<select name="attributes[<?php echo $attribute_code?>]">
+                    <select name="attributes[<?php echo $attribute_code?>]">
 					<?php $options = getModel('attribute')->getOptions($attribute_id);?>
 					<?php foreach($options as $option):?>
-						<option value="<?php echo $option['id']?>"><?php echo $option['value']?></option>
+                        <option value="<?php echo $option['id']?>"><?php echo $option['value']?></option>
 					<?php endforeach;?>
-				</select>
+                    </select>
 				<?php break;?>
 				<?php case 'multiselect':?>
-				<select name="attributes[<?php echo $attribute_code?>]" multiple>
+                    <select name="attributes[<?php echo $attribute_code?>]" multiple>
 					<?php $options = getModel('attribute')->getOptions($attribute_id);?>
 					<?php foreach($options as $option):?>
-						<option value="<?php echo $option['id']?>"><?php echo $option['value']?></option>
+                        <option value="<?php echo $option['id']?>"><?php echo $option['value']?></option>
 					<?php endforeach;?>
-				</select>
+                    </select>
 				<?php break;?>
 				<?php case 'date':?>
-				<input type="date" name="attributes[<?php echo $attribute_code?>]"/>
+                    <input type="date" name="attributes[<?php echo $attribute_code?>]"/>
 				<?php break;?>
 				<?php case 'text':?>
-				<input type="text" name="attributes[<?php echo $attribute_code?>]"/>
+                    <input type="text" name="attributes[<?php echo $attribute_code?>]"/>
 				<?php break;?>
 				<?php case 'number':?>
-				<input type="text" name="attributes[<?php echo $attribute_code?>]"/>
+                    <input type="text" name="attributes[<?php echo $attribute_code?>]"/>
 				<?php break;?>
 				<?php case 'number':?>
-				<input type="number" name="attributes[<?php echo $attribute_code?>]"/>
+                    <input type="number" name="attributes[<?php echo $attribute_code?>]"/>
 				<?php break;?>
 				<?php endswitch;?>
-			</div>
+                </div>
 			<?php endif;?>
 		<?php endforeach;?>
 	<?php endif;?>
-	</div>
-	<div id="Categories">
+            </div>
+            <div id="Categories">
 			<?php if(isset($categories) and $categories):?>
 		<?php $count = 0;?>
 		<?php foreach($categories as $category):?>
 			<?php extract($category);?>
-		<div class="input-box">
-			<input type="checkbox" name="categories[<?php echo $count++?>]" value="<?php echo $category_id?>"/>
-			<label><?php echo $category_name?></label>
-		</div>
+                <div class="input-box">
+                    <input type="checkbox" name="categories[<?php echo $count++?>]" value="<?php echo $category_id?>"/>
+                    <label><?php echo $category_name?></label>
+                </div>
 		<?php endforeach;?>
 		<?php endif;?>
-	</div>
-	<input class="save" type="submit" value="Save"/>
-	</form>
-</div>
+            </div>
+            <input class="save" type="submit" value="Save"/>
+        </form>
+    </div>
 </div><!--End edit-->
 
 <script>
-	$(function() {
-		$( "#tabs" ).tabs();
-	});
+    $(function () {
+        $("#tabs").tabs();
+    });
 </script>
 
 
 
 <script type="text/javascript">
-	$('select[name=daily_use_status]').change(function(){
-		var value = $(this).val();
-		if(value == 1)
-		{
-			$('.daily_quantity').append('<input type="text" name="daily_use_quantity"></input>');
-			$('.daily_quantity').show();
-		}
-		else
-		{
-			$('.daily_quantity').hide();
-			$('.daily_quantity input[name=daily_use_quantity]').remove();
-		}
-	});
+    $('select[name=daily_use_status]').change(function () {
+        var value = $(this).val();
+        if (value == 1)
+        {
+            $('.daily_quantity').append('<input type="text" name="daily_use_quantity"></input>');
+            $('.daily_quantity').show();
+        }
+        else
+        {
+            $('.daily_quantity').hide();
+            $('.daily_quantity input[name=daily_use_quantity]').remove();
+        }
+    });
 </script>

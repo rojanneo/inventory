@@ -8,56 +8,70 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="table-responsive">
-        <table class="table table-hover table-striped table-bordered">
-            <thead>
-            <th>S.N.</th>
-            <th class="col-lg-1 text-center">PO Date</th>
-            <th class="col-lg-1 text-center">PO Group</th>
-            <th class="col-lg-1 text-center">Item ID</th>
-            <th class="col-lg-1 text-center">Item Name</th>
-            <th class="col-lg-1">Supplier Name</th>
-            <th class="col-lg-1 text-center">Unit Price</th>
-            <th class="col-lg-1 text-center">Qty Ordered</th>
-            <th class="col-lg-1 text-center">Qty Received</th>
-            <th class="col-lg-1 text-center">Units</th>
-            <th class="col-lg-1 text-center">Amount</th>
-            <th class="col-lg-1 text-center">Payable Amount</th>
-            <th class="col-lg-2 text-center">Status</th>
-            </thead>
-            <tbody>
-                <?php $count = 1;$total_qty_ordered = 0; $total_qty_received = 0; $total_amount_ordered = 0; $total_payable = 0;?><?php $count = 1;$total_qty_ordered = 0; $total_qty_received = 0; $total_amount_ordered = 0; $total_payable = 0;?>
-                <?php if(isset($reports) and $reports):?>
-                
-                <?php foreach($reports as $report):?>
-                <tr>
-                    <td class="text-center"><?php echo $count++;?>
-                    <td class="text-center"><?php $date = new DateTime($report['po_entered_date']);echo $date->format('D, F j,Y');?></td>
-                    <td class="text-center"><?php echo $report['sku'];?></td>
-                    <td class="text-center"><?php echo $report['product_id'];?></td>
-                    <td class="text-center"><?php echo $report['product_name'];?></td>
-                    <td class=""><?php echo $report['supplier_name'];?></td>
-                    <td class="text-center"><?php echo $report['unit_price'];?></td>
-                    <td class="text-center"><?php echo $report['quantity'];?></td>
-                    <td class="text-center"><?php echo $report['quantity_recieved'];?></td>
-                    <td class="text-center"><?php echo $report['unit_symbol'];?></td>
-                    <td class="text-center"><?php echo $report['total_price'];?></td>
-                    <td class="text-center"><?php echo $report['total_price_to_pay'];?></td>
-                    <td class="text-center"><?php echo $report['status_name'];?></td>
-                </tr>
-                <?php 
-                    $total_qty_ordered += $report['quantity'];
-                    $total_qty_received += $report['quantity_recieved'];
-                    $total_amount_ordered += $report['total_price'];
-                    $total_payable += $report['total_price_to_pay'];
-                ?>
-                <?php endforeach;?>
-                <?php else:?>
-                <tr>
-                    <td colspan="11">No Data Found</td>
-                </tr>
-                <?php endif;?>
-            </tbody>
-        </table>
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                <th>S.N.</th>
+                <th class="col-lg-1 text-center">PO Date</th>
+                <th class="col-lg-1 text-center">PO Group</th>
+                <th class="col-lg-1 text-center">Item ID</th>
+                <th class="col-lg-1 text-center">Item Name</th>
+                <th class="col-lg-1">Supplier Name</th>
+                <th class="col-lg-1 text-center">Unit Price</th>
+                <th class="col-lg-1 text-center">Qty Ordered</th>
+                <th class="col-lg-1 text-center">Qty Received</th>
+                <th class="col-lg-1 text-center">Units</th>
+                <th class="col-lg-1 text-center">Amount</th>
+                <th class="col-lg-1 text-center">Payable Amount</th>
+                <th class="col-lg-2 text-center">Status</th>
+                </thead>
+                <tbody>
+                    <?php
+                    $count = 1;
+                    $total_qty_ordered = 0;
+                    $total_qty_received = 0;
+                    $total_amount_ordered = 0;
+                    $total_payable = 0;
+                    ?><?php
+                    $count = 1;
+                    $total_qty_ordered = 0;
+                    $total_qty_received = 0;
+                    $total_amount_ordered = 0;
+                    $total_payable = 0;
+                    ?>
+<?php if (isset($reports) and $reports): ?>
+
+                                <?php foreach ($reports as $report): ?>
+                            <tr>
+                                <td class="text-center"><?php echo $count++; ?>
+                                <td class="text-center"><?php $date = new DateTime($report['po_entered_date']);
+                            echo $date->format('D, F j,Y');
+                            ?></td>
+                                <td class="text-center"><?php echo $report['sku']; ?></td>
+                                <td class="text-center"><?php echo $report['product_id']; ?></td>
+                                <td class="text-center"><?php echo $report['product_name']; ?></td>
+                                <td class=""><?php echo $report['supplier_name']; ?></td>
+                                <td class="text-center"><?php echo $report['unit_price']; ?></td>
+                                <td class="text-center"><?php echo $report['quantity']; ?></td>
+                                <td class="text-center"><?php echo $report['quantity_recieved']; ?></td>
+                                <td class="text-center"><?php echo $report['unit_symbol']; ?></td>
+                                <td class="text-center"><?php echo $report['total_price']; ?></td>
+                                <td class="text-center"><?php echo $report['total_price_to_pay']; ?></td>
+                                <td class="text-center"><?php echo $report['status_name']; ?></td>
+                            </tr>
+                            <?php
+                            $total_qty_ordered += $report['quantity'];
+                            $total_qty_received += $report['quantity_recieved'];
+                            $total_amount_ordered += $report['total_price'];
+                            $total_payable += $report['total_price_to_pay'];
+                            ?>
+                        <?php endforeach; ?>
+<?php else: ?>
+                        <tr>
+                            <td colspan="11">No Data Found</td>
+                        </tr>
+<?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -65,22 +79,22 @@
     <div class="col-lg-4 col-lg-offset-8">
         <div class="panel panel-info">
             <div class="panel-heading text-center"><h3 style="margin:0">Totals</h3></div>
-        <div class="responsive-table">
-        <table class="table table-hover">
-            <tr>
-                <td><strong>Total Quantity Ordered</strong></td>
-                <td><?php echo $total_qty_ordered;?></td>
-                <td><strong>Total Amount</strong></td>
-                <td><?php echo $total_amount_ordered;?></td>
-            </tr>
-            <tr>
-                <td><strong>Total Quantity Received</strong></td>
-                <td><?php echo $total_qty_received;?></td>
-                <td><strong>Total Amount Payable</strong></strong></td>
-                <td><?php echo $total_payable;?></td>
-            </tr>
-        </table>
-        </div>
+            <div class="responsive-table">
+                <table class="table table-hover">
+                    <tr>
+                        <td><strong>Total Quantity Ordered</strong></td>
+                        <td><?php echo $total_qty_ordered; ?></td>
+                        <td><strong>Total Amount</strong></td>
+                        <td><?php echo $total_amount_ordered; ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Quantity Received</strong></td>
+                        <td><?php echo $total_qty_received; ?></td>
+                        <td><strong>Total Amount Payable</strong></strong></td>
+                        <td><?php echo $total_payable; ?></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

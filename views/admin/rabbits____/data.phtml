@@ -1,51 +1,51 @@
-<?php if(isset($rabbits) and $rabbits):?>
+<?php if (isset($rabbits) and $rabbits): ?>
 
-<table border="1" style="margin:10px 0;">
-<thead style="background: #ddd; font-color: #fff;">
-<th>Rabbit ID</th>
-<th>Status</th>
-</thead>
-<tbody>
-<?php $today = new DateTime(date('Y-m-d'));?>
-<?php foreach($rabbits as $r):?>
-	<tr>
-	<?php $rabbit = getModel('rabbit')->load($r);?>
-	<td><p><?php echo $rabbit['product_name']?></p>
-	<?php if($status == 'available_to_mate'):?>
-		<td>
-			<?php echo 'Available To Mate'?>
-		</td>
-	<?php elseif($status == 'mated'):?>
-		<?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']);?>
-		<?php $mate_diff = $today->diff($mate_date)->format("%a");?>
-		<td><p><?php echo (12 - $mate_diff)?> - <?php echo (15 - $mate_diff)?> days to confirm pregnancy</p></td>
-	<?php elseif($status == 'pregnant'):?>
-		<?php $preg_date = new DateTime($rabbit['rabbit_latest_pregnant_date']);?>
-		<?php $preg_diff = $today->diff($preg_date)->format("%a");?>
-		<td><p><?php echo (27 - $preg_diff)?> to <?php echo (31 - $preg_diff)?> days for birth</p></td>
-	<?php elseif($status == 'wait_to_wean'):?>
-		<?php $wean_date = new DateTime($rabbit['rabbit_latest_birth_date']);?>
-		<?php $wean_diff = $today->diff($wean_date)->format("%a");?>
-		<td><p><?php echo (21 - $wean_diff)?> to <?php echo (28 - $wean_diff)?> days for weaning</p></td>	
-	<?php elseif($status == 'weaning'):?>
-		<td><p>Available for weaning</p></td>	
-	<?php elseif($status == 'wait_to_cull'):?>
-		<?php $wean_date = new DateTime($rabbit['rabbit_latest_weaning_date']);?>
-		<?php $cull_diff = $today->diff($wean_date)->format("%a");?>
-		<td><p><?php echo (60 - $cull_diff)?> days for culling</p></td>
-	<?php elseif($status == 'culling'):?>
-		<td><p>Available for Culling</p></td>	
-	<?php elseif($status == 'parents_to_be'):?>
-		<?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
-		<td><p><?php echo (90 - $group_diff)?> to <?php echo (120 - $group_diff)?> days to move to Parents</p></td>	
-	<?php elseif($status == 'products_to_be'):?>
-		<?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a");?>
-		<td><p><?php echo (60 - $group_diff)?> to <?php echo (90 - $group_diff)?> days to move to Products</p></td>	
-	<?php endif;?>
-	</tr>
-<?php endforeach;?>
-</tbody>
-</table>
-<?php else:?>
-	<h3>No Rabbits Here</h3>
-<?php endif;?>
+    <table border="1" style="margin:10px 0;">
+        <thead style="background: #ddd; font-color: #fff;">
+        <th>Rabbit ID</th>
+        <th>Status</th>
+    </thead>
+    <tbody>
+        <?php $today = new DateTime(date('Y-m-d')); ?>
+        <?php foreach ($rabbits as $r): ?>
+            <tr>
+                <?php $rabbit = getModel('rabbit')->load($r); ?>
+                <td><p><?php echo $rabbit['product_name'] ?></p>
+                    <?php if ($status == 'available_to_mate'): ?>
+                    <td>
+                        <?php echo 'Available To Mate' ?>
+                    </td>
+                <?php elseif ($status == 'mated'): ?>
+                    <?php $mate_date = new DateTime($rabbit['rabbit_latest_mate_date']); ?>
+                    <?php $mate_diff = $today->diff($mate_date)->format("%a"); ?>
+                    <td><p><?php echo (12 - $mate_diff) ?> - <?php echo (15 - $mate_diff) ?> days to confirm pregnancy</p></td>
+                <?php elseif ($status == 'pregnant'): ?>
+                    <?php $preg_date = new DateTime($rabbit['rabbit_latest_pregnant_date']); ?>
+                    <?php $preg_diff = $today->diff($preg_date)->format("%a"); ?>
+                    <td><p><?php echo (27 - $preg_diff) ?> to <?php echo (31 - $preg_diff) ?> days for birth</p></td>
+                <?php elseif ($status == 'wait_to_wean'): ?>
+                    <?php $wean_date = new DateTime($rabbit['rabbit_latest_birth_date']); ?>
+                    <?php $wean_diff = $today->diff($wean_date)->format("%a"); ?>
+                    <td><p><?php echo (21 - $wean_diff) ?> to <?php echo (28 - $wean_diff) ?> days for weaning</p></td>	
+                <?php elseif ($status == 'weaning'): ?>
+                    <td><p>Available for weaning</p></td>	
+                <?php elseif ($status == 'wait_to_cull'): ?>
+                    <?php $wean_date = new DateTime($rabbit['rabbit_latest_weaning_date']); ?>
+                    <?php $cull_diff = $today->diff($wean_date)->format("%a"); ?>
+                    <td><p><?php echo (60 - $cull_diff) ?> days for culling</p></td>
+                <?php elseif ($status == 'culling'): ?>
+                    <td><p>Available for Culling</p></td>	
+                <?php elseif ($status == 'parents_to_be'): ?>
+                    <?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a"); ?>
+                    <td><p><?php echo (90 - $group_diff) ?> to <?php echo (120 - $group_diff) ?> days to move to Parents</p></td>	
+                <?php elseif ($status == 'products_to_be'): ?>
+                    <?php $group_diff = $today->diff(new DateTime($rabbit['rabbit_latest_culling_date']))->format("%a"); ?>
+                    <td><p><?php echo (60 - $group_diff) ?> to <?php echo (90 - $group_diff) ?> days to move to Products</p></td>	
+                <?php endif; ?>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+    </table>
+<?php else: ?>
+    <h3>No Rabbits Here</h3>
+<?php endif; ?>

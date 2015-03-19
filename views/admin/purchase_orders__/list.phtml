@@ -1,20 +1,20 @@
-<?php if(isset($purchase_orders) and $purchase_orders):?>
-	<table border="1" style="margin:10px 0;" class="table table-hover table-condensed">
-	<thead style="background: #ddd; font-color: #fff;">
-		<th>Purchase Order ID</th>
-		<th>Purchase Order Date</th>
-		<th>Actions</th>
-	</thead>
-	<tbody>
-	<?php foreach($purchase_orders as $po):?>
-		<tr>
-			<td><?php echo $po['purchase_order_id'];?></td>
-			<td><?php echo $po['purchase_order_date'];?></td>
-			<td><a href="<?php echo ADMIN_URL.'purchaseorders/view/'.$po['purchase_order_id']?>">View</a></td>
-		</tr>
-	<?php endforeach;?>
-	</tbody>
-	</table>
-<?php else:?>
-	<h3>No Purchase Orders Found</h3>
-<?php endif;?>
+<?php if (isset($purchase_orders) and $purchase_orders): ?>
+    <table border="1" style="margin:10px 0;" class="table table-hover table-condensed">
+        <thead style="background: #ddd; font-color: #fff;">
+        <th>Purchase Order ID</th>
+        <th>Purchase Order Date</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        <?php foreach ($purchase_orders as $po): ?>
+            <tr>
+                <td><?php echo $po['purchase_order_id']; ?></td>
+                <td><?php echo $po['purchase_order_date']; ?></td>
+                <td><a href="<?php echo ADMIN_URL . 'purchaseorders/view/' . $po['purchase_order_id'] ?>">View</a></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+    </table>
+<?php else: ?>
+    <h3>No Purchase Orders Found</h3>
+<?php endif; ?>

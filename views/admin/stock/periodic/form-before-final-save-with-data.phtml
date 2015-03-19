@@ -1,5 +1,5 @@
-<?php AdminSession::showErrorMessages()?>
-<?php AdminSession::showSuccessMessages()?>
+<?php AdminSession::showErrorMessages() ?>
+<?php AdminSession::showSuccessMessages() ?>
 <div class="row">
     <div class="col-lg-12 text-center">
         <div class="page-header">
@@ -7,72 +7,72 @@
         </div>
     </div>
 </div>
-<form method='post' action='<?php echo ADMIN_URL.'stock/saveperiodicstock'?>' id='stock'>
-    <input type='hidden' name='date' value='<?php echo date('Y-m-d');?>'/>
-    <input type='hidden' name='period' value='<?php echo $current_period['period_number'];?>'/>
-    <input type='hidden' name='year' value='<?php echo date('Y', strtotime($current_period['period_start_date']));?>'/>
+<form method='post' action='<?php echo ADMIN_URL . 'stock/saveperiodicstock' ?>' id='stock'>
+    <input type='hidden' name='date' value='<?php echo date('Y-m-d'); ?>'/>
+    <input type='hidden' name='period' value='<?php echo $current_period['period_number']; ?>'/>
+    <input type='hidden' name='year' value='<?php echo date('Y', strtotime($current_period['period_start_date'])); ?>'/>
     <div class="stock-count">
-<div class='row'>
-    <div class='col-lg-2 col-lg-offset-1'>
-        <p><?php echo 'Period '.$current_period['period_number'].': '.date('F d, Y', strtotime($current_period['period_start_date'])).' - '.date('F d, Y', strtotime($current_period['period_end_date']))?></p>
-    </div>
-</div>
-    <div class="row">
-        <div class="col-lg-10 col-lg-offset-1">
-   <?php foreach($categories as $category):?>
-    <ul>
-    <?php $products = getModel('purchaseproduct')->getCategoryProducts($category['category_id']);?>
-    <?php if($products):?>
-    <li>
-        <h4><?php echo $category['name'];?></h4>
-        <div class='table-responsive'>
-            <table class="table table-hover table-bordered">
-                <thead>
-                <th class='col-lg-1 text-center'>Item Code</th>
-                <th class='col-lg-2 text-center'>Item Name</th>
-                <th class='col-lg-1 text-center'>Opening Stock</th>
-                <th class='col-lg-1 text-center'>Closing Stock</th>
-                </thead>
-                <tbody>
-    <?php foreach($products as $product):?>
-                    <tr>
-                        <?php if(isset($units[$product['product_id']])):?>
-                         <?php $u = getModel('uom')->load($units[$product['product_id']]);?>
-                        <td class='text-center'><?php echo $product['product_id'];?></td>
-                        <td class='text-center'><?php echo $product['product_name'];?><input type="hidden" name="product_name[<?php echo $product['product_id']?>]" value='<?php echo $product['product_name']?>'/></td>
-                        <td class='text-center'><?php echo $opening_stocks[$product['product_id']].' '.$u['unit_symbol'];?></td>
-                        <input type='hidden' name='opening_stock[<?php echo $product['product_id']?>]' value='<?php echo $opening_stocks[$product['product_id']]?>'/>
-                        <input type='hidden' name='unit[<?php echo $product['product_id']?>]' value='<?php echo $units[$product['product_id']]?>'/>
-                        <td class='text-center'><input type='text' name='closing_stock[<?php echo $product['product_id']?>]' value='<?php echo $closing_stocks[$product['product_id']]?>'/></td>
-                        <?php else:?>
-                        <td class='text-center'><?php echo $product['product_id'];?></td>
-                        <td class='text-center'><?php echo $product['product_name'];?><input type="hidden" name="product_name[<?php echo $product['product_id']?>]" value='<?php echo $product['product_name']?>'/></td>
-                        <td class='text-center'>0</td>
-                        <input type='hidden' name='opening_stock[<?php echo $product['product_id']?>]' value='0'/>
-                        <input type='hidden' name='unit[<?php echo $product['product_id']?>]' value='<?php echo $product['product_weight_unit']?>'/>
-                        <td class='text-center'><input type='text' name='closing_stock[<?php echo $product['product_id']?>]' value='0'/></td>
+        <div class='row'>
+            <div class='col-lg-2 col-lg-offset-1'>
+                <p><?php echo 'Period ' . $current_period['period_number'] . ': ' . date('F d, Y', strtotime($current_period['period_start_date'])) . ' - ' . date('F d, Y', strtotime($current_period['period_end_date'])) ?></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <?php foreach ($categories as $category): ?>
+                    <ul>
+                        <?php $products = getModel('purchaseproduct')->getCategoryProducts($category['category_id']); ?>
+                        <?php if ($products): ?>
+                            <li>
+                                <h4><?php echo $category['name']; ?></h4>
+                                <div class='table-responsive'>
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                        <th class='col-lg-1 text-center'>Item Code</th>
+                                        <th class='col-lg-2 text-center'>Item Name</th>
+                                        <th class='col-lg-1 text-center'>Opening Stock</th>
+                                        <th class='col-lg-1 text-center'>Closing Stock</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($products as $product): ?>
+                                                <tr>
+                                                    <?php if (isset($units[$product['product_id']])): ?>
+                                                        <?php $u = getModel('uom')->load($units[$product['product_id']]); ?>
+                                                        <td class='text-center'><?php echo $product['product_id']; ?></td>
+                                                        <td class='text-center'><?php echo $product['product_name']; ?><input type="hidden" name="product_name[<?php echo $product['product_id'] ?>]" value='<?php echo $product['product_name'] ?>'/></td>
+                                                        <td class='text-center'><?php echo $opening_stocks[$product['product_id']] . ' ' . $u['unit_symbol']; ?></td>
+                                                <input type='hidden' name='opening_stock[<?php echo $product['product_id'] ?>]' value='<?php echo $opening_stocks[$product['product_id']] ?>'/>
+                                                <input type='hidden' name='unit[<?php echo $product['product_id'] ?>]' value='<?php echo $units[$product['product_id']] ?>'/>
+                                                <td class='text-center'><input type='text' name='closing_stock[<?php echo $product['product_id'] ?>]' value='<?php echo $closing_stocks[$product['product_id']] ?>'/></td>
+                                            <?php else: ?>
+                                                <td class='text-center'><?php echo $product['product_id']; ?></td>
+                                                <td class='text-center'><?php echo $product['product_name']; ?><input type="hidden" name="product_name[<?php echo $product['product_id'] ?>]" value='<?php echo $product['product_name'] ?>'/></td>
+                                                <td class='text-center'>0</td>
+                                                <input type='hidden' name='opening_stock[<?php echo $product['product_id'] ?>]' value='0'/>
+                                                <input type='hidden' name='unit[<?php echo $product['product_id'] ?>]' value='<?php echo $product['product_weight_unit'] ?>'/>
+                                                <td class='text-center'><input type='text' name='closing_stock[<?php echo $product['product_id'] ?>]' value='0'/></td>
 
-                        <?php endif;?>
-                    </tr>
-    <?php endforeach;?>
-                </tbody>
-            </table>
+                                            <?php endif; ?>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                <?php endforeach; ?>
+            </div>
         </div>
-    </li>
-    <?php endif;?>
-</ul>
-    <?php endforeach;?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-1 col-lg-offset-5">
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-5">
                 <input type="submit" class="btn btn-primary" style="width:100%" value="Save"/>
-        </div>
-        <div class="col-lg-1">
-        <a href="javascript:void(0)" class="btn btn-info" style="width:100%" onclick='FinalSave()' >Final Save</a>
-        </div>
+            </div>
+            <div class="col-lg-1">
+                <a href="javascript:void(0)" class="btn btn-info" style="width:100%" onclick='FinalSave()' >Final Save</a>
+            </div>
 
-    </div>
+        </div>
     </div>
 </form>
 <script>
@@ -84,10 +84,10 @@
 //w.close();
         window.print();
     }
-    
+
     function FinalSave()
     {
-        $('#stock').attr('action','<?php echo ADMIN_URL.'stock/finalsaveperiodicstock'?>');
+        $('#stock').attr('action', '<?php echo ADMIN_URL . 'stock/finalsaveperiodicstock' ?>');
         $('#stock').submit();
     }
 </script>
