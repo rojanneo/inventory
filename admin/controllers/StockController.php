@@ -77,7 +77,7 @@ class StockController extends Controller{
     
     public function openperiodicstockAction()
     {
-         $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'), strtotime('2015-03-25'));
+         $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'));
          if($current_period == 1) $previous_period = 52;
          else $previous_period = $current_period['period_number'] - 1;
          $month = date('m');
@@ -111,7 +111,7 @@ class StockController extends Controller{
          }
          else if($current_period_status == 'closed')
          {
-             AdminSession::addErrorMessage('Stock For Period 12 has already been closed');
+             AdminSession::addErrorMessage('Stock For Period '.$current_period['period_number'].' has already been closed');
              redirect('admin/stock/periodicClosingStocks');
          }
          else if(!$current_period_status)
@@ -127,7 +127,7 @@ class StockController extends Controller{
             }
             else if($previous_period_status == 'open')
             {
-                $pv = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'),strtotime('2015-03-21'));
+                $pv = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'));
                 $data['current_period'] = $pv;
                 $data['opening_stocks'] = getModel('stock')->getOpeningStocks($previous_period, $previous_year);
                 $data['closing_stocks'] = getModel('stock')->getClosingStocks($previous_period, $previous_year);
@@ -139,7 +139,7 @@ class StockController extends Controller{
             }
             else if($previous_period_status == 'final saved')
             {
-                $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'),strtotime('2015-03-21'));
+                $current_period = getModel('stockperiod')->getCurrentPeriod(date('Y-m-d'));
                 $data['current_period'] = $current_period;
              $data['categories'] = getModel('purchasecategory')->getActiveCollection();
              $data['opening_stocks'] = getModel('stock')->getOpeningStocks($current_period['period_number'], $year);
@@ -211,9 +211,10 @@ class StockController extends Controller{
             $os = $opening_stock[$pid];
             $u = $unit[$pid];
             getModel('stock')->InsertFinalSaveStock($pid, $pname, $os, $cs,$u, $p, $y);
+            getModel('stock')->InsertClosingStock($pid, $pname, $os, 0, 0, 0, $cs, 0, $u, NULL, $p, $y, 'final saved');
             getModel('stock')->ChangeStatus($pid, $p, $y, $cs, 'final saved');
         }
-        redirect('admin/stock/periodicClosingStocks');
+        redirect('admin/stock/openperiodicstock');
     }
     
     public function closeperiodicstockAction()
@@ -234,7 +235,7 @@ class StockController extends Controller{
             $var = $cs - $bal;
             $u = $unit[$pid];
             $r = $reason[$pid];
-            getModel('stock')->InsertClosingStock($pid, $pname, $os, $pur, $con, $bal, $cs, $var, $u, $r, $p, $y, 'closed');
+            getModel('stock')->CloseStockPeriod($pid, $pname, $os, $pur, $con, $bal, $cs, $var, $u, $r, $p, $y, 'closed');
         }
         redirect('admin/stock/periodicClosingStocks');
     }

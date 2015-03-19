@@ -56,7 +56,7 @@
                 <input type="submit" class="btn btn-primary" style="width:100%" value="Save"/>
         </div>
         <div class="col-lg-1">
-        <a href="javascript:void(0)" class="btn btn-info" style="width:100%" >Final Save</a>
+        <a href="javascript:void(0)" class="btn btn-info" style="width:100%" onclick="FinalSave()">Final Save</a>
         </div>
 
     </div>
@@ -70,5 +70,10 @@
 //w.print();
 //w.close();
         window.print();
+    }
+    function FinalSave()
+    {
+        $('#stock').attr('action','<?php echo ADMIN_URL.'stock/finalsaveperiodicstock'?>');
+        $('#stock').submit();
     }
 </script>

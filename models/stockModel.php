@@ -98,6 +98,7 @@ class StockModel extends Model{
     public function getPeriodStatus($period, $year)
     {
         $sql = "SELECT status from periodic_closing_stock_after_final_save WHERE period = $period AND year = $year LIMIT 1";
+        //echo $sql;
         $status = $this->connection->Query($sql);
         if($status) return $status[0]['status'];
         else return false;
@@ -230,6 +231,14 @@ class StockModel extends Model{
         $sql = "INSERT INTO `periodic_closing_stock_after_final_save`(`product_id`, `product_name`, `opening_stock`, `purchased_stock`, `consumed_stock`, `calculated_balance`, `closing_stock`, `stock_variance`, `unit`, `reason`, `period`, `year`, `status`) "
                 . "VALUES ($pid,'$pname',$os,$ps,$cos,$cb,".  mysql_escape_string($cs).",$sv,$u,'".  mysql_escape_string($r)."',$p,$y,'$s')";
         $this->connection->InsertQuery($sql);
+    }
+    public function CloseStockPeriod($pid, $pname, $os, $ps, $cos, $cb, $cs, $sv, $u, $r, $p, $y, $s)
+    {
+        $sql = "INSERT INTO `periodic_closing_stock_after_final_save`(`product_id`, `product_name`, `opening_stock`, `purchased_stock`, `consumed_stock`, `calculated_balance`, `closing_stock`, `stock_variance`, `unit`, `reason`, `period`, `year`, `status`) "
+                . "VALUES ($pid,'$pname',$os,$ps,$cos,$cb,".  mysql_escape_string($cs).",$sv,$u,'".  mysql_escape_string($r)."',$p,$y,'$s')";
+        $this->connection->InsertQuery($sql);
+        
+        getModel('dailyfeed')->useFeed($pid, abs($sv),$u);
     }
     
     public function InsertFinalSaveStock($pid, $pname, $os, $cs, $u, $p, $y)
