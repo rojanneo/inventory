@@ -42,6 +42,7 @@ class StockperiodController extends Controller {
             foreach ($stock_balance as $sb) {
                 $product = getModel('purchaseproduct')->load($sb['product_id']);
                 $total_stock = getModel('stock')->getTotalStock($sb['product_id'])['total_quantity'];
+                //echo $product['product_name'].'<br>';
                 getModel('stock')->InsertFirstClosingStock($product['product_id'], $product['product_name'], $total_stock, $sb['unit'], $period, $current_year);
             }
         }

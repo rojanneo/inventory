@@ -77,7 +77,7 @@ class StockModel extends Model {
 
     public function InsertFirstClosingStock($product_id, $product_name, $closing_stock, $unit, $period, $year) {
         $sql = "INSERT INTO periodic_closing_stock_after_final_save(product_id, product_name,opening_stock,purchased_stock,consumed_stock, calculated_balance, closing_stock, stock_variance, unit, reason, period, year, status)"
-                . "Values($product_id, '$product_name',0,0,0,0,$closing_stock,0,$unit,NULL,$period,$year,'closed')";
+                . "Values($product_id, '".mysql_escape_string($product_name)."',0,0,0,0,$closing_stock,0,$unit,NULL,$period,$year,'closed')";
         $this->connection->InsertQuery($sql);
         return $this->connection->GetInsertID();
     }
